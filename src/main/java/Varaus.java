@@ -1,0 +1,37 @@
+import java.util.ArrayList;
+
+public class Varaus {
+    private Asiakas asiakas;
+    private Naytos naytos;
+    private ArrayList<Istumapaikka> istumapaikat;
+
+    public Varaus(Asiakas asiakas, Naytos näytös, ArrayList<Istumapaikka> istumapaikat) {
+        this.asiakas = asiakas;
+        this.naytos = näytös;
+        this.istumapaikat = new ArrayList<>();
+    }
+
+    public Asiakas getAsiakas() {
+        return asiakas;
+    }
+
+    public void setAsiakas(Asiakas asiakas) {
+        this.asiakas = asiakas;
+    }
+
+    public Naytos getNaytos() {
+        return naytos;
+    }
+
+    public void setNaytos(Naytos naytos) {
+        this.naytos = naytos;
+    }
+
+    public ArrayList<Istumapaikka> getIstumapaikat() {
+        return istumapaikat;
+    }
+
+    public void setIstumapaikat(ArrayList<Istumapaikka> istumapaikat) {
+        this.istumapaikat = istumapaikat;
+    }
+}
