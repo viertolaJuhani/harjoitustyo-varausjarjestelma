@@ -1,5 +1,6 @@
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+/**
+ * Luokka mallintaa elokuvaa varausjärjestelmässä.
+ */
 
 public class Elokuva {
     private String nimi;
@@ -7,7 +8,6 @@ public class Elokuva {
     private String genre;
     private int ikaraja;
     private String kieli;
-    private ArrayList<Naytos> naytokset;
 
     public Elokuva(String nimi, int kesto, String kieli, String genre, int ikaraja) {
         this.nimi = nimi;
@@ -15,7 +15,6 @@ public class Elokuva {
         this.genre = genre;
         this.kieli = kieli;
         this.ikaraja = ikaraja;
-        naytokset = new ArrayList<>();
     }
 
     public String getNimi() {
@@ -56,5 +55,10 @@ public class Elokuva {
 
     public void setKieli(String kieli) {
         this.kieli = kieli;
+    }
+
+    @Override
+    public String toString() {
+        return nimi + " (" + kesto + " min), genre: " + genre + ", ikäraja: " + ikaraja + ", kieli: " + kieli;
     }
 }

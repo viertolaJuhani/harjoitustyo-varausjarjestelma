@@ -1,13 +1,16 @@
 import java.util.ArrayList;
 
+/**
+ * Luokka mallintaa näytökseen tehtyä istumapaikan varausta salissa.
+ */
 public class Varaus {
     private Asiakas asiakas;
     private Naytos naytos;
     private ArrayList<Istumapaikka> istumapaikat;
 
-    public Varaus(Asiakas asiakas, Naytos näytös, ArrayList<Istumapaikka> istumapaikat) {
+    public Varaus(Asiakas asiakas, Naytos naytos, ArrayList<Istumapaikka> istumapaikat) {
         this.asiakas = asiakas;
-        this.naytos = näytös;
+        this.naytos = naytos;
         this.istumapaikat = new ArrayList<>();
     }
 

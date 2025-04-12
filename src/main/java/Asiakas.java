@@ -1,11 +1,14 @@
 import java.util.ArrayList;
 
+/**
+ * Luokka mallintaa asiakasta varausjärjestelmässä.
+ *
+ */
 public class Asiakas {
     private ArrayList<Varaus> varaukset;
     private String nimi;
     private String email;
     private int ika;
-
 
     public Asiakas(String nimi, String email) {
         this.nimi = nimi;
@@ -45,10 +48,13 @@ public class Asiakas {
         this.ika = ika;
     }
 
+    /**
+     * Muuttaa asiakkaan tiedot tiedostoon kirjoitettavaan muotoon
+     * @param erotinmerkki asiakkaat toisistaan erottava merkki
+     * @return tiedostoon kirjoitettava muoto
+     */
     public String getData(String erotinmerkki) {
-        String data = "A " + email + nimi + erotinmerkki;
-        data += varaukset;
-
+        String data = "A " + email + nimi + " Varaukset: " + varaukset + erotinmerkki;
         return data;
     }
 }

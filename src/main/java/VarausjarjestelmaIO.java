@@ -35,6 +35,4 @@ public class VarausjarjestelmaIO {
     public static void kirjoitaElokuvat(ArrayList<Elokuva> elokuvavalikoima, String tiedostonNimi) {
 
     }
-
-
 }

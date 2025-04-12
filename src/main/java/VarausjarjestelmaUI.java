@@ -1,11 +1,15 @@
 import java.util.Scanner;
 
+/**
+ * Luokka mallintaa asiakkaan käyttöliittymää varausjärjestelmässä.
+ */
 public class VarausjarjestelmaUI {
     private Varausjarjestelma varausjarjestelma;
     private Scanner lukija;
 
     public static void main(String[] args) {
         VarausjarjestelmaUI ui = new VarausjarjestelmaUI();
+
         ui.aloita();
     }
 
