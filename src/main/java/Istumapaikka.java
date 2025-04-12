@@ -1,7 +1,6 @@
 /**
  * Luokka mallintaa istumapaikkaa elokuvasalissa.
  */
-
 public class Istumapaikka {
     private int istuinId;
 

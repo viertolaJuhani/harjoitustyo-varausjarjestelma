@@ -1,23 +1,16 @@
 import java.util.ArrayList;
 
 /**
- * Luokka
+ * Luokka mallintaa varausjärjestelmän toimintaa.
  */
 public class Varausjarjestelma {
     private ArrayList<Elokuva> elokuvat;
     private ArrayList<Naytos> naytokset;
-    private ArrayList<Varaus> varaukset;
-    private ArrayList<Sali> salit;
 
     public Varausjarjestelma() {
         elokuvat = new ArrayList<>();
         naytokset = new ArrayList<>();
-        varaukset = new ArrayList<>();
-        salit = new ArrayList<>();
     }
-    Sali sali1 = new Sali(1, 10, 20);
-    Sali sali2 = new Sali(2, 8, 14);
-    Sali sali3 = new Sali(3, 8, 10);
 
     public void lisaaAsiakas(Asiakas asiakas) {
     }
@@ -28,13 +21,12 @@ public class Varausjarjestelma {
     public void lisaaElokuva(Elokuva elokuva) {
     }
 
-    public void lisaaSali(int salinumero, int rivit, int paikatRivilla) {
-    }
-
-    public void teeVaraus(Naytos naytos, ArrayList<Istumapaikka> istumapaikat) {
-    }
-
-
+    /**
+     * Yrittää poistaa annetun elokuvan.
+     *
+     * @param elokuva elokuva, jonka poistoa yritetään
+     * @return true, jos elokuva löytyi ja poistettiin, muuten false
+     */
     public boolean poistaElokuva(Elokuva elokuva) {
         if (elokuvat.contains(elokuva)) {
             elokuvat.remove(elokuva);
@@ -43,6 +35,12 @@ public class Varausjarjestelma {
         return false;
     }
 
+    /**
+     * Yrittää poistaa annetun näytöksen.
+     *
+     * @param naytos naytös, jonka poistoa yritetään
+     * @return true, jos näytös löytyi ja poistettiin, muuten false
+     */
     public boolean poistaNaytos(Naytos naytos) {
         if (naytokset.contains(naytos)) {
             naytokset.remove(naytos);
@@ -51,30 +49,27 @@ public class Varausjarjestelma {
         return false;
     }
 
-    public boolean peruVaraus(Varaus varaus) {
-        if (varaukset.contains(varaus)) {
-            varaukset.remove(varaus);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean poistaSali(Sali sali) {
-        if (salit.contains(sali)) {
-            salit.remove(sali);
-            return true;
-        }
-        return false;
-    }
-
+    /**
+     * Palauttaa kaikki elokuvat yhtenä merkkijonona.
+     *
+     * @return lista elokuvista merkkijonona
+     */
     public String listaaElokuvat() {
-        for (Elokuva elokuva : elokuvat) {
-            System.out.println(elokuva);
-        }
-        return "";
     }
 
-    public String listaaNaytokset() {
-        return "";
+    /**
+     * Palauttaa kaikki tietyn elokuvan näytökset merkkijonona
+     *
+     * @return näytökset merkkijonona
+     */
+    public String listaaNaytokset(Elokuva elokuva) {
+    }
+
+    /**
+     * Palauttaa kaikkien elokuvien näytökset merkkijonona.
+     *
+     * @return näytökset merkkijonona
+     */
+    public String listaaKaikkiNaytokset() {
     }
 }

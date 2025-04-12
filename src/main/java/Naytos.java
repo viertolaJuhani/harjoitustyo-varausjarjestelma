@@ -2,7 +2,6 @@ import java.time.LocalDateTime;
 
 /**
  * Luokka mallintaa elokuvanäytöstä ja varaustilannetta tietyssä salissa.
- *
  * Varaukset tallennetaan 2D-taulukkoon, jossa jokainen paikka voi olla
  * varattu tai vapaa.
  */
@@ -64,7 +63,7 @@ public class Naytos {
      *
      * @param rivi Paikan rivinumero
      * @param paikka Paikan numero rivillä
-     * @return true, jos paikka on varattu; false, jos vapaa
+     * @return true, jos paikka on varattu, muuten false
      */
     public boolean onkoVarattu(int rivi, int paikka) {
         if (rivi >= 0 && rivi < sali.getRivit() && paikka >= 0 && paikka < sali.getPaikatRivilla()) {
@@ -77,7 +76,7 @@ public class Naytos {
      * Varaa paikan tietyssä näytökksessä.
      * @param rivi Paikan rivinumero
      * @param paikka Paikan numero rivillä
-     * @return true, jos varaus onnistui; false, jos epäonnistui
+     * @return true, jos varaus onnistui, muuten false
      */
     public boolean varaaPaikka(int rivi, int paikka) {
         if (rivi >= 0 && rivi < sali.getRivit() && paikka >= 0 && paikka < sali.getPaikatRivilla()) {
