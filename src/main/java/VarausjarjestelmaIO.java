@@ -35,4 +35,15 @@ public class VarausjarjestelmaIO {
     public static void kirjoitaElokuvat(ArrayList<Elokuva> elokuvavalikoima, String tiedostonNimi) {
 
     }
+
+    /**
+     * Palauttaa uuden näytösolion annetun datarivin perusteella.
+     * Rivillä tulee olla elokuvan nimi, näytösaika ja salin numero.
+     *
+     * @param data datarivi, josta tiedot parsitaan
+     * @return uuden Naytos-olion, jolla tyhjä varauslista.
+     */
+    public static Naytos parsiNaytos(String data) {
+
+    }
 }

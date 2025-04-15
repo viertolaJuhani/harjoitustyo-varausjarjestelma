@@ -1,61 +1,53 @@
-import java.time.LocalDateTime;
-
 /**
  * Luokka mallintaa elokuvanäytöstä ja varaustilannetta tietyssä salissa.
  * Varaukset tallennetaan 2D-taulukkoon, jossa jokainen paikka voi olla
  * varattu tai vapaa.
  */
 public class Naytos {
-    private Elokuva elokuva;
-    private LocalDateTime naytosaika;
     private Sali sali;
+    private Elokuva elokuva;
+    private String elokuvanNimi;
+    private String naytosaika;
+    private int salinumero;
     private boolean[][] varaukset;
 
-    public Naytos(Elokuva elokuva, LocalDateTime naytosaika, Sali sali) {
-        this.elokuva = elokuva;
+    public Naytos(String elokuvanNimi, String naytosaika, Sali sali) {
+        this.elokuvanNimi = elokuva.getNimi();
         this.naytosaika = naytosaika;
-        this.sali = sali;
+        this.salinumero = sali.getSalinumero();
         varaukset = new boolean[sali.getRivit()][sali.getPaikatRivilla()];
     }
 
-    public Elokuva getElokuva() {
-        return elokuva;
+    public String getElokuvanNimi() {
+        return elokuvanNimi;
     }
 
-    public void setElokuva(Elokuva elokuva) {
-        this.elokuva = elokuva;
+    public void setElokuva(String elokuvanNimi) {
+        this.elokuvanNimi = elokuvanNimi;
     }
 
-    public LocalDateTime getNaytosaika() {
+    public String getNaytosaika() {
         return naytosaika;
     }
 
-    public void setNaytosaika(LocalDateTime naytosaika) {
+    public void setNaytosaika(String naytosaika) {
         this.naytosaika = naytosaika;
     }
 
-    public Sali getSali() {
-        return sali;
+    public int getSali() {
+        return salinumero;
     }
 
     public void setSali(Sali sali) {
-        this.sali = sali;
-    }
-
-    public int getRivit() {
-        return sali.getRivit();
-    }
-
-    public int getPaikatPerRivi() {
-        return sali.getPaikatRivilla();
+        this.salinumero = salinumero;
     }
 
     public boolean[][] getVaraukset() {
         return varaukset;
     }
 
-    public void setVaraukset(boolean[][] varaukset) {
-        this.varaukset = varaukset;
+    public void setVaraukset(int rivi, int paikkaRivilla) {
+        varaukset[rivi][paikkaRivilla] = true;
     }
 
     /**
@@ -66,25 +58,14 @@ public class Naytos {
      * @return true, jos paikka on varattu, muuten false
      */
     public boolean onkoVarattu(int rivi, int paikka) {
-        if (rivi >= 0 && rivi < sali.getRivit() && paikka >= 0 && paikka < sali.getPaikatRivilla()) {
-            return varaukset[rivi][paikka];
+        if (rivi >= 0 && rivi <= sali.getRivit() && paikka >= 0 && paikka < sali.getPaikatRivilla()) {
+            return !varaukset[rivi][paikka];
         }
         return false;
     }
 
-    /**
-     * Varaa paikan tietyssä näytökksessä.
-     * @param rivi Paikan rivinumero
-     * @param paikka Paikan numero rivillä
-     * @return true, jos varaus onnistui, muuten false
-     */
-    public boolean varaaPaikka(int rivi, int paikka) {
-        if (rivi >= 0 && rivi < sali.getRivit() && paikka >= 0 && paikka < sali.getPaikatRivilla()) {
-            if (!onkoVarattu(rivi, paikka)) {
-                varaukset[rivi][paikka] = true;
-                return true;
-            }
-        }
-        return false;
+    @Override
+    public String toString() {
+        return "Näytös: " + elokuvanNimi + ", " + ", sali: " + sali;
     }
 }

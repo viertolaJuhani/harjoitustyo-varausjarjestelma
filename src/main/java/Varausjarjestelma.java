@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 /**
  * Luokka mallintaa varausjärjestelmän toimintaa.
+ * Sisältää ylläpitäjälle ja asiakkaalle oleelliset toiminnot.
  */
 public class Varausjarjestelma {
     private ArrayList<Elokuva> elokuvat;
@@ -71,5 +72,21 @@ public class Varausjarjestelma {
      * @return näytökset merkkijonona
      */
     public String listaaKaikkiNaytokset() {
+    }
+
+    /**
+     * Varaa paikan tietyssä näytökksessä.
+     * @param rivi Paikan rivinumero
+     * @param paikka Paikan numero rivillä
+     * @return true, jos varaus onnistui, muuten false
+     */
+    public boolean varaaPaikka(Naytos naytos, int rivi, int paikka, Sali sali) {
+        if (rivi >= 0 && rivi < sali.getRivit() && paikka >= 0 && paikka < sali.getPaikatRivilla()) {
+            if (!naytos.onkoVarattu(rivi, paikka)) {
+                naytos.setVaraukset(rivi, paikka);
+                return true;
+            }
+        }
+        return false;
     }
 }
