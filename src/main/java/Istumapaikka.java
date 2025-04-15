@@ -2,17 +2,17 @@
  * Luokka mallintaa istumapaikkaa elokuvasalissa.
  */
 public class Istumapaikka {
-    private int istuinId;
+    private int rivi;
+    private int paikkaRivilla;
+    private boolean varattu = false;
 
-    public Istumapaikka(int istuinId) {
-        this.istuinId = istuinId;
+    public Istumapaikka(int rivi, int paikkaRivilla, boolean varattu) {
+        this.rivi = rivi;
+        this.paikkaRivilla = paikkaRivilla;
+        this.varattu = varattu;
     }
 
-    public int getIstuinId() {
-        return istuinId;
-    }
-
-    public void setIstuinId(int istuinId) {
-        this.istuinId = istuinId;
+    public Istumapaikka(int rivi, int paikkaRivilla) {
+        this (rivi, paikkaRivilla, false);
     }
 }
