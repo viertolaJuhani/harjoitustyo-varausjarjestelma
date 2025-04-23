@@ -25,8 +25,6 @@ public class VarausjarjestelmaUI {
             valinta = lueKokonaisluku(0, 2, "Anna valinta");
             if (valinta == 1) {
                 tulostaKirjautumisSivu();
-            } else if (valinta == 2) {
-
             }
         }
     }
@@ -34,7 +32,8 @@ public class VarausjarjestelmaUI {
         int valinta = -1;
         while (valinta != 0) {
             System.out.println("1. Kirjaudu sisään");
-            System.out.println("2. Luo käyttäjä");
+            System.out.println("2. Uusi asiakas?");
+            System.out.println("0. Poistu");
         }
     }
 
@@ -44,12 +43,10 @@ public class VarausjarjestelmaUI {
     }
 
 
-
-
     public void aloitaAdmin() {
         int valinta = -1;
         while (valinta != 0) {
-            tulostaAdminMenu();
+            adminMenu();
 
         }
     }
@@ -57,7 +54,31 @@ public class VarausjarjestelmaUI {
     public void aloitaAsiakas() {
         int valinta = -1;
         while (valinta != 0) {
-            tulostaAsiakasMenu();
+            asiakasMenu();
+
+        }
+    }
+
+    public void asiakasMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int valinta = -1;
+        while (valinta != 0) {
+            System.out.println("\n*** ASIAKAS MENU ***");
+            System.out.println("1. Tarkastele omia varauksia");
+            System.out.println("2. Selaa elokuvia / tee varaus");
+            System.out.println("0. Poistu");
+        }
+    }
+
+    public void adminMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int valinta = -1;
+        while (valinta != 0) {
+            System.out.println("\n*** ADMIN MENU ***");
+            System.out.println("1. Tarkastele varauksia");
+            System.out.println("2. Hallitse elokuvia");
+            System.out.println("3. Hallitse näytöksiä");
+            System.out.println("0. Poistu");
 
         }
     }

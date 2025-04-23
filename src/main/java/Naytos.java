@@ -6,24 +6,22 @@
 public class Naytos {
     private Sali sali;
     private Elokuva elokuva;
-    private String elokuvanNimi;
     private String naytosaika;
     private int salinumero;
     private boolean[][] varaukset;
 
-    public Naytos(String elokuvanNimi, String naytosaika, Sali sali) {
-        this.elokuvanNimi = elokuva.getNimi();
+    public Naytos(Elokuva elokuva, String naytosaika, Sali sali) {
         this.naytosaika = naytosaika;
         this.salinumero = sali.getSalinumero();
         varaukset = new boolean[sali.getRivit()][sali.getPaikatRivilla()];
     }
 
-    public String getElokuvanNimi() {
-        return elokuvanNimi;
+    public Elokuva getElokuva() {
+        return elokuva;
     }
 
-    public void setElokuva(String elokuvanNimi) {
-        this.elokuvanNimi = elokuvanNimi;
+    public void setElokuva(Elokuva elokuva) {
+        this.elokuva = elokuva;
     }
 
     public String getNaytosaika() {
@@ -66,6 +64,6 @@ public class Naytos {
 
     @Override
     public String toString() {
-        return "Näytös: " + elokuvanNimi + ", " + ", sali: " + sali;
+        return "Näytös: " + elokuva + ", " + ", sali: " + sali;
     }
 }
