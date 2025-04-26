@@ -44,6 +44,6 @@ public class VarausjarjestelmaIO {
      * @return uuden Naytos-olion, jolla tyhjä varauslista.
      */
     public static Naytos parsiNaytos(String data) {
-
+        return null;
     }
 }

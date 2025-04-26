@@ -26,15 +26,15 @@ public class VarausjarjestelmaUI {
             if (valinta == 1) {
                 tulostaKirjautumisSivu();
             }
+            if (valinta == 2) {
+
+            }
         }
     }
     public void tulostaAloitus() {
-        int valinta = -1;
-        while (valinta != 0) {
             System.out.println("1. Kirjaudu sisään");
             System.out.println("2. Uusi asiakas?");
             System.out.println("0. Poistu");
-        }
     }
 
     public void tulostaKirjautumisSivu() {
@@ -47,7 +47,6 @@ public class VarausjarjestelmaUI {
         int valinta = -1;
         while (valinta != 0) {
             adminMenu();
-
         }
     }
 
@@ -79,14 +78,13 @@ public class VarausjarjestelmaUI {
             System.out.println("2. Hallitse elokuvia");
             System.out.println("3. Hallitse näytöksiä");
             System.out.println("0. Poistu");
-
         }
     }
 
     public void adminElokuvaMenu() {
         int valinta = -1;
         while (valinta != 0) {
-            varausjarjestelma.listaaElokuvat();
+            System.out.println(varausjarjestelma.listaaElokuvat());
             System.out.println();
             System.out.println("1. Lisää elokuva");
             System.out.println("2. Poista elokuva");
@@ -102,7 +100,11 @@ public class VarausjarjestelmaUI {
 
                 varausjarjestelma.lisaaElokuva(new Elokuva(nimi, kesto, kieli, genre, ikaraja));
             } else if (valinta == 2) {
+                System.out.println(varausjarjestelma.listaaElokuvat());
+                System.out.println();
 
+                String poistettava_elokuva = lueMerkkijono("Anna elokuvan nimi");
+                varausjarjestelma.poistaElokuva(poistettava_elokuva);
             }
         }
     }

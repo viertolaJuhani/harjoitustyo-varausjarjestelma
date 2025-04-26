@@ -21,6 +21,7 @@ public class Varausjarjestelma {
     }
 
     public void lisaaElokuva(Elokuva elokuva) {
+        elokuvat.add(elokuva);
     }
 
     /**
@@ -29,13 +30,17 @@ public class Varausjarjestelma {
      * @param elokuva elokuva, jonka poistoa yritetään
      * @return true, jos elokuva löytyi ja poistettiin, muuten false
      */
-    public boolean poistaElokuva(Elokuva elokuva) {
-        if (elokuvat.contains(elokuva)) {
-            elokuvat.remove(elokuva);
-            return true;
+    public boolean poistaElokuva(String elokuva) {
+        for (Elokuva e : elokuvat) {
+            if (e.getNimi().equals(elokuva)) {
+                elokuvat.remove(e);
+                return true;
+            }
         }
+        System.out.println("Elokuvaa ei löytynyt");
         return false;
     }
+
 
     /**
      * Yrittää poistaa annetun näytöksen.
@@ -57,6 +62,18 @@ public class Varausjarjestelma {
      * @return lista elokuvista merkkijonona
      */
     public String listaaElokuvat() {
+        if (elokuvat.isEmpty()){
+            return "Ei elokuvia listalla";
+        }
+        StringBuilder e = new StringBuilder();
+        for (Elokuva elokuva : elokuvat) {
+            e.append(elokuva.getNimi() + "\t");
+            e.append(elokuva.getKesto() + "\t");
+            e.append(elokuva.getKieli() + "\t");
+            e.append(elokuva.getGenre() + "\t");
+            e.append(elokuva.getIkaraja() + "\n");
+        }
+        return e.toString();
     }
 
     /**
@@ -65,6 +82,15 @@ public class Varausjarjestelma {
      * @return näytökset merkkijonona
      */
     public String listaaNaytokset(Elokuva elokuva) {
+        StringBuilder n = new StringBuilder();
+        for (Naytos naytos : naytokset) {
+            if (naytos.getElokuva() == elokuva) {
+                n.append(naytos.getElokuva() + "\t");
+                n.append(naytos.getNaytosaika() + "\t\t");
+                n.append(naytos.getSali() + "\t");
+            }
+        }
+        return n.toString();
     }
 
     /**
@@ -73,6 +99,13 @@ public class Varausjarjestelma {
      * @return näytökset merkkijonona
      */
     public String listaaKaikkiNaytokset() {
+        StringBuilder n = new StringBuilder();
+        for (Naytos naytos : naytokset) {
+            n.append(naytos.getElokuva() + "\t");
+            n.append(naytos.getNaytosaika() + "\t\t");
+            n.append(naytos.getSali() + "\t");
+        }
+        return n.toString();
     }
 
     /**
