@@ -81,8 +81,8 @@ public class Varausjarjestelma {
     public String listaaNaytokset(Elokuva elokuva) {
         StringBuilder n = new StringBuilder();
         for (Naytos naytos : naytokset) {
-            if (naytos.getElokuva() == elokuva) {
-                n.append(naytos.getElokuva() + "\t");
+            if (naytos.getElokuvanNimi().equals(elokuva.getNimi())) {
+                n.append(naytos.getElokuvanNimi() + "\t");
                 n.append(naytos.getNaytosaika() + "\t\t");
                 n.append(naytos.getSali() + "\t");
             }
@@ -98,7 +98,7 @@ public class Varausjarjestelma {
     public String listaaKaikkiNaytokset() {
         StringBuilder n = new StringBuilder();
         for (Naytos naytos : naytokset) {
-            n.append(naytos.getElokuva() + "\t");
+            n.append(naytos.getElokuvanNimi() + "\t");
             n.append(naytos.getNaytosaika() + "\t\t");
             n.append(naytos.getSali() + "\t");
         }

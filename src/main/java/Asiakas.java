@@ -39,7 +39,7 @@ public class Asiakas extends User {
      * @return tiedostoon kirjoitettava muoto
      */
     public String getData(String erotinmerkki) {
-        String data =getNimi() + erotinmerkki;
+        String data = getNimi() + erotinmerkki;
         data += getEmail() + erotinmerkki;
         data += getSalasana() + erotinmerkki;
         data += getIka() + erotinmerkki;

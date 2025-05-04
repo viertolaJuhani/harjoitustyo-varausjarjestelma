@@ -1,18 +1,23 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
- * Luokkaa käytetään varausjärjestelmän tietojen tallentamiseen
+ * Luokkaa käytetään varausjärjestelmän tietojen tallentamiseen ja lukemiseen
  */
 public class VarausjarjestelmaIO {
 
     public static void main(String[] args) {
         // Testikoodia
-
+        Sali sali1 = new Sali(1, 10, 15);
+        ArrayList<Elokuva> elokuvat = new ArrayList<>();
+        ArrayList<Naytos> naytokset = new ArrayList<>();
+        Naytos naytos = new Naytos("Gladiator 2", sali1, "22.00");
+        naytokset.add(naytos);
+        kirjoitaNaytokset(naytokset, "naytokset.csv");
+        System.out.println(lueNaytokset("naytokset.csv"));
+        System.out.println(naytos.getElokuvanNimi());
     }
-
 
     private static final String EROTIN = ";";
 
@@ -67,22 +72,62 @@ public class VarausjarjestelmaIO {
         String salasana = tiedot[1];
         String nimi = tiedot[2];
         int ika = Integer.valueOf(tiedot[3]);
+        String varausStr = tiedot[4];
+        varausStr = varausStr.replace("[", "").replace("]", "");
         ArrayList<Varaus> varaukset = new ArrayList<>();
+        String[] vTiedot = varausStr.split(",");
+
+
         return new Asiakas(nimi, email, salasana, ika, varaukset);
     }
 
-    public static void kirjoitaElokuvat(ArrayList<Elokuva> elokuvavalikoima, String tiedostonNimi) {
-
+    public static void kirjoitaElokuvat(ArrayList<Elokuva> elokuvalista, String tiedostonNimi) {
+        String data = "";
+        for (Elokuva elokuva : elokuvalista) {
+            data += elokuva.getData(VarausjarjestelmaIO.EROTIN);
+            data += "\n";
+        }
+        if (data.length() > 0) {
+            data = data.substring(0, data.length() - 1);
+        }
+        kirjoitaTiedosto(tiedostonNimi, data);
     }
 
-    /**
-     * Palauttaa uuden näytösolion annetun datarivin perusteella.
-     * Rivillä tulee olla elokuvan nimi, näytösaika ja salin numero.
-     *
-     * @param data datarivi, josta tiedot parsitaan
-     * @return uuden Naytos-olion, jolla tyhjä varauslista.
-     */
-    public static Naytos parsiNaytos(String data) {
-        return null;
+    public static ArrayList<Elokuva> lueElokuvat(String tiedostonNimi) {
+        ArrayList<Elokuva> elokuvat = new ArrayList<>();
+        ArrayList<String> data = lueTiedosto(tiedostonNimi);
+        for (String edata : data) {
+            Elokuva elokuva = parsiElokuva(edata);
+            elokuvat.add(elokuva);
+        }
+        return elokuvat;
+    }
+
+    public static Elokuva parsiElokuva(String data) {
+        String[] tiedot = data.split(VarausjarjestelmaIO.EROTIN);
+        String nimi = tiedot[0];
+        int kesto = Integer.valueOf(tiedot[1]);
+        String genre = tiedot[2];
+        int ikaraja = Integer.valueOf(tiedot[3]);
+        String kieli = tiedot[4];
+
+        return new Elokuva(nimi, kesto, kieli, genre, ikaraja);
+    }
+
+    public static void kirjoitaNaytokset(ArrayList<Naytos> naytokset, String tiedostonNimi) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(tiedostonNimi))) {
+            oos.writeObject(naytokset);
+        } catch (IOException e) {
+            System.out.println("Tapahtui virhe: " + e);
+        }
+    }
+
+    public static ArrayList<Naytos> lueNaytokset(String tiedostonNimi) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(tiedostonNimi))) {
+            return (ArrayList<Naytos>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Tapahtui virhe: " + e);
+            return new ArrayList<>();
+        }
     }
 }

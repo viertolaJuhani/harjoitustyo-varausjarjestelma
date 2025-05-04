@@ -1,7 +1,12 @@
+import java.io.Serializable;
+
 /**
  * Luokka mallintaa elokuvateatterin salia varausjärjestelmässä.
  */
-public class Sali {
+public class Sali implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private int salinumero;
     private int rivit;
     private int paikatRivilla;
@@ -30,5 +35,10 @@ public class Sali {
 
     public int paikkojaYhteensa() {
         return rivit * paikatRivilla;
+    }
+
+    @Override
+    public String toString() {
+        return "Sali: " + salinumero;
     }
 }

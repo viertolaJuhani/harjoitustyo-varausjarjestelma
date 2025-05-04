@@ -1,8 +1,13 @@
+import java.io.Serializable;
+
 /**
  * Luokka mallintaa elokuvaa varausjärjestelmässä.
  */
 
-public class Elokuva {
+public class Elokuva implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private String nimi;
     private int kesto;
     private String genre;
@@ -55,6 +60,16 @@ public class Elokuva {
 
     public void setKieli(String kieli) {
         this.kieli = kieli;
+    }
+
+    public String getData(String erotinmerkki) {
+        String data = nimi + erotinmerkki;
+        data += kesto + erotinmerkki;
+        data += genre + erotinmerkki;
+        data += ikaraja + erotinmerkki;
+        data += kieli;
+
+        return data;
     }
 
     @Override

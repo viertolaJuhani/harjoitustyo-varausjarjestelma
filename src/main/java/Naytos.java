@@ -1,27 +1,32 @@
+import java.io.Serializable;
+
 /**
  * Luokka mallintaa elokuvanäytöstä ja varaustilannetta tietyssä salissa.
  * Varaukset tallennetaan 2D-taulukkoon, jossa jokainen paikka voi olla
  * varattu tai vapaa.
  */
-public class Naytos {
+public class Naytos implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Sali sali;
-    private Elokuva elokuva;
+    private String elokuvanNimi;
     private String naytosaika;
-    private int salinumero;
     private boolean[][] varaukset;
 
-    public Naytos(Elokuva elokuva, String naytosaika, Sali sali) {
+    public Naytos(String elokuvanNimi, Sali sali, String naytosaika) {
+        this.elokuvanNimi = elokuvanNimi;
         this.naytosaika = naytosaika;
-        this.salinumero = sali.getSalinumero();
+        this.sali = sali;
         varaukset = new boolean[sali.getRivit()][sali.getPaikatRivilla()];
     }
 
-    public Elokuva getElokuva() {
-        return elokuva;
+    public String getElokuvanNimi() {
+        return elokuvanNimi;
     }
 
-    public void setElokuva(Elokuva elokuva) {
-        this.elokuva = elokuva;
+    public void setElokuva(String elokuvanNimi) {
+        this.elokuvanNimi = elokuvanNimi;
     }
 
     public String getNaytosaika() {
@@ -32,12 +37,8 @@ public class Naytos {
         this.naytosaika = naytosaika;
     }
 
-    public int getSali() {
-        return salinumero;
-    }
-
-    public void setSali(Sali sali) {
-        this.salinumero = salinumero;
+    public Sali getSali() {
+        return sali;
     }
 
     public boolean[][] getVaraukset() {
@@ -62,8 +63,17 @@ public class Naytos {
         return false;
     }
 
+    public String getData(String erotinmerkki) {
+        String data = sali + erotinmerkki;
+        data += elokuvanNimi + erotinmerkki;
+        data += naytosaika + erotinmerkki;
+        data += varaukset;
+
+        return data;
+    }
+
     @Override
     public String toString() {
-        return "Näytös: " + elokuva + ", " + ", sali: " + sali;
+        return "Elokuva: " + elokuvanNimi + ", Näytösaika: " + naytosaika + ", " + sali;
     }
 }
