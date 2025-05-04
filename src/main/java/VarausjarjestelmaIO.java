@@ -1,11 +1,18 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
  * Luokkaa käytetään varausjärjestelmän tietojen tallentamiseen
  */
 public class VarausjarjestelmaIO {
+
+    public static void main(String[] args) {
+        // Testikoodia
+
+    }
+
 
     private static final String EROTIN = ";";
 
@@ -19,6 +26,18 @@ public class VarausjarjestelmaIO {
         }
     }
 
+    public static ArrayList<String> lueTiedosto(String tiedostonNimi) {
+        ArrayList<String> data = new ArrayList<>();
+        try (Scanner lukija = new Scanner(new File(tiedostonNimi))) {
+            while (lukija.hasNextLine()) {
+                data.add(lukija.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Tapahtui virhe: " + e);
+        }
+        return data;
+    }
+
     public static void kirjoitaAsiakkaat(ArrayList<Asiakas> asiakasLista, String tiedostonNimi) {
         String data = "";
         for (Asiakas asiakas : asiakasLista) {
@@ -30,6 +49,26 @@ public class VarausjarjestelmaIO {
             data = data.substring(0, data.length() - 1);
         }
         kirjoitaTiedosto(tiedostonNimi, data);
+    }
+
+    public static ArrayList<Asiakas> lueAsiakkaat(String tiedostonNimi) {
+        ArrayList<Asiakas> asiakkaat = new ArrayList<>();
+        ArrayList<String> data = lueTiedosto(tiedostonNimi);
+        for (String adata : data) {
+            Asiakas as = parsiAsiakas(adata);
+            asiakkaat.add(as);
+        }
+        return asiakkaat;
+    }
+
+    public static Asiakas parsiAsiakas(String data) {
+        String[] tiedot = data.split(VarausjarjestelmaIO.EROTIN);
+        String email = tiedot[0];
+        String salasana = tiedot[1];
+        String nimi = tiedot[2];
+        int ika = Integer.valueOf(tiedot[3]);
+        ArrayList<Varaus> varaukset = new ArrayList<>();
+        return new Asiakas(nimi, email, salasana, ika, varaukset);
     }
 
     public static void kirjoitaElokuvat(ArrayList<Elokuva> elokuvavalikoima, String tiedostonNimi) {

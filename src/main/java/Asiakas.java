@@ -7,10 +7,10 @@ public class Asiakas extends User {
     private ArrayList<Varaus> varaukset;
     private int ika;
 
-    public Asiakas(String nimi, String email, String kayttajanimi, String salasana, int ika) {
-        super(nimi, email, kayttajanimi, salasana);
-        this.varaukset = new ArrayList<>();
+    public Asiakas(String nimi, String email, String salasana, int ika, ArrayList<Varaus> varaukset) {
+        super(nimi, email, salasana);
         this.ika = ika;
+        this.varaukset = varaukset;
     }
 
     public ArrayList<Varaus> getVaraukset() {
@@ -39,7 +39,17 @@ public class Asiakas extends User {
      * @return tiedostoon kirjoitettava muoto
      */
     public String getData(String erotinmerkki) {
-        String data = "A " + getEmail() + getNimi() + " Varaukset: " + varaukset + erotinmerkki;
+        String data =getNimi() + erotinmerkki;
+        data += getEmail() + erotinmerkki;
+        data += getSalasana() + erotinmerkki;
+        data += getIka() + erotinmerkki;
+        data += varaukset;
+
         return data;
+    }
+
+    @Override
+    public String toString() {
+        return getNimi() + ", (" + getEmail() + "), " + ika + ", " + "varaukset: " + varaukset;
     }
 }

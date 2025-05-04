@@ -5,12 +5,10 @@ public class User {
     private String nimi;
     private String email;
     private String salasana;
-    private String kayttajanimi;
 
-    public User(String nimi, String email, String kayttajanimi, String salasana) {
+    public User(String nimi, String email, String salasana) {
         this.nimi = nimi;
         this.email = email;
-        this.kayttajanimi = kayttajanimi;
         this.salasana = salasana;
     }
 
@@ -38,11 +36,4 @@ public class User {
         this.salasana = salasana;
     }
 
-    public String getKayttajanimi() {
-        return kayttajanimi;
-    }
-
-    public void setKayttajanimi(String kayttajanimi) {
-        this.kayttajanimi = kayttajanimi;
-    }
 }

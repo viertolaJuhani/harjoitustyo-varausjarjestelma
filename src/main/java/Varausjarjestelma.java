@@ -7,17 +7,14 @@ import java.util.ArrayList;
 public class Varausjarjestelma {
     private ArrayList<Elokuva> elokuvat;
     private ArrayList<Naytos> naytokset;
-    private ArrayList<Asiakas> asiakkaat;
 
     public Varausjarjestelma() {
         elokuvat = new ArrayList<>();
         naytokset = new ArrayList<>();
     }
 
-    public void lisaaAsiakas(Asiakas asiakas) {
-    }
-
     public void lisaaNaytos(Naytos naytos) {
+        naytokset.add(naytos);
     }
 
     public void lisaaElokuva(Elokuva elokuva) {

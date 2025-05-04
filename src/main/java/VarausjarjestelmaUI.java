@@ -21,25 +21,43 @@ public class VarausjarjestelmaUI {
     public void aloita() {
         int valinta = -1;
         while (valinta != 0) {
-            tulostaAloitus();
+            aloitusmenu();
             valinta = lueKokonaisluku(0, 2, "Anna valinta");
             if (valinta == 1) {
-                tulostaKirjautumisSivu();
-            }
-            if (valinta == 2) {
-
+                kirjautumissivu();
+            } else if (valinta == 2) {
+                uusiAsiakas();
             }
         }
     }
-    public void tulostaAloitus() {
+    public void aloitusmenu() {
+        int valinta = -1;
+        while (valinta != 0) {
+            System.out.println();
             System.out.println("1. Kirjaudu sisään");
             System.out.println("2. Uusi asiakas?");
             System.out.println("0. Poistu");
+        }
     }
 
-    public void tulostaKirjautumisSivu() {
-        String kayttajanimi = lueMerkkijono("Käyttäjänimi");
-        String salasana = lueMerkkijono("Salasana");
+    public void kirjautumissivu() {
+        int valinta = -1;
+        while (valinta != 0) {
+
+            String kayttajanimi = lueMerkkijono("Käyttäjänimi");
+            String salasana = lueMerkkijono("Salasana");
+        }
+    }
+
+    public void uusiAsiakas() {
+        int valinta = -1;
+        while (valinta != 0) {
+            System.out.println("Huom! Käyttäjän oltava vähintään 15-vuotias");
+            String nimi = lueMerkkijono("Nimi");
+            int ika = lueKokonaisluku(15, 150, "ikä vuosina");
+            String email = lueMerkkijono("Sähköposti");
+            String salasana = lueMerkkijono("Anna salasana");
+        }
     }
 
 
@@ -62,7 +80,7 @@ public class VarausjarjestelmaUI {
         Scanner scanner = new Scanner(System.in);
         int valinta = -1;
         while (valinta != 0) {
-            System.out.println("\n*** ASIAKAS MENU ***");
+            System.out.println("\n*** ASIAKASMENU ***");
             System.out.println("1. Tarkastele omia varauksia");
             System.out.println("2. Selaa elokuvia / tee varaus");
             System.out.println("0. Poistu");
@@ -117,7 +135,7 @@ public class VarausjarjestelmaUI {
                 if (arvo >= minimi && arvo <= maksimi) {
                     return arvo;
                 }
-                System.out.println("Syötä elokuvan kesto minuutteina " +
+                System.out.println("Arvon tulee olla väliltä " +
                         minimi + " - " + maksimi);
             } catch (NumberFormatException nfe) {
                 System.out.println("Anna arvo numerona!");
