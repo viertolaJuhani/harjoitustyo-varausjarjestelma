@@ -9,14 +9,6 @@ public class VarausjarjestelmaIO {
 
     public static void main(String[] args) {
         // Testikoodia
-        Sali sali1 = new Sali(1, 10, 15);
-        ArrayList<Elokuva> elokuvat = new ArrayList<>();
-        ArrayList<Naytos> naytokset = new ArrayList<>();
-        Naytos naytos = new Naytos("Gladiator 2", sali1, "22.00");
-        naytokset.add(naytos);
-        kirjoitaNaytokset(naytokset, "naytokset.csv");
-        System.out.println(lueNaytokset("naytokset.csv"));
-        System.out.println(naytos.getElokuvanNimi());
     }
 
     private static final String EROTIN = ";";
