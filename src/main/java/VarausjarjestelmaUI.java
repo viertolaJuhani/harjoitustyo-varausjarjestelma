@@ -29,6 +29,7 @@ public class VarausjarjestelmaUI {
                 uusiAsiakas();
             }
         }
+        varausjarjestelma.kirjoitaTiedot();
     }
     public void aloitusmenu() {
         int valinta = -1;

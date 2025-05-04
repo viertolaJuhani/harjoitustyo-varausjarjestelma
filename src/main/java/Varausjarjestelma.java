@@ -7,14 +7,26 @@ import java.util.ArrayList;
 public class Varausjarjestelma {
     private ArrayList<Elokuva> elokuvat;
     private ArrayList<Naytos> naytokset;
+    private ArrayList<Asiakas> asiakkaat;
 
     public Varausjarjestelma() {
-        elokuvat = new ArrayList<>();
-        naytokset = new ArrayList<>();
+        asiakkaat = VarausjarjestelmaIO.lueAsiakkaat("asiakkaat.txt");
+        elokuvat = VarausjarjestelmaIO.lueElokuvat("elokuvat.txt");
+        naytokset = VarausjarjestelmaIO.lueNaytokset("naytokset.csv");
+    }
+
+    public void kirjoitaTiedot() {
+        VarausjarjestelmaIO.kirjoitaNaytokset(naytokset, "naytokset.csv");
+        VarausjarjestelmaIO.kirjoitaAsiakkaat(asiakkaat, "asiakkaat.txt");
+        VarausjarjestelmaIO.kirjoitaElokuvat(elokuvat, "elokuvat.txt");
     }
 
     public void lisaaNaytos(Naytos naytos) {
         naytokset.add(naytos);
+    }
+
+    public void lisaaAsiakas(Asiakas asiakas) {
+        asiakkaat.add(asiakas);
     }
 
     public void lisaaElokuva(Elokuva elokuva) {
