@@ -9,7 +9,8 @@ import java.util.Scanner;
 public class VarausjarjestelmaUI {
     private Varausjarjestelma varausjarjestelma;
     private Scanner lukija;
-    String asiakasNimi = "";
+    String asiakasSposti = "";
+    String kirjautunutNimi = "";
 
     public static void main(String[] args) {
         VarausjarjestelmaUI ui = new VarausjarjestelmaUI();
@@ -42,36 +43,34 @@ public class VarausjarjestelmaUI {
     }
 
     public void kirjautumissivu() {
-        int valinta = -1;
-        while (valinta != 0) {
-            String kayttajanimi = lueMerkkijono("Sähköposti");
-            String salasana = lueMerkkijono("Salasana");
+        String kayttajanimi = lueMerkkijono("Sähköposti");
+        String salasana = lueMerkkijono("Salasana");
 
-            if  (kayttajanimi.equals("admin") & (salasana.equals("admin"))) {
-                aloitaAdmin();
-            }
-            else {
-                for (Asiakas a : varausjarjestelma.getAsiakasLista()) {
-                    if (a.getEmail().equals(kayttajanimi) & a.getSalasana().equals(salasana)) {
-                        asiakasNimi = kayttajanimi;
-                        aloitaAsiakas();
-                    }
-                    else {
-                        System.out.println("Käyttäjä tai salasana väärin.");
-                    }
+        if  (kayttajanimi.equals("admin") & (salasana.equals("admin"))) {
+            aloitaAdmin();
+        }
+        else {
+            for (Asiakas a : varausjarjestelma.getAsiakasLista()) {
+                if (a.getEmail().equals(kayttajanimi) && a.getSalasana().equals(salasana)) {
+                    asiakasSposti = kayttajanimi;
+                    kirjautunutNimi = a.getNimi();
+                    System.out.println("\nTervetuloa " + kirjautunutNimi);
+                    System.out.println("\n*** ASIAKASMENU ***");
+                    aloitaAsiakas();
                 }
             }
+            System.out.println("Käyttäjä tai salasana väärin.");
         }
     }
 
     public void uusiAsiakas() {
-            System.out.println("Huom! Käyttäjän oltava vähintään 15-vuotias");
-            String nimi = lueMerkkijono("Nimi");
-            int ika = lueKokonaisluku(15, 150, "ikä vuosina");
-            String email = lueMerkkijono("Sähköposti");
-            String salasana = lueMerkkijono("Anna salasana");
-            varausjarjestelma.lisaaAsiakas(new Asiakas(nimi, email, salasana, ika));
-            varausjarjestelma.kirjoitaTiedot();
+        System.out.println("Huom! Käyttäjän oltava vähintään 15-vuotias");
+        String nimi = lueMerkkijono("Nimi");
+        int ika = lueKokonaisluku(15, 150, "ikä vuosina");
+        String email = lueMerkkijono("Sähköposti");
+        String salasana = lueMerkkijono("Anna salasana");
+        varausjarjestelma.lisaaAsiakas(new Asiakas(nimi, email, salasana, ika));
+        varausjarjestelma.kirjoitaTiedot();
     }
 
 
@@ -89,16 +88,19 @@ public class VarausjarjestelmaUI {
     public void asiakasMenu() {
         int valinta = -1;
         while (valinta != 0) {
-            System.out.println("\n*** ASIAKASMENU ***");
+            System.out.println();
             System.out.println("1. Tarkastele omia varauksia");
             System.out.println("2. Selaa elokuvia / tee varaus");
-            System.out.println("0. Poistu");
+            System.out.println("0. Kirjaudu ulos");
+            System.out.println();
 
             valinta = lueKokonaisluku(0, 2, "Anna valinta");
             if (valinta == 1) {
                 for (Varaus v : varausjarjestelma.getVaraukset()) {
-                    if (v.getAsiakasEmail().equals(v.getAsiakasEmail())) {
+                    if (v.getAsiakasEmail().equals(asiakasSposti)) {
                         System.out.println(v);
+                    } else {
+                        System.out.println("Ei vielä varauksia");
                     }
                 }
             }
