@@ -9,12 +9,7 @@ public class VarausjarjestelmaIO {
 
     public static void main(String[] args) {
         // Testikoodia
-        ArrayList<Varaus> varaukset;
-        varaukset = lueVaraukset("varaukset.csv");
-        for (Varaus v : varaukset) {
-            System.out.println(v);
-            System.out.println(v.getIstumapaikat());
-        }
+        System.out.println(lueVaraukset("varaukset.csv"));
     }
 
     private static final String EROTIN = ";";
