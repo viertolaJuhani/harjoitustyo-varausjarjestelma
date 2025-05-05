@@ -60,9 +60,9 @@ public class VarausjarjestelmaIO {
 
     public static Asiakas parsiAsiakas(String data) {
         String[] tiedot = data.split(VarausjarjestelmaIO.EROTIN);
-        String email = tiedot[0];
-        String salasana = tiedot[1];
-        String nimi = tiedot[2];
+        String email = tiedot[1];
+        String salasana = tiedot[2];
+        String nimi = tiedot[0];
         int ika = Integer.valueOf(tiedot[3]);
         String varausStr = tiedot[4];
         varausStr = varausStr.replace("[", "").replace("]", "");
@@ -70,7 +70,7 @@ public class VarausjarjestelmaIO {
         String[] vTiedot = varausStr.split(",");
 
 
-        return new Asiakas(nimi, email, salasana, ika, varaukset);
+        return new Asiakas(nimi, email, salasana, ika);
     }
 
     public static void kirjoitaElokuvat(ArrayList<Elokuva> elokuvalista, String tiedostonNimi) {
