@@ -9,24 +9,32 @@ public class Varausjarjestelma {
     private ArrayList<Elokuva> elokuvat;
     private ArrayList<Naytos> naytokset;
     private ArrayList<Asiakas> asiakkaat;
+    private ArrayList<Varaus> varaukset;
 
     public Varausjarjestelma() {
         asiakkaat = VarausjarjestelmaIO.lueAsiakkaat("asiakkaat.txt");
         elokuvat = VarausjarjestelmaIO.lueElokuvat("elokuvat.txt");
         naytokset = VarausjarjestelmaIO.lueNaytokset("naytokset.csv");
+        varaukset = VarausjarjestelmaIO.lueVaraukset("varaukset.csv");
     }
 
     public ArrayList<Asiakas> getAsiakasLista() {
         return asiakkaat;
     }
 
+    public ArrayList<Varaus> getVaraukset() {
+        return varaukset;
+    }
+
     public ArrayList<Elokuva> getElokuvaLista() {
         return elokuvat;
     }
+
     public void kirjoitaTiedot() {
         VarausjarjestelmaIO.kirjoitaNaytokset(naytokset, "naytokset.csv");
         VarausjarjestelmaIO.kirjoitaAsiakkaat(asiakkaat, "asiakkaat.txt");
         VarausjarjestelmaIO.kirjoitaElokuvat(elokuvat, "elokuvat.txt");
+        VarausjarjestelmaIO.kirjoitaVaraukset(varaukset, "varaukset.csv");
     }
 
     public void lisaaNaytos(Naytos naytos) {

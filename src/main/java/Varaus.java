@@ -1,15 +1,29 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Luokka mallintaa näytökseen tehtyä istumapaikan varausta salissa.
  */
-public class Varaus {
+public class Varaus implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private String asiakasEmail;
     private Naytos naytos;
     private ArrayList<Istumapaikka> istumapaikat;
 
-    public Varaus(Asiakas asiakas, Naytos naytos, ArrayList<Istumapaikka> istumapaikat) {
+    public Varaus(String asiakasEmail, Naytos naytos, ArrayList<Istumapaikka> istumapaikat) {
+        this.asiakasEmail = asiakasEmail;
         this.naytos = naytos;
-        this.istumapaikat = new ArrayList<>();
+        this.istumapaikat = istumapaikat;
+    }
+
+    public String getAsiakasEmail() {
+        return asiakasEmail;
+    }
+
+    public void setAsiakasEmail(String asiakasEmail) {
+        this.asiakasEmail = asiakasEmail;
     }
 
     public Naytos getNaytos() {
@@ -26,5 +40,10 @@ public class Varaus {
 
     public void setIstumapaikat(ArrayList<Istumapaikka> istumapaikat) {
         this.istumapaikat = istumapaikat;
+    }
+
+    @Override
+    public String toString() {
+        return asiakasEmail + ", " + naytos + ", Istumapaikat: " + istumapaikat;
     }
 }

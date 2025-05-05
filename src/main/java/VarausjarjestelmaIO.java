@@ -9,6 +9,12 @@ public class VarausjarjestelmaIO {
 
     public static void main(String[] args) {
         // Testikoodia
+        ArrayList<Varaus> varaukset;
+        varaukset = lueVaraukset("varaukset.csv");
+        for (Varaus v : varaukset) {
+            System.out.println(v);
+            System.out.println(v.getIstumapaikat());
+        }
     }
 
     private static final String EROTIN = ";";
@@ -60,15 +66,10 @@ public class VarausjarjestelmaIO {
 
     public static Asiakas parsiAsiakas(String data) {
         String[] tiedot = data.split(VarausjarjestelmaIO.EROTIN);
+        String nimi = tiedot[0];
         String email = tiedot[1];
         String salasana = tiedot[2];
-        String nimi = tiedot[0];
         int ika = Integer.valueOf(tiedot[3]);
-        String varausStr = tiedot[4];
-        varausStr = varausStr.replace("[", "").replace("]", "");
-        ArrayList<Varaus> varaukset = new ArrayList<>();
-        String[] vTiedot = varausStr.split(",");
-
 
         return new Asiakas(nimi, email, salasana, ika);
     }
@@ -117,6 +118,23 @@ public class VarausjarjestelmaIO {
     public static ArrayList<Naytos> lueNaytokset(String tiedostonNimi) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(tiedostonNimi))) {
             return (ArrayList<Naytos>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Tapahtui virhe: " + e);
+            return new ArrayList<>();
+        }
+    }
+
+    public static void kirjoitaVaraukset(ArrayList<Varaus> varaukset, String tiedostonNimi) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(tiedostonNimi))) {
+            oos.writeObject(varaukset);
+        } catch (IOException e) {
+            System.out.println("Tapahtui virhe: " + e);
+        }
+    }
+
+    public static ArrayList<Varaus> lueVaraukset(String tiedostonNimi) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(tiedostonNimi))) {
+            return (ArrayList<Varaus>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Tapahtui virhe: " + e);
             return new ArrayList<>();

@@ -44,7 +44,7 @@ public class VarausjarjestelmaUI {
     public void kirjautumissivu() {
         int valinta = -1;
         while (valinta != 0) {
-            String kayttajanimi = lueMerkkijono("Käyttäjänimi");
+            String kayttajanimi = lueMerkkijono("Sähköposti");
             String salasana = lueMerkkijono("Salasana");
 
             if  (kayttajanimi.equals("admin") & (salasana.equals("admin"))) {
@@ -52,7 +52,7 @@ public class VarausjarjestelmaUI {
             }
             else {
                 for (Asiakas a : varausjarjestelma.getAsiakasLista()) {
-                    if (a.getNimi().equals(kayttajanimi) & a.getSalasana().equals(salasana)) {
+                    if (a.getEmail().equals(kayttajanimi) & a.getSalasana().equals(salasana)) {
                         asiakasNimi = kayttajanimi;
                         aloitaAsiakas();
                     }
@@ -96,9 +96,9 @@ public class VarausjarjestelmaUI {
 
             valinta = lueKokonaisluku(0, 2, "Anna valinta");
             if (valinta == 1) {
-                for (Asiakas a : varausjarjestelma.getAsiakasLista()) {
-                    if (a.getNimi().equals(asiakasNimi)) {
-                        System.out.println(a.getVaraukset());
+                for (Varaus v : varausjarjestelma.getVaraukset()) {
+                    if (v.getAsiakasEmail().equals(v.getAsiakasEmail())) {
+                        System.out.println(v);
                     }
                 }
             }

@@ -6,13 +6,13 @@ public class Istumapaikka {
     private int paikkaRivilla;
     private boolean varattu = false;
 
-    public Istumapaikka(int rivi, int paikkaRivilla, boolean varattu) {
+    public Istumapaikka(int rivi, int paikkaRivilla) {
         this.rivi = rivi;
         this.paikkaRivilla = paikkaRivilla;
-        this.varattu = varattu;
     }
 
-    public Istumapaikka(int rivi, int paikkaRivilla) {
-        this (rivi, paikkaRivilla, false);
+    @Override
+    public String toString() {
+        return "Rivi: " + rivi + ", Paikka: " + paikkaRivilla;
     }
 }

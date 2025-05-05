@@ -4,17 +4,11 @@ import java.util.ArrayList;
  * Luokka mallintaa asiakasta varausjärjestelmässä.
  */
 public class Asiakas extends User {
-    private ArrayList<Varaus> varaukset;
     private int ika;
 
-    public Asiakas(String nimi, String email, String salasana, int ika, ArrayList<Varaus> varaukset) {
+    public Asiakas(String nimi, String email, String salasana, int ika) {
         super(nimi, email, salasana);
         this.ika = ika;
-        this.varaukset = varaukset;
-    }
-
-    public ArrayList<Varaus> getVaraukset() {
-        return varaukset;
     }
 
     public int getIka() {
@@ -23,10 +17,6 @@ public class Asiakas extends User {
 
     public void setIka(int ika) {
         this.ika = ika;
-    }
-
-    public void lisaaVaraus(Varaus varaus) {
-        varaukset.add(varaus);
     }
 
     public String getTyyppi() {
@@ -42,14 +32,13 @@ public class Asiakas extends User {
         String data = getNimi() + erotinmerkki;
         data += getEmail() + erotinmerkki;
         data += getSalasana() + erotinmerkki;
-        data += getIka() + erotinmerkki;
-        data += varaukset;
+        data += getIka();
 
         return data;
     }
 
     @Override
     public String toString() {
-        return getNimi() + ", (" + getEmail() + "), " + ika + ", " + "varaukset: " + varaukset;
+        return getNimi() + " (" + getEmail() + "), " + ika;
     }
 }
