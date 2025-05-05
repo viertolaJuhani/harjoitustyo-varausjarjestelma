@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Luokka mallintaa varausjärjestelmän toimintaa.
@@ -15,6 +16,13 @@ public class Varausjarjestelma {
         naytokset = VarausjarjestelmaIO.lueNaytokset("naytokset.csv");
     }
 
+    public ArrayList<Asiakas> getAsiakasLista() {
+        return asiakkaat;
+    }
+
+    public ArrayList<Elokuva> getElokuvaLista() {
+        return elokuvat;
+    }
     public void kirjoitaTiedot() {
         VarausjarjestelmaIO.kirjoitaNaytokset(naytokset, "naytokset.csv");
         VarausjarjestelmaIO.kirjoitaAsiakkaat(asiakkaat, "asiakkaat.txt");
