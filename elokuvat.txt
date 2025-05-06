@@ -1,4 +1,3 @@
-Gladiator 2;148;draama;15;englanti
 The Shawshank Redemption;142;draama, rikos;16;englanti
 Inception;148;action, sci-fi;12;englanti
 Parasite;132;draama, komedia, trilleri;16;korea (suomenkielinen tekstitys)

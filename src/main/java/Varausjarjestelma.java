@@ -24,10 +24,6 @@ public class Varausjarjestelma {
         salit = List.of(sali1, sali2, sali3);
     }
 
-    public List<Sali> getSalit() {
-        return salit;
-    }
-
     public Sali getSali(int salinumero) {
         for (Sali sali : salit) {
             if (salinumero == sali.getSalinumero()) {
@@ -35,6 +31,14 @@ public class Varausjarjestelma {
             }
         }
         return null;
+    }
+
+    public String listaaSalit() {
+        StringBuilder sb = new StringBuilder();
+        for (Sali s : salit) {
+            sb.append(s.toString()).append("\n");
+        }
+        return sb.toString();
     }
 
     public ArrayList<User> getKayttajaLista() {
@@ -81,6 +85,14 @@ public class Varausjarjestelma {
         return false;
     }
 
+    public Naytos annaNaytos(String elokuvanNimi, String naytosaika, Sali sali) {
+        for (Naytos n : naytokset) {
+            if (n.getElokuvanNimi().equals(elokuvanNimi) && n.getNaytosaika().equals(naytosaika) && n.getSali().equals(sali)) {
+                return n;
+            }
+        }
+        return null;
+    }
 
     /**
      * Yrittää poistaa annetun näytöksen.
@@ -183,9 +195,7 @@ public class Varausjarjestelma {
     public String listaaKaikkiNaytokset() {
         StringBuilder n = new StringBuilder();
         for (Naytos naytos : naytokset) {
-            n.append(naytos.getElokuvanNimi() + "\t");
-            n.append(naytos.getNaytosaika() + "\t\t");
-            n.append(naytos.getSali() + "\t");
+            n.append(naytos.toString()).append("\n");
         }
         return n.toString();
     }

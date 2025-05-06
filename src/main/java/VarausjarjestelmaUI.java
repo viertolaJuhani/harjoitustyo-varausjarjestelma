@@ -59,7 +59,7 @@ public class VarausjarjestelmaUI {
                     asiakasMenu();
                     return;
                 } else if (u instanceof Admin) {
-                    System.out.println("\n*** Tervetuloa ADMIN ***\n");
+                    System.out.println("\n*** Tervetuloa ADMIN ***");
                     adminMenu();
                     return;
                 }
@@ -134,6 +134,7 @@ public class VarausjarjestelmaUI {
         Scanner scanner = new Scanner(System.in);
         int valinta = -1;
         while (valinta != 0) {
+            System.out.println();
             System.out.println("1. Tarkastele asiakkaiden varauksia");
             System.out.println("2. Hallitse elokuvia");
             System.out.println("3. Hallitse näytöksiä");
@@ -142,11 +143,9 @@ public class VarausjarjestelmaUI {
             valinta = lueKokonaisluku(0, 3, "Anna valinta");
             if (valinta == 1) {
                 System.out.println(varausjarjestelma.listaaVaraukset());
-            }
-            if (valinta == 2) {
+            }else if (valinta == 2) {
                 adminElokuvaMenu();
-            }
-            if (valinta == 3) {
+            } else if (valinta == 3) {
                 adminNaytosmenu();
             }
         }
@@ -157,7 +156,6 @@ public class VarausjarjestelmaUI {
         while (valinta != 0) {
             System.out.println();
             System.out.println(varausjarjestelma.listaaElokuvat());
-            System.out.println();
             System.out.println("1. Lisää elokuva");
             System.out.println("2. Poista elokuva");
             System.out.println("0. Poistu");
@@ -173,8 +171,6 @@ public class VarausjarjestelmaUI {
                 varausjarjestelma.lisaaElokuva(new Elokuva(nimi, kesto, kieli, genre, ikaraja));
             } else if (valinta == 2) {
                 System.out.println(varausjarjestelma.listaaElokuvat());
-                System.out.println();
-
                 String poistettava_elokuva = lueMerkkijono("Anna elokuvan nimi");
                 varausjarjestelma.poistaElokuva(poistettava_elokuva);
             }
@@ -185,30 +181,44 @@ public class VarausjarjestelmaUI {
         int valinta = -1;
         while (valinta != 0) {
             System.out.println();
-            System.out.println("1. Lisää näytös");
-            System.out.println("2. Poista näytös");
+            System.out.println("1. Näytä kaikki näytökset");
+            System.out.println("2. Näytä tietyn elokuvan näytökset");
+            System.out.println("3. Lisää näytös");
+            System.out.println("4. Poista näytös");
             System.out.println("0. Poistu");
 
-            valinta = lueKokonaisluku(0, 2, "Anna valinta");
+            valinta = lueKokonaisluku(0, 4, "Anna valinta");
             if (valinta == 1) {
+                System.out.println();
+                System.out.println(varausjarjestelma.listaaKaikkiNaytokset());
+            } else if (valinta == 2) {
+                System.out.println("Valitse elokuva, jonka näytökset haluat nähdä");
+
+            } else if (valinta == 3) {
                 System.out.println("Valitse elokuva, jolle haluat lisätä näytöksen:\n");
                 System.out.println(varausjarjestelma.listaaElokuvat());
                 while (true) {
                     String nimi = lueMerkkijono("Kirjoita elokuvan nimi tai poistu (0)");
                     if (varausjarjestelma.onkoElokuvaa(nimi)) {
-                        System.out.println();
-                        System.out.println(varausjarjestelma.getSalit());
+                        System.out.println("\nValitse sali:\n");
+                        System.out.println(varausjarjestelma.listaaSalit());
                         int salinumero = lueKokonaisluku(1, 3, "Salin numero");
                         Sali sali = varausjarjestelma.getSali(salinumero);
-                        Naytos naytos = new Naytos(nimi, sali, "23.00");
+                        String aika = lueMerkkijono("Näytös pvm ja aika (pp.kk.hh.mm)");
+                        Naytos naytos = new Naytos(nimi, sali, aika);
                         varausjarjestelma.lisaaNaytos(naytos);
+                        varausjarjestelma.kirjoitaTiedot();
+                        varausjarjestelma.listaaKaikkiNaytokset();
+                        break;
                     } else if (nimi.equals("0")) {
                         break;
+                    } else {
+                        System.out.println("Elokuvaa ei löytynyt");
+                        System.out.println("Tarkista nimen oikeinkirjoitus");
                     }
-                    System.out.println("Elokuvaa ei löytynyt");
-                    System.out.println("Tarkista onko nimi kirjoitettu oikein");
                 }
-
+            }
+            if (valinta == 4) {
 
             }
         }

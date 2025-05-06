@@ -49,20 +49,6 @@ public class Naytos implements Serializable {
         varaukset[rivi][paikkaRivilla] = true;
     }
 
-    /**
-     * Tarkistaa, onko tietty paikka varattu näytöksessä.
-     *
-     * @param rivi Paikan rivinumero
-     * @param paikka Paikan numero rivillä
-     * @return true, jos paikka on varattu, muuten false
-     */
-    public boolean onkoVarattu(int rivi, int paikka) {
-        if (rivi >= 0 && rivi <= sali.getRivit() && paikka >= 0 && paikka < sali.getPaikatRivilla()) {
-            return !varaukset[rivi][paikka];
-        }
-        return false;
-    }
-
     public String getData(String erotinmerkki) {
         String data = sali + erotinmerkki;
         data += elokuvanNimi + erotinmerkki;
@@ -74,6 +60,6 @@ public class Naytos implements Serializable {
 
     @Override
     public String toString() {
-        return "Elokuva: " + elokuvanNimi + ", Näytösaika: " + naytosaika + ", " + sali;
+        return "Elokuva: " + elokuvanNimi + ", Näytösaika: " + naytosaika + ", Sali: " + sali.getSalinumero();
     }
 }
