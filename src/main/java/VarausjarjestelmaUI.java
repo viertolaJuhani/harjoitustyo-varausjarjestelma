@@ -28,13 +28,14 @@ public class VarausjarjestelmaUI {
             aloitusmenu();
             valinta = lueKokonaisluku(0, 2, "Anna valinta");
             if (valinta == 1) {
-                kirjautumissivu();
+                kirjaudu();
             } else if (valinta == 2) {
                 uusiAsiakas();
             }
         }
         varausjarjestelma.kirjoitaTiedot();
     }
+
     public void aloitusmenu() {
             System.out.println();
             System.out.println("1. Kirjaudu sisään");
@@ -42,26 +43,29 @@ public class VarausjarjestelmaUI {
             System.out.println("0. Poistu");
     }
 
-    public void kirjautumissivu() {
+    static User kirjautunut = null;
+
+    public void kirjaudu() {
         String kayttajanimi = lueMerkkijono("Käyttäjätunnus (sähköposti)");
         String salasana = lueMerkkijono("Salasana");
+        for (User u : varausjarjestelma.getKayttajaLista()) {
+            if (u.getEmail().equals(kayttajanimi) && u.getSalasana().equals(salasana)) {
+                kirjautunut = u;
+                asiakasSposti = u.getEmail();
 
-        if  (kayttajanimi.equals("admin") & (salasana.equals("admin"))) {
-            System.out.println("\n*** Tervetuloa ADMIN ***\n");
-            aloitaAdmin();
-        }
-        else {
-            for (User a : varausjarjestelma.getKayttajaLista()) {
-                if (a.getEmail().equals(kayttajanimi) && a.getSalasana().equals(salasana)) {
-                    asiakasSposti = kayttajanimi;
-                    kirjautunutNimi = a.getNimi();
-                    System.out.println("\nTervetuloa " + kirjautunutNimi);
+                if (u instanceof Asiakas) {
+                    System.out.println("\nTervetuloa " + u.getNimi());
                     System.out.println("\n*** ASIAKASMENU ***");
-                    aloitaAsiakas();
+                    asiakasMenu();
+                    return;
+                } else if (u instanceof Admin) {
+                    System.out.println("\n*** Tervetuloa ADMIN ***\n");
+                    adminMenu();
+                    return;
                 }
             }
-            System.out.println("Käyttäjä tai salasana väärin.");
         }
+        System.out.println("Väärä tunnus tai salasana");
     }
 
     public void uusiAsiakas() {
@@ -72,18 +76,6 @@ public class VarausjarjestelmaUI {
         String salasana = lueMerkkijono("Anna salasana");
         varausjarjestelma.lisaaAsiakas(new Asiakas(nimi, email, salasana, ika));
         varausjarjestelma.kirjoitaTiedot();
-    }
-
-
-    public void aloitaAdmin() {
-        int valinta = -1;
-        while (valinta != 0) {
-            adminMenu();
-        }
-    }
-
-    public void aloitaAsiakas() {
-            asiakasMenu();
     }
 
     public void asiakasMenu() {
@@ -145,9 +137,9 @@ public class VarausjarjestelmaUI {
             System.out.println("1. Tarkastele asiakkaiden varauksia");
             System.out.println("2. Hallitse elokuvia");
             System.out.println("3. Hallitse näytöksiä");
-            System.out.println("0. Poistu");
+            System.out.println("0. Kirjaudu ulos");
 
-            valinta = lueKokonaisluku(0, 2, "Anna valinta");
+            valinta = lueKokonaisluku(0, 3, "Anna valinta");
             if (valinta == 1) {
                 System.out.println(varausjarjestelma.listaaVaraukset());
             }
@@ -155,7 +147,7 @@ public class VarausjarjestelmaUI {
                 adminElokuvaMenu();
             }
             if (valinta == 3) {
-
+                adminNaytosmenu();
             }
         }
     }
@@ -163,6 +155,7 @@ public class VarausjarjestelmaUI {
     public void adminElokuvaMenu() {
         int valinta = -1;
         while (valinta != 0) {
+            System.out.println();
             System.out.println(varausjarjestelma.listaaElokuvat());
             System.out.println();
             System.out.println("1. Lisää elokuva");
@@ -184,6 +177,39 @@ public class VarausjarjestelmaUI {
 
                 String poistettava_elokuva = lueMerkkijono("Anna elokuvan nimi");
                 varausjarjestelma.poistaElokuva(poistettava_elokuva);
+            }
+        }
+    }
+
+    public void adminNaytosmenu() {
+        int valinta = -1;
+        while (valinta != 0) {
+            System.out.println();
+            System.out.println("1. Lisää näytös");
+            System.out.println("2. Poista näytös");
+            System.out.println("0. Poistu");
+
+            valinta = lueKokonaisluku(0, 2, "Anna valinta");
+            if (valinta == 1) {
+                System.out.println("Valitse elokuva, jolle haluat lisätä näytöksen:\n");
+                System.out.println(varausjarjestelma.listaaElokuvat());
+                while (true) {
+                    String nimi = lueMerkkijono("Kirjoita elokuvan nimi tai poistu (0)");
+                    if (varausjarjestelma.onkoElokuvaa(nimi)) {
+                        System.out.println();
+                        System.out.println(varausjarjestelma.getSalit());
+                        int salinumero = lueKokonaisluku(1, 3, "Salin numero");
+                        Sali sali = varausjarjestelma.getSali(salinumero);
+                        Naytos naytos = new Naytos(nimi, sali, "23.00");
+                        varausjarjestelma.lisaaNaytos(naytos);
+                    } else if (nimi.equals("0")) {
+                        break;
+                    }
+                    System.out.println("Elokuvaa ei löytynyt");
+                    System.out.println("Tarkista onko nimi kirjoitettu oikein");
+                }
+
+
             }
         }
     }

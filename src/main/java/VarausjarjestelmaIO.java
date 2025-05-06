@@ -9,7 +9,7 @@ public class VarausjarjestelmaIO {
 
     public static void main(String[] args) {
         // Testikoodia
-        System.out.print(lueVaraukset("varaukset.csv"));
+        System.out.print(lueKayttajat("kayttajat.txt"));
     }
 
     private static final String EROTIN = ";";
@@ -36,10 +36,10 @@ public class VarausjarjestelmaIO {
         return data;
     }
 
-    public static void kirjoitaKayttajat(ArrayList<User> asiakasLista, String tiedostonNimi) {
+    public static void kirjoitaKayttajat(ArrayList<User> kayttajaLista, String tiedostonNimi) {
         String data = "";
-        for (User asiakas : asiakasLista) {
-            data += asiakas.getData(VarausjarjestelmaIO.EROTIN);
+        for (User u : kayttajaLista) {
+            data += u.getData(VarausjarjestelmaIO.EROTIN);
             data += "\n";
         }
 

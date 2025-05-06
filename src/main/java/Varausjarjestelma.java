@@ -11,12 +11,30 @@ public class Varausjarjestelma {
     private ArrayList<Naytos> naytokset;
     private ArrayList<User> kayttajat;
     private ArrayList<Varaus> varaukset;
+    private List<Sali> salit;
 
     public Varausjarjestelma() {
         kayttajat = VarausjarjestelmaIO.lueKayttajat("kayttajat.txt");
         elokuvat = VarausjarjestelmaIO.lueElokuvat("elokuvat.txt");
         naytokset = VarausjarjestelmaIO.lueNaytokset("naytokset.csv");
         varaukset = VarausjarjestelmaIO.lueVaraukset("varaukset.csv");
+        Sali sali1 = new Sali(1, 10, 14);
+        Sali sali2 = new Sali(2, 15, 20);
+        Sali sali3 = new Sali(3, 15, 20);
+        salit = List.of(sali1, sali2, sali3);
+    }
+
+    public List<Sali> getSalit() {
+        return salit;
+    }
+
+    public Sali getSali(int salinumero) {
+        for (Sali sali : salit) {
+            if (salinumero == sali.getSalinumero()) {
+                return sali;
+            }
+        }
+        return null;
     }
 
     public ArrayList<User> getKayttajaLista() {
@@ -25,10 +43,6 @@ public class Varausjarjestelma {
 
     public ArrayList<Varaus> getVaraukset() {
         return varaukset;
-    }
-
-    public ArrayList<Elokuva> getElokuvaLista() {
-        return elokuvat;
     }
 
     public void kirjoitaTiedot() {
@@ -121,6 +135,15 @@ public class Varausjarjestelma {
             }
         }
         return n.toString();
+    }
+
+    public boolean onkoElokuvaa(String nimi) {
+        for (Elokuva e : elokuvat) {
+            if (nimi.equals(e.getNimi())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

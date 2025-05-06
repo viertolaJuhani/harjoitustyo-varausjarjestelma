@@ -39,6 +39,6 @@ public class Sali implements Serializable {
 
     @Override
     public String toString() {
-        return "Sali: " + salinumero;
+        return "Sali: " + salinumero + ", rivejä: " + rivit + ", paikkoja rivillä: " + paikatRivilla + ", paikkoja yhteensä: " + paikkojaYhteensa();
     }
 }
