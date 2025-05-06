@@ -43,14 +43,15 @@ public class VarausjarjestelmaUI {
     }
 
     public void kirjautumissivu() {
-        String kayttajanimi = lueMerkkijono("Sähköposti");
+        String kayttajanimi = lueMerkkijono("Käyttäjätunnus (sähköposti)");
         String salasana = lueMerkkijono("Salasana");
 
         if  (kayttajanimi.equals("admin") & (salasana.equals("admin"))) {
+            System.out.println("\n*** ADMIN ***");
             aloitaAdmin();
         }
         else {
-            for (Asiakas a : varausjarjestelma.getAsiakasLista()) {
+            for (User a : varausjarjestelma.getKayttajaLista()) {
                 if (a.getEmail().equals(kayttajanimi) && a.getSalasana().equals(salasana)) {
                     asiakasSposti = kayttajanimi;
                     kirjautunutNimi = a.getNimi();
@@ -124,8 +125,7 @@ public class VarausjarjestelmaUI {
         Scanner scanner = new Scanner(System.in);
         int valinta = -1;
         while (valinta != 0) {
-            System.out.println("\n*** ADMIN MENU ***");
-            System.out.println("1. Tarkastele varauksia");
+            System.out.println("\n1. Tarkastele varauksia");
             System.out.println("2. Hallitse elokuvia");
             System.out.println("3. Hallitse näytöksiä");
             System.out.println("0. Poistu");

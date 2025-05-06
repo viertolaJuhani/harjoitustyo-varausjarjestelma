@@ -74,6 +74,6 @@ public class Elokuva implements Serializable {
 
     @Override
     public String toString() {
-        return nimi + " (" + kesto + " min), genre: " + genre + ", ikäraja: " + ikaraja + ", kieli: " + kieli;
+        return nimi + " (" + kesto + " min), " + genre + ", ikäraja: " + ikaraja + ", kieli: " + kieli;
     }
 }

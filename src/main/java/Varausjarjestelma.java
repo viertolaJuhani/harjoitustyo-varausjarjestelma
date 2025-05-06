@@ -8,18 +8,18 @@ import java.util.HashMap;
 public class Varausjarjestelma {
     private ArrayList<Elokuva> elokuvat;
     private ArrayList<Naytos> naytokset;
-    private ArrayList<Asiakas> asiakkaat;
+    private ArrayList<User> kayttajat;
     private ArrayList<Varaus> varaukset;
 
     public Varausjarjestelma() {
-        asiakkaat = VarausjarjestelmaIO.lueAsiakkaat("asiakkaat.txt");
+        kayttajat = VarausjarjestelmaIO.lueKayttajat("kayttajat.txt");
         elokuvat = VarausjarjestelmaIO.lueElokuvat("elokuvat.txt");
         naytokset = VarausjarjestelmaIO.lueNaytokset("naytokset.csv");
         varaukset = VarausjarjestelmaIO.lueVaraukset("varaukset.csv");
     }
 
-    public ArrayList<Asiakas> getAsiakasLista() {
-        return asiakkaat;
+    public ArrayList<User> getKayttajaLista() {
+        return kayttajat;
     }
 
     public ArrayList<Varaus> getVaraukset() {
@@ -32,7 +32,7 @@ public class Varausjarjestelma {
 
     public void kirjoitaTiedot() {
         VarausjarjestelmaIO.kirjoitaNaytokset(naytokset, "naytokset.csv");
-        VarausjarjestelmaIO.kirjoitaAsiakkaat(asiakkaat, "asiakkaat.txt");
+        VarausjarjestelmaIO.kirjoitaKayttajat(kayttajat, "asiakkaat.txt");
         VarausjarjestelmaIO.kirjoitaElokuvat(elokuvat, "elokuvat.txt");
         VarausjarjestelmaIO.kirjoitaVaraukset(varaukset, "varaukset.csv");
     }
@@ -42,7 +42,7 @@ public class Varausjarjestelma {
     }
 
     public void lisaaAsiakas(Asiakas asiakas) {
-        asiakkaat.add(asiakas);
+        kayttajat.add(asiakas);
     }
 
     public void lisaaElokuva(Elokuva elokuva) {
@@ -131,21 +131,5 @@ public class Varausjarjestelma {
             n.append(naytos.getSali() + "\t");
         }
         return n.toString();
-    }
-
-    /**
-     * Varaa paikan tietyssä näytökksessä.
-     * @param rivi Paikan rivinumero
-     * @param paikka Paikan numero rivillä
-     * @return true, jos varaus onnistui, muuten false
-     */
-    public boolean varaaPaikka(Naytos naytos, int rivi, int paikka, Sali sali) {
-        if (rivi >= 0 && rivi < sali.getRivit() && paikka >= 0 && paikka < sali.getPaikatRivilla()) {
-            if (!naytos.onkoVarattu(rivi, paikka)) {
-                naytos.setVaraukset(rivi, paikka);
-                return true;
-            }
-        }
-        return false;
     }
 }

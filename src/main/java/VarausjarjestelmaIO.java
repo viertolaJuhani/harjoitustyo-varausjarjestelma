@@ -9,10 +9,7 @@ public class VarausjarjestelmaIO {
 
     public static void main(String[] args) {
         // Testikoodia
-        System.out.println(lueVaraukset("varaukset.csv"));
-        System.out.println(lueAsiakkaat("asiakkaat.txt"));
-        System.out.println(lueElokuvat("elokuvat.txt"));
-        System.out.println(lueNaytokset("naytokset.csv"));
+        System.out.print(lueAsiakkaat("asiakkaat.txt"));
     }
 
     private static final String EROTIN = ";";
@@ -39,9 +36,9 @@ public class VarausjarjestelmaIO {
         return data;
     }
 
-    public static void kirjoitaAsiakkaat(ArrayList<Asiakas> asiakasLista, String tiedostonNimi) {
+    public static void kirjoitaKayttajat(ArrayList<User> asiakasLista, String tiedostonNimi) {
         String data = "";
-        for (Asiakas asiakas : asiakasLista) {
+        for (User asiakas : asiakasLista) {
             data += asiakas.getData(VarausjarjestelmaIO.EROTIN);
             data += "\n";
         }
@@ -52,24 +49,26 @@ public class VarausjarjestelmaIO {
         kirjoitaTiedosto(tiedostonNimi, data);
     }
 
-    public static ArrayList<Asiakas> lueAsiakkaat(String tiedostonNimi) {
-        ArrayList<Asiakas> asiakkaat = new ArrayList<>();
+    public static ArrayList<User> lueKayttajat(String tiedostonNimi) {
+        ArrayList<User> asiakkaat = new ArrayList<>();
         ArrayList<String> data = lueTiedosto(tiedostonNimi);
         for (String adata : data) {
-            Asiakas as = parsiAsiakas(adata);
+            User as = parsiKayttaja(adata);
             asiakkaat.add(as);
         }
         return asiakkaat;
     }
 
-    public static Asiakas parsiAsiakas(String data) {
+    public static User parsiKayttaja(String data) {
         String[] tiedot = data.split(VarausjarjestelmaIO.EROTIN);
         String nimi = tiedot[0];
         String email = tiedot[1];
         String salasana = tiedot[2];
-        int ika = Integer.valueOf(tiedot[3]);
-
-        return new Asiakas(nimi, email, salasana, ika);
+        if (tiedot.length == 4) {
+            int ika = Integer.valueOf(tiedot[3]);
+            return new Asiakas(nimi, email, salasana, ika);
+        } else
+            return new Admin(nimi, email, salasana);
     }
 
     public static void kirjoitaElokuvat(ArrayList<Elokuva> elokuvalista, String tiedostonNimi) {

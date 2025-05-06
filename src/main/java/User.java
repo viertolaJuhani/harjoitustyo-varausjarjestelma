@@ -36,4 +36,14 @@ public class User {
         this.salasana = salasana;
     }
 
+    public String getData(String erotinmerkki) {
+        String data = nimi + erotinmerkki + email;
+        return data;
+    }
+
+    @Override
+    public String toString() {
+        return "Nimi: " + nimi + ", email: " + email;
+    }
+
 }

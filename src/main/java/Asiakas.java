@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /**
  * Luokka mallintaa asiakasta varausjärjestelmässä.
  */
@@ -28,6 +26,7 @@ public class Asiakas extends User {
      * @param erotinmerkki asiakkaat toisistaan erottava merkki
      * @return tiedostoon kirjoitettava muoto
      */
+    @Override
     public String getData(String erotinmerkki) {
         String data = getNimi() + erotinmerkki;
         data += getEmail() + erotinmerkki;
