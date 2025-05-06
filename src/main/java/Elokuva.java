@@ -42,6 +42,10 @@ public class Elokuva implements Serializable {
         this.kesto = kesto;
     }
 
+    public String getKestoTunnitMinuutit() {
+        return String.valueOf(kesto/60) + "h " + String.valueOf(kesto - kesto/60*60) + "min";
+    }
+
     public void setGenre(String genre) {
         this.genre = genre;
     }
@@ -74,6 +78,6 @@ public class Elokuva implements Serializable {
 
     @Override
     public String toString() {
-        return nimi + " (" + kesto + " min), " + genre + ", ikäraja: " + ikaraja + ", kieli: " + kieli;
+        return nimi + " (" + getKestoTunnitMinuutit() + "), " + genre + ", ikäraja: " + ikaraja + ", kieli: " + kieli;
     }
 }

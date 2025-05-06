@@ -108,7 +108,7 @@ public class VarausjarjestelmaUI {
             if (valinta == 2) {
                 System.out.println(varausjarjestelma.listaaElokuvat());
                 String valinta2 = lueMerkkijono("Tee uusi varaus? K/E");
-                if(valinta2.equals("K")) {
+                if (valinta2.equals("K")) {
 
                 }
                 if (valinta2.equals("E")) {

@@ -32,7 +32,7 @@ public class Varausjarjestelma {
 
     public void kirjoitaTiedot() {
         VarausjarjestelmaIO.kirjoitaNaytokset(naytokset, "naytokset.csv");
-        VarausjarjestelmaIO.kirjoitaKayttajat(kayttajat, "asiakkaat.txt");
+        VarausjarjestelmaIO.kirjoitaKayttajat(kayttajat, "kayttajat.txt");
         VarausjarjestelmaIO.kirjoitaElokuvat(elokuvat, "elokuvat.txt");
         VarausjarjestelmaIO.kirjoitaVaraukset(varaukset, "varaukset.csv");
     }
@@ -87,16 +87,12 @@ public class Varausjarjestelma {
      * @return lista elokuvista merkkijonona
      */
     public String listaaElokuvat() {
-        if (elokuvat.isEmpty()){
-            return "Ei elokuvia listalla";
+        if (elokuvat.isEmpty()) {
+            return ("Ei elokuvia listalla");
         }
         StringBuilder e = new StringBuilder();
         for (Elokuva elokuva : elokuvat) {
-            e.append(elokuva.getNimi() + "\t");
-            e.append(elokuva.getKesto() + "\t");
-            e.append(elokuva.getKieli() + "\t");
-            e.append(elokuva.getGenre() + "\t");
-            e.append(elokuva.getIkaraja() + "\n");
+            e.append(elokuva.toString()).append("\n");
         }
         return e.toString();
     }

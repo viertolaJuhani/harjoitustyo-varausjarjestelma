@@ -9,7 +9,7 @@ public class VarausjarjestelmaIO {
 
     public static void main(String[] args) {
         // Testikoodia
-        System.out.print(lueAsiakkaat("asiakkaat.txt"));
+        System.out.print(lueElokuvat("elokuvat.txt"));
     }
 
     private static final String EROTIN = ";";
