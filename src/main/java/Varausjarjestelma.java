@@ -24,6 +24,13 @@ public class Varausjarjestelma {
         salit = List.of(sali1, sali2, sali3);
     }
 
+    public void kirjoitaTiedot() {
+        VarausjarjestelmaIO.kirjoitaNaytokset(naytokset, "naytokset.csv");
+        VarausjarjestelmaIO.kirjoitaKayttajat(kayttajat, "kayttajat.txt");
+        VarausjarjestelmaIO.kirjoitaElokuvat(elokuvat, "elokuvat.txt");
+        VarausjarjestelmaIO.kirjoitaVaraukset(varaukset, "varaukset.csv");
+    }
+
     public Sali getSali(int salinumero) {
         for (Sali sali : salit) {
             if (salinumero == sali.getSalinumero()) {
@@ -49,11 +56,8 @@ public class Varausjarjestelma {
         return varaukset;
     }
 
-    public void kirjoitaTiedot() {
-        VarausjarjestelmaIO.kirjoitaNaytokset(naytokset, "naytokset.csv");
-        VarausjarjestelmaIO.kirjoitaKayttajat(kayttajat, "kayttajat.txt");
-        VarausjarjestelmaIO.kirjoitaElokuvat(elokuvat, "elokuvat.txt");
-        VarausjarjestelmaIO.kirjoitaVaraukset(varaukset, "varaukset.csv");
+    public ArrayList<Naytos> getNaytokset() {
+        return naytokset;
     }
 
     public void lisaaNaytos(Naytos naytos) {
@@ -85,6 +89,13 @@ public class Varausjarjestelma {
         return false;
     }
 
+    /**
+     * Palauttaa tietyn Naytos-olion elokuvan nimen, näytösajan ja salin mukaan
+     * @param elokuvanNimi elokuvan nimi
+     * @param naytosaika elokuvan näytösaika
+     * @param sali sali, jossa elokuva näytetään
+     * @return Naytos-olio
+     */
     public Naytos annaNaytos(String elokuvanNimi, String naytosaika, Sali sali) {
         for (Naytos n : naytokset) {
             if (n.getElokuvanNimi().equals(elokuvanNimi) && n.getNaytosaika().equals(naytosaika) && n.getSali().equals(sali)) {

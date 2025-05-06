@@ -59,7 +59,7 @@ public class VarausjarjestelmaUI {
                     asiakasMenu();
                     return;
                 } else if (u instanceof Admin) {
-                    System.out.println("\n*** Tervetuloa ADMIN ***");
+                    System.out.println("\n*** Tervetuloa ADMIN ***\n");
                     adminMenu();
                     return;
                 }
@@ -121,7 +121,7 @@ public class VarausjarjestelmaUI {
                     for (int i = 0; i < varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).size(); i++) {
                         System.out.println((i+1) + ". " + varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).get(i));
                     }
-                    valinta = lueKokonaisluku(1, varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).size(), "Anna valinta");
+                    valinta = lueKokonaisluku(1, varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).size(), "Anna varauksen numero, jonka tahdot perua");
                     if (varausjarjestelma.poistaVaraus(varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).get(valinta-1))) {
                         System.out.println("Varaus poistettu");
                     }
@@ -134,14 +134,15 @@ public class VarausjarjestelmaUI {
         Scanner scanner = new Scanner(System.in);
         int valinta = -1;
         while (valinta != 0) {
-            System.out.println();
             System.out.println("1. Tarkastele asiakkaiden varauksia");
             System.out.println("2. Hallitse elokuvia");
             System.out.println("3. Hallitse näytöksiä");
             System.out.println("0. Kirjaudu ulos");
+            System.out.println();
 
             valinta = lueKokonaisluku(0, 3, "Anna valinta");
             if (valinta == 1) {
+                System.out.println();
                 System.out.println(varausjarjestelma.listaaVaraukset());
             }else if (valinta == 2) {
                 adminElokuvaMenu();
@@ -174,13 +175,13 @@ public class VarausjarjestelmaUI {
                 String poistettava_elokuva = lueMerkkijono("Anna elokuvan nimi");
                 varausjarjestelma.poistaElokuva(poistettava_elokuva);
             }
+            System.out.println();
         }
     }
 
     public void adminNaytosmenu() {
         int valinta = -1;
         while (valinta != 0) {
-            System.out.println();
             System.out.println("1. Näytä kaikki näytökset");
             System.out.println("2. Näytä tietyn elokuvan näytökset");
             System.out.println("3. Lisää näytös");
@@ -192,9 +193,14 @@ public class VarausjarjestelmaUI {
                 System.out.println();
                 System.out.println(varausjarjestelma.listaaKaikkiNaytokset());
             } else if (valinta == 2) {
+                System.out.println();
                 System.out.println("Valitse elokuva, jonka näytökset haluat nähdä");
 
+
+
+
             } else if (valinta == 3) {
+                System.out.println();
                 System.out.println("Valitse elokuva, jolle haluat lisätä näytöksen:\n");
                 System.out.println(varausjarjestelma.listaaElokuvat());
                 while (true) {
@@ -208,7 +214,6 @@ public class VarausjarjestelmaUI {
                         Naytos naytos = new Naytos(nimi, sali, aika);
                         varausjarjestelma.lisaaNaytos(naytos);
                         varausjarjestelma.kirjoitaTiedot();
-                        varausjarjestelma.listaaKaikkiNaytokset();
                         break;
                     } else if (nimi.equals("0")) {
                         break;
@@ -219,9 +224,19 @@ public class VarausjarjestelmaUI {
                 }
             }
             if (valinta == 4) {
-
+                for (int i = 0; i < varausjarjestelma.getNaytokset().size(); i++) {
+                    System.out.println(i + 1 + ". " + varausjarjestelma.getNaytokset().get(i));
+                }
+                valinta = lueKokonaisluku(1, varausjarjestelma.getNaytokset().size(), "Valitse poistettavan näytöksen numero");
+                if (varausjarjestelma.poistaNaytos(varausjarjestelma.getNaytokset().get(valinta-1))) {
+                    System.out.println("Näytös poistettu");
+                    varausjarjestelma.kirjoitaTiedot();
+                } else {
+                    System.out.println("Poisto epäonnistui");
+                }
             }
         }
+        System.out.println();
     }
 
     private int lueKokonaisluku(int minimi, int maksimi, String kehote) {

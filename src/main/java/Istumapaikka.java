@@ -9,7 +9,6 @@ public class Istumapaikka implements Serializable {
 
     private int rivi;
     private int paikkaRivilla;
-    private boolean varattu = false;
 
     public Istumapaikka(int rivi, int paikkaRivilla) {
         this.rivi = rivi;

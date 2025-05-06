@@ -49,15 +49,6 @@ public class Naytos implements Serializable {
         varaukset[rivi][paikkaRivilla] = true;
     }
 
-    public String getData(String erotinmerkki) {
-        String data = sali + erotinmerkki;
-        data += elokuvanNimi + erotinmerkki;
-        data += naytosaika + erotinmerkki;
-        data += varaukset;
-
-        return data;
-    }
-
     @Override
     public String toString() {
         return "Elokuva: " + elokuvanNimi + ", Näytösaika: " + naytosaika + ", Sali: " + sali.getSalinumero();
