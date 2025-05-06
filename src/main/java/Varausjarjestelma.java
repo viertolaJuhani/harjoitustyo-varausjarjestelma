@@ -115,6 +115,21 @@ public class Varausjarjestelma {
     }
 
     /**
+     * Palauttaa kaikki varaukset merkkijonona
+     * @return varaukset merkkijonona
+     */
+    public String listaaVaraukset() {
+        if (varaukset.isEmpty()) {
+            return "Ei varauksia";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Varaus varaus : varaukset) {
+            sb.append(varaus.toString()).append("\n");
+        }
+        return "Varauslista:\n" + sb.toString();
+    }
+
+    /**
      * Palauttaa kaikkien elokuvien näytökset merkkijonona.
      *
      * @return näytökset merkkijonona

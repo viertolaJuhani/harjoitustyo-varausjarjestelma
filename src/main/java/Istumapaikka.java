@@ -18,6 +18,6 @@ public class Istumapaikka implements Serializable {
 
     @Override
     public String toString() {
-        return "Rivi: " + rivi + ", Paikka: " + paikkaRivilla;
+        return "(Rivi: " + rivi + ", Paikka: " + paikkaRivilla + ")";
     }
 }
