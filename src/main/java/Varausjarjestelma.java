@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Luokka mallintaa varausjärjestelmän toimintaa.
@@ -81,6 +82,14 @@ public class Varausjarjestelma {
         return false;
     }
 
+    public boolean poistaVaraus(Varaus varaus) {
+        if (varaukset.contains(varaus)) {
+            varaukset.remove(varaus);
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Palauttaa kaikki elokuvat yhtenä merkkijonona.
      *
@@ -120,7 +129,7 @@ public class Varausjarjestelma {
      */
     public String listaaVaraukset() {
         if (varaukset.isEmpty()) {
-            return "Ei varauksia";
+            return "Ei varauksia\n";
         }
         StringBuilder sb = new StringBuilder();
         for (Varaus varaus : varaukset) {
@@ -129,6 +138,20 @@ public class Varausjarjestelma {
         return "Varauslista:\n" + sb.toString();
     }
 
+    /**
+     * Palauttaa kaikki tietyn asiakkaan tekemät varaukset.
+     * @param sposti asiakkaan sähköposti
+     * @return Asiakkaan varaukset merkkijonona
+     */
+    public List<Varaus> listaaKayttajanVaraukset(String sposti) {
+        List<Varaus> kayttajanVaraukset = new ArrayList<>();
+        for (Varaus v : varaukset) {
+            if (v.getAsiakasEmail().equals(sposti)) {
+                kayttajanVaraukset.add(v);
+            }
+        }
+        return kayttajanVaraukset;
+    }
     /**
      * Palauttaa kaikkien elokuvien näytökset merkkijonona.
      *

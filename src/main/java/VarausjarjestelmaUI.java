@@ -92,10 +92,11 @@ public class VarausjarjestelmaUI {
             System.out.println();
             System.out.println("1. Tarkastele omia varauksia");
             System.out.println("2. Selaa elokuvia / tee varaus");
+            System.out.println("3. Peru varaus");
             System.out.println("0. Kirjaudu ulos");
             System.out.println();
 
-            valinta = lueKokonaisluku(0, 2, "Anna valinta");
+            valinta = lueKokonaisluku(0, 3, "Anna valinta");
             if (valinta == 1) {
                 for (Varaus v : varausjarjestelma.getVaraukset()) {
                     if (v.getAsiakasEmail().equals(asiakasSposti)) {
@@ -116,6 +117,22 @@ public class VarausjarjestelmaUI {
                 }
                 else {
                     System.out.println("K tai E");
+                }
+            }
+            if (valinta == 3) {
+                System.out.println();
+                if (varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).isEmpty()) {
+                    System.out.println("Ei varauksia");
+                } else {
+                    System.out.println("Valitse varaus, jonka tahdot perua");
+                    System.out.println();
+                    for (int i = 0; i < varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).size(); i++) {
+                        System.out.println((i+1) + ". " + varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).get(i));
+                    }
+                    valinta = lueKokonaisluku(1, varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).size(), "Anna valinta");
+                    if (varausjarjestelma.poistaVaraus(varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).get(valinta-1))) {
+                        System.out.println("Varaus poistettu");
+                    }
                 }
             }
         }

@@ -1,4 +1,4 @@
-admin;admin@mail;admin
+admin;admin@mail
 Jyrki;jyrki@mail;0000;20
 Jarmo;jarmo@mail;0000;15
 Ulla;ulla@mail;1111;80
