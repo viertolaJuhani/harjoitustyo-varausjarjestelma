@@ -23,6 +23,9 @@ public class VarausjarjestelmaUI {
     }
 
     public void aloita() {
+        System.out.println("================================");
+        System.out.println("Tervetuloa varausjärjestelmään!");
+        System.out.println("================================");
         int valinta = -1;
         while (valinta != 0) {
             aloitusmenu();
@@ -70,9 +73,22 @@ public class VarausjarjestelmaUI {
 
     public void uusiAsiakas() {
         System.out.println("Huom! Käyttäjän oltava vähintään 15-vuotias");
+        String email;
+        while (true) {
+            email = lueMerkkijono("Sähköposti");
+            if (varausjarjestelma.getKayttajienSpostit().contains(email)) {
+                System.out.println("Tämä sähköposti on jo käytössä");
+                System.out.println("Kokeile toista sähköpostia");
+            } else {
+                break;
+            }
+        }
         String nimi = lueMerkkijono("Nimi");
-        int ika = lueKokonaisluku(15, 150, "ikä vuosina");
-        String email = lueMerkkijono("Sähköposti");
+        int ika = lueKokonaisluku(0, 150, "ikä vuosina");
+        if (ika < 15) {
+            System.out.println("Sinun on oltava vähintään 15 rekisteröityäksesi järjestelmään.");
+            return;
+        }
         String salasana = lueMerkkijono("Anna salasana");
         varausjarjestelma.lisaaAsiakas(new Asiakas(nimi, email, salasana, ika));
         varausjarjestelma.kirjoitaTiedot();

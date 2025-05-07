@@ -52,6 +52,14 @@ public class Varausjarjestelma {
         return kayttajat;
     }
 
+    public ArrayList<String> getKayttajienSpostit() {
+        ArrayList<String > spostilista = new ArrayList<>();
+        for (User u : kayttajat) {
+            spostilista.add(u.getEmail());
+        }
+        return spostilista;
+    }
+
     public ArrayList<Varaus> getVaraukset() {
         return varaukset;
     }
