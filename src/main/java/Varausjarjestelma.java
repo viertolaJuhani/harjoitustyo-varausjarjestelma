@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -56,25 +55,12 @@ public class Varausjarjestelma {
         return elokuvat;
     }
 
-    public Elokuva getElokuva(String nimi) {
-        for (Elokuva e : elokuvat) {
-            if (e.getNimi().equals(nimi)) {
-                return e;
-            }
-        }
-        return null;
-    }
-
     public ArrayList<String> getKayttajienSpostit() {
         ArrayList<String > spostilista = new ArrayList<>();
         for (User u : kayttajat) {
             spostilista.add(u.getEmail());
         }
         return spostilista;
-    }
-
-    public ArrayList<Varaus> getVaraukset() {
-        return varaukset;
     }
 
     public ArrayList<Naytos> getNaytokset() {

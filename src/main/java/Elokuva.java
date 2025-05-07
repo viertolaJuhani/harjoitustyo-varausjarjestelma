@@ -43,7 +43,7 @@ public class Elokuva implements Serializable {
     }
 
     public String getKestoTunnitMinuutit() {
-        return String.valueOf(kesto/60) + "h " + String.valueOf(kesto - kesto/60*60) + "min";
+        return kesto / 60 + "h " + (kesto - kesto / 60 * 60) + "min";
     }
 
     public void setGenre(String genre) {
