@@ -81,6 +81,16 @@ public class Varausjarjestelma {
         return naytokset;
     }
 
+    public ArrayList<Naytos> getElokuvanNaytokset(Elokuva elokuva) {
+        ArrayList<Naytos> elokuvanNaytokset = new ArrayList<>();
+        for (Naytos n : naytokset) {
+            if (n.getElokuvanNimi().equals(elokuva.getNimi())) {
+                elokuvanNaytokset.add(n);
+            }
+        }
+        return elokuvanNaytokset;
+    }
+
     /**
      * Palauttaa tietyn näytöksen salikartan, jossa näkee kaikki varatut paikat
      * @param naytos näytös, jonka salikartta haetaan
@@ -88,10 +98,10 @@ public class Varausjarjestelma {
      */
     public boolean[][] getSalikartta(Naytos naytos) {
         boolean[][] kartta = naytos.getVaraukset();
-        for (Varaus varaus : getVaraukset()) {
+        for (Varaus varaus : varaukset) {
             for (Istumapaikka i : varaus.getIstumapaikat()) {
-                int paikka = i.getPaikkaRivilla();
-                int rivi = i.getRivi();
+                int paikka = i.getPaikkaRivilla()-1;
+                int rivi = i.getRivi()-1;
                 kartta[rivi][paikka] = true;
             }
         }
@@ -110,6 +120,10 @@ public class Varausjarjestelma {
         elokuvat.add(elokuva);
     }
 
+    public void lisaaVaraus(Varaus varaus) {
+        varaukset.add(varaus);
+    }
+
     /**
      * Yrittää poistaa annetun elokuvan.
      *
@@ -125,22 +139,6 @@ public class Varausjarjestelma {
         }
         System.out.println("Elokuvaa ei löytynyt");
         return false;
-    }
-
-    /**
-     * Palauttaa tietyn Naytos-olion elokuvan nimen, näytösajan ja salin mukaan
-     * @param elokuvanNimi elokuvan nimi
-     * @param naytosaika elokuvan näytösaika
-     * @param sali sali, jossa elokuva näytetään
-     * @return Naytos-olio
-     */
-    public Naytos annaNaytos(String elokuvanNimi, String naytosaika, Sali sali) {
-        for (Naytos n : naytokset) {
-            if (n.getElokuvanNimi().equals(elokuvanNimi) && n.getNaytosaika().equals(naytosaika) && n.getSali().equals(sali)) {
-                return n;
-            }
-        }
-        return null;
     }
 
     /**
@@ -176,7 +174,8 @@ public class Varausjarjestelma {
         }
         StringBuilder e = new StringBuilder();
         for (Elokuva elokuva : elokuvat) {
-            e.append(elokuva.toString()).append("\n");
+            e.append(elokuva.toString());
+            e.append("\n");
         }
         return e.toString();
     }
@@ -252,6 +251,7 @@ public class Varausjarjestelma {
      */
     public String listaaKaikkiNaytokset() {
         StringBuilder n = new StringBuilder();
+        n.append("Nimi\t\t\taika\t\t\tSali\n");
         for (Naytos naytos : naytokset) {
             n.append(naytos.getElokuvanNimi() + "\t\t");
             n.append(naytos.getNaytosaika() + "\t\t");

@@ -42,12 +42,20 @@ public class Varaus implements Serializable {
         return istumapaikat;
     }
 
+    public String istumapaikatStr(ArrayList<Istumapaikka> istumapaikat) {
+        StringBuilder sb = new StringBuilder();
+        for (Istumapaikka istumapaikka : istumapaikat) {
+            sb.append("(Rivi: " + istumapaikka.getRivi() + ", Paikka: " + istumapaikka.getPaikkaRivilla() + ") ");
+        }
+        return sb.toString();
+    }
+
     public void setIstumapaikat(ArrayList<Istumapaikka> istumapaikat) {
         this.istumapaikat = istumapaikat;
     }
 
     @Override
     public String toString() {
-        return asiakasEmail + ", " + naytos + ", Istumapaikat: " + istumapaikat;
+        return asiakasEmail + ", " + naytos + ", Istumapaikat: " + istumapaikatStr(istumapaikat);
     }
 }

@@ -11,7 +11,6 @@ public class VarausjarjestelmaUI {
     private Varausjarjestelma varausjarjestelma;
     private Scanner lukija;
     String asiakasSposti = "";
-    String kirjautunutNimi = "";
 
     public static void main(String[] args) {
         VarausjarjestelmaUI ui = new VarausjarjestelmaUI();
@@ -69,6 +68,7 @@ public class VarausjarjestelmaUI {
                 }
             }
         }
+        System.out.println();
         System.out.println("Väärä tunnus tai salasana");
     }
 
@@ -106,37 +106,33 @@ public class VarausjarjestelmaUI {
             System.out.println();
 
             valinta = lueKokonaisluku(0, 3, "Anna valinta");
+            System.out.println();
             if (valinta == 1) {
-                for (Varaus v : varausjarjestelma.getVaraukset()) {
-                    if (v.getAsiakasEmail().equals(asiakasSposti)) {
+                if (!varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).isEmpty()) {
+                    for (Varaus v : varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti)) {
                         System.out.println(v);
-                    } else {
-                        System.out.println("Ei vielä varauksia");
                     }
+                    System.out.println();
+                } else {
+                    System.out.println();
+                    System.out.println("Ei vielä varauksia");
                 }
             }
             if (valinta == 2) {
-                System.out.println();
-                System.out.println(varausjarjestelma.listaaElokuvat());
-                String valinta2 = lueMerkkijono("Tee uusi varaus? K/E");
-                if (valinta2.equals("K")) {
-                    String nimi = lueMerkkijono("Anna elokuvan nimi");
-                    if (varausjarjestelma.onkoElokuvaa(nimi)) {
-                        System.out.println(varausjarjestelma.listaaNaytokset(varausjarjestelma.getElokuva(nimi)));
-                    } else {
-                        if (varausjarjestelma.onkoNaytoksia(varausjarjestelma.getElokuva(nimi))) {
-                            String aika = lueMerkkijono("Valitse näytösaika");
-                            //Kesken
-                        } else {
-                            System.out.println("Ei näytöksiä");
-                        }
-                    }
+                for (int i = 0; i < varausjarjestelma.getElokuvat().size(); i++) {
+                    System.out.println(i + 1 + ". " + varausjarjestelma.getElokuvat().get(i));
                 }
-                else if (valinta2.equals("E")) {
+                System.out.println();
+                String valinta2 = lueMerkkijono("Tee uusi varaus? K/E");
+                if (valinta2.equalsIgnoreCase("K")) {
+                paikanVaraus();
+                }
+                else if (valinta2.equalsIgnoreCase("E")) {
                     continue;
                 }
                 else {
                     System.out.println("K tai E");
+                    continue;
                 }
             }
             if (valinta == 3) {
@@ -149,17 +145,78 @@ public class VarausjarjestelmaUI {
                     for (int i = 0; i < varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).size(); i++) {
                         System.out.println((i+1) + ". " + varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).get(i));
                     }
+                    System.out.println();
                     valinta = lueKokonaisluku(1, varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).size(), "Anna varauksen numero, jonka tahdot perua");
+                    //Poistetaan ensin istumapaikkojen varaus salikartasta
+                    Naytos naytos = varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).get(valinta-1).getNaytos();
+                    boolean[][] salikartta = naytos.getVaraukset();
+                    for (Istumapaikka istumapaikka : varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).get(valinta-1).getIstumapaikat()) {
+                        int rivi = istumapaikka.getRivi();
+                        int paikka = istumapaikka.getPaikkaRivilla();
+                        salikartta[rivi-1][paikka-1] = false;
+                    }
                     if (varausjarjestelma.poistaVaraus(varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).get(valinta-1))) {
                         System.out.println("Varaus poistettu");
+                        varausjarjestelma.kirjoitaTiedot();
                     }
                 }
             }
         }
     }
 
+    public void paikanVaraus() {
+        int valinta = -1;
+        int evalinta = lueKokonaisluku(1, varausjarjestelma.getElokuvat().size(), "Elokuvan numero");
+        Elokuva elokuva = varausjarjestelma.getElokuvat().get(evalinta - 1);
+        System.out.println();
+        if (varausjarjestelma.onkoNaytoksia(elokuva)) {
+            System.out.println("Näytökset:");
+            for (int i = 0; i < varausjarjestelma.getElokuvanNaytokset(elokuva).size(); i++) {
+                System.out.println(i + 1 + ". " + varausjarjestelma.getElokuvanNaytokset(elokuva).get(i));
+            }
+            System.out.println();
+            int nvalinta = lueKokonaisluku(1, varausjarjestelma.getElokuvanNaytokset(elokuva).size(), "Näytöksen numero");
+            Naytos naytos = varausjarjestelma.getElokuvanNaytokset(elokuva).get(nvalinta - 1);
+            System.out.println("Valitse istumapaikat (0 = vapaa 1 = varattu)");
+            System.out.println("Rivit ja paikat alkaen vasemmalta oikealle ja ylhäältä alas nousevassa järjestyksessä");
+            System.out.println();
+            System.out.println("\t\tVALKOKANGAS");
+            for (int i = 0; i < varausjarjestelma.getSalikartta(naytos).length; i++) {
+                for (int j = 0; j < varausjarjestelma.getSalikartta(naytos)[i].length; j++) {
+                    System.out.print(varausjarjestelma.getSalikartta(naytos)[i][j] ? "1 " : "0 ");
+                }
+                System.out.println();
+            }
+            ArrayList<Istumapaikka> istumapaikat = new ArrayList<>();
+            while (valinta != 0) {
+                System.out.println();
+                int rivi = lueKokonaisluku(1, naytos.getSali().getRivit(), "Valitse rivi");
+                int paikka = lueKokonaisluku(1, naytos.getSali().getPaikatRivilla(), "Valitse paikka");
+                if (!naytos.getVaraukset()[rivi - 1][paikka - 1]) {
+                    naytos.getVaraukset()[rivi - 1][paikka - 1] = true;
+                    istumapaikat.add(new Istumapaikka(rivi, paikka));
+                    System.out.println("Paikan varaus onnistui!");
+                    System.out.println();
+                    System.out.println("1. Varaa toinen paikka");
+                    System.out.println("0. Poistu");
+                    valinta = lueKokonaisluku(0, 1, "Valinta");
+                    if (valinta == 0) {
+                        Varaus varaus = new Varaus(asiakasSposti, naytos, istumapaikat);
+                        varausjarjestelma.lisaaVaraus(varaus);
+                        varausjarjestelma.kirjoitaTiedot();
+                        System.out.println("Paikat varattu!");
+                        break;
+                    }
+                } else if (naytos.getVaraukset()[rivi][paikka]) {
+                    System.out.println("Tämä paikka on varattu!");
+                } else {
+                    System.out.println("Varasit jo tämän paikan");
+                }
+            }
+        }
+    }
+
     public void adminMenu() {
-        Scanner scanner = new Scanner(System.in);
         int valinta = -1;
         while (valinta != 0) {
             System.out.println("1. Tarkastele asiakkaiden varauksia");
@@ -218,13 +275,17 @@ public class VarausjarjestelmaUI {
             System.out.println("0. Poistu");
 
             valinta = lueKokonaisluku(0, 5, "Anna valinta");
+            System.out.println();
             if (valinta == 1) {
-                System.out.println();
-                System.out.println("Nimi\t\t\taika\t\t\tSali");
-                System.out.println(varausjarjestelma.listaaKaikkiNaytokset());
+                if (!varausjarjestelma.listaaKaikkiNaytokset().isEmpty()) {
+                    System.out.println();
+                    System.out.println(varausjarjestelma.listaaKaikkiNaytokset());
+                } else {
+                    System.out.println("\nEi näytöksiä");
+                }
             } else if (valinta == 2) {
-                System.out.println();
                 System.out.println("Valitse elokuva, jonka näytökset haluat nähdä");
+                System.out.println();
                 for (int i = 0; i < varausjarjestelma.getElokuvat().size(); i++) {
                     System.out.println(i + 1 + ". " + varausjarjestelma.getElokuvat().get(i));
                 }
@@ -275,16 +336,16 @@ public class VarausjarjestelmaUI {
                     System.out.println("Poisto epäonnistui");
                 }
             } else if (valinta == 5) {
-                System.out.println();
                 for (int i = 0; i < varausjarjestelma.getNaytokset().size(); i++) {
                     System.out.println(i + 1 + ". " + varausjarjestelma.getNaytokset().get(i));
                 }
+                System.out.println();
                 valinta = lueKokonaisluku(1, varausjarjestelma.getNaytokset().size(), "Valitse näytös, jonka salikartan haluat nähdä");
                 Naytos naytos = varausjarjestelma.getNaytokset().get(valinta-1);
                 System.out.println();
+                System.out.println("1 = varattu ja 0 = vapaa");
                 for (int i = 0; i < varausjarjestelma.getSalikartta(naytos).length; i++) {
                     for (int j = 0; j < varausjarjestelma.getSalikartta(naytos)[i].length; j++) {
-                        // Tulostetaan 1 jos true, 0 jos false
                         System.out.print(varausjarjestelma.getSalikartta(naytos)[i][j] ? "1 " : "0 ");
                     }
                     System.out.println();
