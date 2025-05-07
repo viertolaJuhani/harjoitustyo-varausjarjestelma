@@ -36,14 +36,10 @@ public class Varaus implements Serializable {
 
     /**
      * Palauttaa kaikki tiettyö varausta vastaavat istumapaikat merkkijonona
-     * @return istumapaikat merkkijonona
+     * @return istumapaikat listana
      */
-    public String getIstumapaikat() {
-        StringBuilder sb = new StringBuilder();
-        for (Istumapaikka i : istumapaikat) {
-            sb.append(i.toString());
-        }
-        return sb.toString();
+    public ArrayList<Istumapaikka> getIstumapaikat() {
+        return istumapaikat;
     }
 
     public void setIstumapaikat(ArrayList<Istumapaikka> istumapaikat) {
@@ -52,6 +48,6 @@ public class Varaus implements Serializable {
 
     @Override
     public String toString() {
-        return asiakasEmail + ", " + naytos + ", Istumapaikat: " + getIstumapaikat();
+        return asiakasEmail + ", " + naytos + ", Istumapaikat: " + istumapaikat;
     }
 }

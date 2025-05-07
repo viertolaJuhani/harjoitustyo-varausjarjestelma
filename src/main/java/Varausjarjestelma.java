@@ -19,8 +19,8 @@ public class Varausjarjestelma {
         naytokset = VarausjarjestelmaIO.lueNaytokset("naytokset.csv");
         varaukset = VarausjarjestelmaIO.lueVaraukset("varaukset.csv");
         Sali sali1 = new Sali(1, 10, 14);
-        Sali sali2 = new Sali(2, 15, 20);
-        Sali sali3 = new Sali(3, 15, 20);
+        Sali sali2 = new Sali(2, 10, 20);
+        Sali sali3 = new Sali(3, 10, 20);
         salit = List.of(sali1, sali2, sali3);
     }
 
@@ -52,6 +52,19 @@ public class Varausjarjestelma {
         return kayttajat;
     }
 
+    public ArrayList<Elokuva> getElokuvat() {
+        return elokuvat;
+    }
+
+    public Elokuva getElokuva(String nimi) {
+        for (Elokuva e : elokuvat) {
+            if (e.getNimi().equals(nimi)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<String> getKayttajienSpostit() {
         ArrayList<String > spostilista = new ArrayList<>();
         for (User u : kayttajat) {
@@ -66,6 +79,23 @@ public class Varausjarjestelma {
 
     public ArrayList<Naytos> getNaytokset() {
         return naytokset;
+    }
+
+    /**
+     * Palauttaa tietyn näytöksen salikartan, jossa näkee kaikki varatut paikat
+     * @param naytos näytös, jonka salikartta haetaan
+     * @return salikartta matriisina, jos paikka varattu: arvo on true, muuten false
+     */
+    public boolean[][] getSalikartta(Naytos naytos) {
+        boolean[][] kartta = naytos.getVaraukset();
+        for (Varaus varaus : getVaraukset()) {
+            for (Istumapaikka i : varaus.getIstumapaikat()) {
+                int paikka = i.getPaikkaRivilla();
+                int rivi = i.getRivi();
+                kartta[rivi][paikka] = true;
+            }
+        }
+        return kartta;
     }
 
     public void lisaaNaytos(Naytos naytos) {
@@ -160,9 +190,9 @@ public class Varausjarjestelma {
         StringBuilder n = new StringBuilder();
         for (Naytos naytos : naytokset) {
             if (naytos.getElokuvanNimi().equals(elokuva.getNimi())) {
-                n.append(naytos.getElokuvanNimi() + "\t");
+                n.append(naytos.getElokuvanNimi() + "\t\t");
                 n.append(naytos.getNaytosaika() + "\t\t");
-                n.append(naytos.getSali() + "\t");
+                n.append(naytos.getSali().getSalinumero() + "\t");
             }
         }
         return n.toString();
@@ -171,6 +201,15 @@ public class Varausjarjestelma {
     public boolean onkoElokuvaa(String nimi) {
         for (Elokuva e : elokuvat) {
             if (nimi.equals(e.getNimi())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean onkoNaytoksia(Elokuva elokuva) {
+        for (Naytos n : naytokset) {
+            if (elokuva.getNimi().equals(n.getElokuvanNimi())) {
                 return true;
             }
         }
@@ -189,7 +228,7 @@ public class Varausjarjestelma {
         for (Varaus varaus : varaukset) {
             sb.append(varaus.toString()).append("\n");
         }
-        return "Varauslista:\n" + sb.toString();
+        return "Varauslista:\n" + sb;
     }
 
     /**
@@ -214,7 +253,9 @@ public class Varausjarjestelma {
     public String listaaKaikkiNaytokset() {
         StringBuilder n = new StringBuilder();
         for (Naytos naytos : naytokset) {
-            n.append(naytos.toString()).append("\n");
+            n.append(naytos.getElokuvanNimi() + "\t\t");
+            n.append(naytos.getNaytosaika() + "\t\t");
+            n.append(naytos.getSali().getSalinumero() + "\t\t\n");
         }
         return n.toString();
     }

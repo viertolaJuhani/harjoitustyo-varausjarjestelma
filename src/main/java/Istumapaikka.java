@@ -15,6 +15,14 @@ public class Istumapaikka implements Serializable {
         this.paikkaRivilla = paikkaRivilla;
     }
 
+    public int getRivi() {
+        return rivi;
+    }
+
+    public int getPaikkaRivilla() {
+        return paikkaRivilla;
+    }
+
     @Override
     public String toString() {
         return "(Rivi: " + rivi + ", Paikka: " + paikkaRivilla + ")";

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -115,12 +116,23 @@ public class VarausjarjestelmaUI {
                 }
             }
             if (valinta == 2) {
+                System.out.println();
                 System.out.println(varausjarjestelma.listaaElokuvat());
                 String valinta2 = lueMerkkijono("Tee uusi varaus? K/E");
                 if (valinta2.equals("K")) {
-
+                    String nimi = lueMerkkijono("Anna elokuvan nimi");
+                    if (varausjarjestelma.onkoElokuvaa(nimi)) {
+                        System.out.println(varausjarjestelma.listaaNaytokset(varausjarjestelma.getElokuva(nimi)));
+                    } else {
+                        if (varausjarjestelma.onkoNaytoksia(varausjarjestelma.getElokuva(nimi))) {
+                            String aika = lueMerkkijono("Valitse näytösaika");
+                            //Kesken
+                        } else {
+                            System.out.println("Ei näytöksiä");
+                        }
+                    }
                 }
-                if (valinta2.equals("E")) {
+                else if (valinta2.equals("E")) {
                     continue;
                 }
                 else {
@@ -202,31 +214,43 @@ public class VarausjarjestelmaUI {
             System.out.println("2. Näytä tietyn elokuvan näytökset");
             System.out.println("3. Lisää näytös");
             System.out.println("4. Poista näytös");
+            System.out.println("5. Katsele salikarttoja");
             System.out.println("0. Poistu");
 
-            valinta = lueKokonaisluku(0, 4, "Anna valinta");
+            valinta = lueKokonaisluku(0, 5, "Anna valinta");
             if (valinta == 1) {
                 System.out.println();
+                System.out.println("Nimi\t\t\taika\t\t\tSali");
                 System.out.println(varausjarjestelma.listaaKaikkiNaytokset());
             } else if (valinta == 2) {
                 System.out.println();
                 System.out.println("Valitse elokuva, jonka näytökset haluat nähdä");
-
-
-
+                for (int i = 0; i < varausjarjestelma.getElokuvat().size(); i++) {
+                    System.out.println(i + 1 + ". " + varausjarjestelma.getElokuvat().get(i));
+                }
+                int valinta2 = lueKokonaisluku(1, varausjarjestelma.getElokuvat().size(), "Anna valinta");
+                Elokuva elokuva = varausjarjestelma.getElokuvat().get(valinta2 - 1);
+                if (!varausjarjestelma.onkoNaytoksia(elokuva)) {
+                    System.out.println("Tällä elokuvalla ei ole näytöksiä");
+                } else {
+                    System.out.println();
+                    System.out.println("Nimi\t\t\taika\t\t\tSali");
+                    System.out.println(varausjarjestelma.listaaNaytokset(elokuva));
+                    System.out.println();
+                }
 
             } else if (valinta == 3) {
                 System.out.println();
                 System.out.println("Valitse elokuva, jolle haluat lisätä näytöksen:\n");
                 System.out.println(varausjarjestelma.listaaElokuvat());
                 while (true) {
-                    String nimi = lueMerkkijono("Kirjoita elokuvan nimi tai poistu (0)");
+                    String nimi = lueMerkkijono("Kirjoita elokuvan nimi");
                     if (varausjarjestelma.onkoElokuvaa(nimi)) {
                         System.out.println("\nValitse sali:\n");
                         System.out.println(varausjarjestelma.listaaSalit());
                         int salinumero = lueKokonaisluku(1, 3, "Salin numero");
                         Sali sali = varausjarjestelma.getSali(salinumero);
-                        String aika = lueMerkkijono("Näytös pvm ja aika (pp.kk.hh.mm)");
+                        String aika = lueMerkkijono("Näytös pvm ja aika (pp.kk.hh:mm)");
                         Naytos naytos = new Naytos(nimi, sali, aika);
                         varausjarjestelma.lisaaNaytos(naytos);
                         varausjarjestelma.kirjoitaTiedot();
@@ -238,21 +262,36 @@ public class VarausjarjestelmaUI {
                         System.out.println("Tarkista nimen oikeinkirjoitus");
                     }
                 }
-            }
-            if (valinta == 4) {
+            }else if (valinta == 4) {
                 for (int i = 0; i < varausjarjestelma.getNaytokset().size(); i++) {
                     System.out.println(i + 1 + ". " + varausjarjestelma.getNaytokset().get(i));
                 }
                 valinta = lueKokonaisluku(1, varausjarjestelma.getNaytokset().size(), "Valitse poistettavan näytöksen numero");
                 if (varausjarjestelma.poistaNaytos(varausjarjestelma.getNaytokset().get(valinta-1))) {
+                    System.out.println();
                     System.out.println("Näytös poistettu");
                     varausjarjestelma.kirjoitaTiedot();
                 } else {
                     System.out.println("Poisto epäonnistui");
                 }
+            } else if (valinta == 5) {
+                System.out.println();
+                for (int i = 0; i < varausjarjestelma.getNaytokset().size(); i++) {
+                    System.out.println(i + 1 + ". " + varausjarjestelma.getNaytokset().get(i));
+                }
+                valinta = lueKokonaisluku(1, varausjarjestelma.getNaytokset().size(), "Valitse näytös, jonka salikartan haluat nähdä");
+                Naytos naytos = varausjarjestelma.getNaytokset().get(valinta-1);
+                System.out.println();
+                for (int i = 0; i < varausjarjestelma.getSalikartta(naytos).length; i++) {
+                    for (int j = 0; j < varausjarjestelma.getSalikartta(naytos)[i].length; j++) {
+                        // Tulostetaan 1 jos true, 0 jos false
+                        System.out.print(varausjarjestelma.getSalikartta(naytos)[i][j] ? "1 " : "0 ");
+                    }
+                    System.out.println();
+                }
             }
+            System.out.println();
         }
-        System.out.println();
     }
 
     private int lueKokonaisluku(int minimi, int maksimi, String kehote) {
