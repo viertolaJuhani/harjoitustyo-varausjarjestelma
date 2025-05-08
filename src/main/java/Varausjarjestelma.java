@@ -247,7 +247,10 @@ public class Varausjarjestelma {
         sb.append(String.format("%-15s %-20s %-15s %-10s %s\n", "Varaaja", "Elokuva", "Aika", "Sali", "Istumapaikat"));
         sb.append("------------------------------------------------------------------------------------------------------------------------\n");
         for (Varaus v : getKayttajanVaraukset(email)) {
-            sb.append(String.format("%-15s %-20s %-15s %-10s %s\n", v.getAsiakasEmail(), v.getNaytos().getElokuvanNimi(), v.getNaytos().getNaytosaika(), v.getNaytos().getSali().getSalinumero(), v.istumapaikatStr(v.getIstumapaikat())));
+            sb.append(String.format("%-15s %-20s %-15s %-10s %s\n", v.getAsiakasEmail(),
+                    v.getNaytos().getElokuvanNimi(), v.getNaytos().getNaytosaika(),
+                    v.getNaytos().getSali().getSalinumero(),
+                    v.istumapaikatStr(v.getIstumapaikat())));
         }
         return sb.toString();
     }
@@ -261,7 +264,10 @@ public class Varausjarjestelma {
         n.append(String.format("%-20s %-15s %-15s\n", "Nimi", "Näytösaika", "Sali"));
         n.append("--------------------------------------------\n");
         for (Naytos naytos : naytokset) {
-            n.append(String.format("%-20s %-15s %-15s\n", naytos.getElokuvanNimi(), naytos.getNaytosaika(), naytos.getSali().getSalinumero()));
+            n.append(String.format("%-20s %-15s %-15s\n",
+                    naytos.getElokuvanNimi(),
+                    naytos.getNaytosaika(),
+                    naytos.getSali().getSalinumero()));
         }
         return n.toString();
     }
