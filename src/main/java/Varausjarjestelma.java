@@ -175,7 +175,8 @@ public class Varausjarjestelma {
         StringBuilder n = new StringBuilder();
         for (Naytos naytos : naytokset) {
             if (naytos.getElokuvanNimi().equals(elokuva.getNimi())) {
-                n.append(naytos.getElokuvanNimi() + "\t\t");
+                n.append("Nimi\t\t\t\taika\t\t\tSali");
+                n.append(naytos.getElokuvanNimi() + "\t\t\t");
                 n.append(naytos.getNaytosaika() + "\t\t");
                 n.append(naytos.getSali().getSalinumero() + "\t");
             }
@@ -217,18 +218,33 @@ public class Varausjarjestelma {
     }
 
     /**
-     * Palauttaa kaikki tietyn asiakkaan tekemät varaukset.
-     * @param sposti asiakkaan sähköposti
-     * @return Asiakkaan varaukset merkkijonona
+     * Palauttaa tietyn asiakkaan varaukset listana
+     * @param email asiakkaan sähköposti
+     * @return varaukset listana
      */
-    public List<Varaus> listaaKayttajanVaraukset(String sposti) {
+    public List<Varaus> getKayttajanVaraukset(String email) {
         List<Varaus> kayttajanVaraukset = new ArrayList<>();
         for (Varaus v : varaukset) {
-            if (v.getAsiakasEmail().equals(sposti)) {
+            if (v.getAsiakasEmail().equals(email)) {
                 kayttajanVaraukset.add(v);
             }
         }
         return kayttajanVaraukset;
+    }
+
+    /**
+     * Palauttaa kaikki tietyn asiakkaan tekemät varaukset.
+     * @param email asiakkaan sähköposti
+     * @return Asiakkaan varaukset merkkijonona
+     */
+    public String listaaKayttajanVaraukset(String email) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%-15s %-20s %-15s %-10s %s\n", "Varaaja", "Elokuva", "Aika", "Sali", "Istumapaikat"));
+        sb.append("------------------------------------------------------------------------------------------------------------------------\n");
+        for (Varaus v : getKayttajanVaraukset(email)) {
+            sb.append(String.format("%-15s %-20s %-15s %-10s %s\n", v.getAsiakasEmail(), v.getNaytos().getElokuvanNimi(), v.getNaytos().getNaytosaika(), v.getNaytos().getSali().getSalinumero(), v.istumapaikatStr(v.getIstumapaikat())));
+        }
+        return sb.toString();
     }
     /**
      * Palauttaa kaikkien elokuvien näytökset merkkijonona.
@@ -237,11 +253,10 @@ public class Varausjarjestelma {
      */
     public String listaaKaikkiNaytokset() {
         StringBuilder n = new StringBuilder();
-        n.append("Nimi\t\t\taika\t\t\tSali\n");
+        n.append(String.format("%-20s %-15s %-15s\n", "Nimi", "Näytösaika", "Sali"));
+        n.append("--------------------------------------------\n");
         for (Naytos naytos : naytokset) {
-            n.append(naytos.getElokuvanNimi() + "\t\t");
-            n.append(naytos.getNaytosaika() + "\t\t");
-            n.append(naytos.getSali().getSalinumero() + "\t\t\n");
+            n.append(String.format("%-20s %-15s %-15s\n", naytos.getElokuvanNimi(), naytos.getNaytosaika(), naytos.getSali().getSalinumero()));
         }
         return n.toString();
     }
