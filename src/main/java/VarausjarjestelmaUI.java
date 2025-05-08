@@ -114,10 +114,7 @@ public class VarausjarjestelmaUI {
                 }
             }
             if (valinta == 2) {
-                for (int i = 0; i < varausjarjestelma.getElokuvat().size(); i++) {
-                    System.out.println(i + 1 + ". " + varausjarjestelma.getElokuvat().get(i));
-                }
-                System.out.println();
+                System.out.println(varausjarjestelma.listaaElokuvat());
                 String valinta2 = lueMerkkijono("Tee uusi varaus? K/E");
                 if (valinta2.equalsIgnoreCase("K")) {
                 paikanVaraus();
@@ -168,10 +165,8 @@ public class VarausjarjestelmaUI {
         Elokuva elokuva = varausjarjestelma.getElokuvat().get(evalinta - 1);
         System.out.println();
         if (varausjarjestelma.onkoNaytoksia(elokuva)) {
-            System.out.println("Näytökset:");
-            for (int i = 0; i < varausjarjestelma.getElokuvanNaytokset(elokuva).size(); i++) {
-                System.out.println(i + 1 + ". " + varausjarjestelma.getElokuvanNaytokset(elokuva).get(i));
-            }
+            System.out.println(varausjarjestelma.listaaNaytokset(elokuva));
+            System.out.println();
             System.out.println("0. Poistu");
             System.out.println();
             int nvalinta = lueKokonaisluku(0, varausjarjestelma.getElokuvanNaytokset(elokuva).size(), "Näytöksen numero");

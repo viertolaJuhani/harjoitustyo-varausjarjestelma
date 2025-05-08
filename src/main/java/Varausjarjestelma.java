@@ -158,12 +158,15 @@ public class Varausjarjestelma {
         if (elokuvat.isEmpty()) {
             return ("Ei elokuvia listalla");
         }
-        StringBuilder e = new StringBuilder();
-        for (Elokuva elokuva : elokuvat) {
-            e.append(elokuva.toString());
-            e.append("\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%-3s %-20s %-15s %-25s %-15s %-15s\n", " ", "Nimi", "Kesto", "Genre", "Ikäsuositus", "kieli"));
+        sb.append("--------------------------------------------------------------------------------------------\n");
+        for (Elokuva e : elokuvat) {
+            sb.append(String.format("%-3s %-20s %-15s %-25s %-15s %-15s\n", elokuvat.indexOf(e)+1, e.getNimi(),
+                    e.getKestoTunnitMinuutit(), e.getGenre(),
+                    e.getIkaraja(), e.getKieli()));
         }
-        return e.toString();
+        return sb.toString();
     }
 
     /**
@@ -173,13 +176,15 @@ public class Varausjarjestelma {
      */
     public String listaaNaytokset(Elokuva elokuva) {
         StringBuilder n = new StringBuilder();
-        for (Naytos naytos : naytokset) {
-            if (naytos.getElokuvanNimi().equals(elokuva.getNimi())) {
-                n.append("Nimi\t\t\t\taika\t\t\tSali");
-                n.append(naytos.getElokuvanNimi() + "\t\t\t");
-                n.append(naytos.getNaytosaika() + "\t\t");
-                n.append(naytos.getSali().getSalinumero() + "\t");
-            }
+        List<Naytos> eNaytokset = new ArrayList<>();
+        eNaytokset.addAll(getElokuvanNaytokset(elokuva));
+        n.append("Näytökset:\n\n");
+        n.append(String.format("%-3s %-20s %-15s %-15s\n", " ", "Nimi", "Näytösaika", "Sali"));
+        n.append("----------------------------------------------\n");
+        for (Naytos naytos : eNaytokset) {
+            n.append(String.format("%-3s %-20s %-15s %-15s\n", eNaytokset.indexOf(naytos)+1,
+                    naytos.getElokuvanNimi(), naytos.getNaytosaika(),
+                    naytos.getSali().getSalinumero()));
         }
         return n.toString();
     }
