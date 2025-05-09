@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,8 @@ public class Varausjarjestelma {
     private ArrayList<User> kayttajat;
     private ArrayList<Varaus> varaukset;
     private List<Sali> salit;
+
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
 
     public Varausjarjestelma() {
         kayttajat = VarausjarjestelmaIO.lueKayttajat("kayttajat.txt");
@@ -89,6 +93,14 @@ public class Varausjarjestelma {
     }
 
     /**
+     * Palauttaa listan näytöksistä
+     * @return lista näytöksistä
+     */
+    public ArrayList<Naytos> getNaytokset() {
+        return naytokset;
+    }
+
+    /**
      * Palauttaa listan käyttäjien sähköpostiosoitteista
      * @return lista sähköpostiosoitteista
      */
@@ -98,14 +110,6 @@ public class Varausjarjestelma {
             spostilista.add(u.getEmail());
         }
         return spostilista;
-    }
-
-    /**
-     * Palauttaa listan näytöksistä
-     * @return lista näytöksistä
-     */
-    public ArrayList<Naytos> getNaytokset() {
-        return naytokset;
     }
 
     /**
@@ -236,7 +240,7 @@ public class Varausjarjestelma {
         n.append("----------------------------------------------\n");
         for (Naytos naytos : eNaytokset) {
             n.append(String.format("%-3s %-20s %-15s %-15s\n", eNaytokset.indexOf(naytos)+1+".",
-                    naytos.getElokuvanNimi(), naytos.getNaytosaika(),
+                    naytos.getElokuvanNimi(), naytos.getNaytosaika().format(FORMATTER),
                     naytos.getSali().getSalinumero()));
         }
         return n.toString();
@@ -322,16 +326,31 @@ public class Varausjarjestelma {
      *
      * @return näytökset merkkijonona
      */
-    public String listaaKaikkiNaytokset() {
+    public String listaaNaytokset(ArrayList<Naytos> naytokset) {
+        if (naytokset.isEmpty()) {
+            return "Ei näytöksiä\n";
+        }
         StringBuilder n = new StringBuilder();
-        n.append(String.format("%-20s %-15s %-15s\n", "Nimi", "Näytösaika", "Sali"));
-        n.append("--------------------------------------------\n");
+        n.append(String.format("%-20s %-20s %-15s\n", "Nimi", "Näytösaika", "Sali"));
+        n.append("----------------------------------------------------\n");
         for (Naytos naytos : naytokset) {
-            n.append(String.format("%-20s %-15s %-15s\n",
+            n.append(String.format("%-20s %-20s %-15s\n",
                     naytos.getElokuvanNimi(),
-                    naytos.getNaytosaika(),
+                    naytos.getNaytosaika().format(FORMATTER),
                     naytos.getSali().getSalinumero()));
         }
         return n.toString();
+    }
+
+    public String listaaPaivanNaytokset(LocalDateTime aika) {
+        ArrayList<Naytos> paivanNaytokset = new ArrayList<>();
+        for (Naytos naytos : naytokset) {
+            if (naytos.getNaytosaika().getMonthValue() == (aika.getMonthValue())
+                    && naytos.getNaytosaika().getDayOfMonth() == aika.getMonthValue()) {
+                paivanNaytokset.add(naytos);
+
+            }
+        }
+        return listaaNaytokset(paivanNaytokset);
     }
 }

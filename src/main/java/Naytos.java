@@ -1,5 +1,6 @@
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * Luokka mallintaa elokuvanäytöstä ja varaustilannetta tietyssä salissa.
@@ -13,10 +14,10 @@ public class Naytos implements Serializable {
 
     private Sali sali;
     private String elokuvanNimi;
-    private String naytosaika;
+    LocalDateTime naytosaika;
     private boolean[][] varaukset;
 
-    public Naytos(String elokuvanNimi, Sali sali, String naytosaika) {
+    public Naytos(String elokuvanNimi, Sali sali, LocalDateTime naytosaika) {
         this.elokuvanNimi = elokuvanNimi;
         this.naytosaika = naytosaika;
         this.sali = sali;
@@ -27,7 +28,7 @@ public class Naytos implements Serializable {
         return elokuvanNimi;
     }
 
-    public String getNaytosaika() {
+    public LocalDateTime getNaytosaika() {
         return naytosaika;
     }
 

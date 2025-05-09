@@ -32,9 +32,6 @@ public class Elokuva implements Serializable {
         return genre;
     }
 
-    public String getKestoTunnitMinuutit() {
-        return kesto / 60 + "h " + (kesto - kesto / 60 * 60) + "min";
-    }
 
     public int getIkaraja() {
         return ikaraja;
@@ -42,6 +39,16 @@ public class Elokuva implements Serializable {
 
     public String getKieli() {
         return kieli;
+    }
+
+    /**
+     * Palauttaa elokuvan keston merkkijonona helposti
+     * luettavassa muodossa tunteina ja minuutteina
+     *
+     * @return kesto merkkijonona
+     */
+    public String getKestoTunnitMinuutit() {
+        return kesto / 60 + "h " + (kesto - kesto / 60 * 60) + "min";
     }
 
     /**

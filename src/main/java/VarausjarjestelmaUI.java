@@ -1,4 +1,9 @@
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -295,9 +300,9 @@ public class VarausjarjestelmaUI {
             valinta = lueKokonaisluku(0, 5, "Anna valinta");
             System.out.println();
             if (valinta == 1) {
-                if (!varausjarjestelma.listaaKaikkiNaytokset().isEmpty()) {
+                if (!varausjarjestelma.listaaNaytokset(varausjarjestelma.getNaytokset()).isEmpty()) {
                     System.out.println();
-                    System.out.println(varausjarjestelma.listaaKaikkiNaytokset());
+                    System.out.println(varausjarjestelma.listaaNaytokset(varausjarjestelma.getNaytokset()));
                 } else {
                     System.out.println("\nEi näytöksiä");
                 }
@@ -319,6 +324,18 @@ public class VarausjarjestelmaUI {
                 }
 
             } else if (valinta == 3) {
+                System.out.println("Anna päivä, jolle haluat lisätä näytöksen");
+                LocalDateTime aika = luePaiva("pp.kk");
+                System.out.println();
+                if (!varausjarjestelma.listaaPaivanNaytokset(aika).isEmpty()) {
+                    System.out.println(varausjarjestelma.listaaPaivanNaytokset(aika));
+                }
+                String kellonaika = lueMerkkijono("Valitse kellonaika (hh:mm)");
+                System.out.println();
+                String osat[] = kellonaika.split(":");
+                int tunti = Integer.parseInt(osat[0]);
+                int minuutit = Integer.parseInt(osat[1]);
+                LocalDateTime naytosaika = LocalDateTime.of(aika.toLocalDate(), LocalTime.of(tunti, minuutit));
                 System.out.println("Valitse elokuva, jolle haluat lisätä näytöksen:\n");
                 System.out.println(varausjarjestelma.listaaElokuvat());
                 while (true) {
@@ -328,8 +345,7 @@ public class VarausjarjestelmaUI {
                         System.out.println(varausjarjestelma.listaaSalit());
                         int salinumero = lueKokonaisluku(1, 3, "Salin numero");
                         Sali sali = varausjarjestelma.getSali(salinumero);
-                        String aika = lueMerkkijono("Näytös pvm ja aika (pp.kk.hh:mm)");
-                        Naytos naytos = new Naytos(nimi, sali, aika);
+                        Naytos naytos = new Naytos(nimi, sali, naytosaika);
                         varausjarjestelma.lisaaNaytos(naytos);
                         varausjarjestelma.kirjoitaTiedot();
                         System.out.println("Näytös lisätty");
@@ -342,22 +358,20 @@ public class VarausjarjestelmaUI {
                         System.out.println("Tarkista nimen oikeinkirjoitus");
                     }
                 }
-            }else if (valinta == 4) {
-                for (int i = 0; i < varausjarjestelma.getNaytokset().size(); i++) {
-                    System.out.println(i + 1 + ". " + varausjarjestelma.getNaytokset().get(i));
-                }
+            } else if (valinta == 4) {
+                varausjarjestelma.listaaNaytokset(varausjarjestelma.getNaytokset());
                 valinta = lueKokonaisluku(1, varausjarjestelma.getNaytokset().size(), "Valitse poistettavan näytöksen numero");
+                System.out.println();
                 if (varausjarjestelma.poistaNaytos(varausjarjestelma.getNaytokset().get(valinta-1))) {
-                    System.out.println();
-                    System.out.println("Näytös poistettu");
                     varausjarjestelma.kirjoitaTiedot();
+                    System.out.println("Näytös poistettu!");
+                    System.out.println();
+
                 } else {
-                    System.out.println("Poisto epäonnistui");
+                    System.out.println("Poisto epäonnistui!");
                 }
             } else if (valinta == 5) {
-                for (int i = 0; i < varausjarjestelma.getNaytokset().size(); i++) {
-                    System.out.println(i + 1 + ". " + varausjarjestelma.getNaytokset().get(i));
-                }
+                varausjarjestelma.listaaNaytokset(varausjarjestelma.getNaytokset());
                 System.out.println();
                 valinta = lueKokonaisluku(1, varausjarjestelma.getNaytokset().size(), "Valitse näytös, jonka salikartan haluat nähdä");
                 Naytos naytos = varausjarjestelma.getNaytokset().get(valinta-1);
@@ -366,6 +380,42 @@ public class VarausjarjestelmaUI {
                 System.out.println(varausjarjestelma.tulostaSalikartta(naytos));
             }
         }
+    }
+
+    /**
+     * Apumetodi, joka näyttää käyttäjälle annetun kehotteen ja lukee
+     * sitten tältä merkkijonon. Merkkijono muunnetaan LocalDateTime muotoon.
+     *
+     * @return käyttäjän syöttämä päivämäärä LocalDateTime muodossa
+     */
+    public LocalDateTime luePaiva(String kehote) {
+        LocalDateTime paivamaara = null;
+        while (paivamaara == null) {
+            System.out.print(kehote + ": ");
+            String syote = lukija.nextLine();
+            String[] osat = syote.split("\\.");
+            if (!syote.equals("") && osat.length == 2) {
+            } else if (syote.equals("0")) {
+                break;
+            } else {
+                System.out.println("Virheellinen muoto");
+                System.out.println();
+                continue;
+            }
+            try {
+                int paiva = Integer.parseInt(osat[0]);
+                int kuukausi = Integer.parseInt(osat[1]);
+                int vuosi = LocalDate.now().getYear();
+                LocalDate aika = LocalDate.of(vuosi, kuukausi, paiva);
+                if (aika.isBefore(LocalDate.now())) {
+                    aika = LocalDate.of(vuosi + 1, kuukausi, paiva);
+                }
+                paivamaara = LocalDateTime.of(aika, LocalTime.MIDNIGHT);
+            } catch (DateTimeException | NumberFormatException e) {
+                System.out.println("Virheellinen päivämäärä. Yritä uudelleen");
+            }
+        }
+        return paivamaara;
     }
 
     /**
