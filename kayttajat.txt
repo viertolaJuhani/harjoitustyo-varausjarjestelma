@@ -1,3 +1,2 @@
 admin;admin;admin
 testi;testi;testi;50
-testi2;testi2;testi2;20

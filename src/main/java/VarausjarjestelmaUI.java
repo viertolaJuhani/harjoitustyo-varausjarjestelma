@@ -8,7 +8,8 @@ import java.util.Scanner;
 public class VarausjarjestelmaUI {
     private Varausjarjestelma varausjarjestelma;
     private Scanner lukija;
-    String asiakasSposti;
+    String kirjautunutEmail;
+    int asiakasIka;
 
     public static void main(String[] args) {
         VarausjarjestelmaUI ui = new VarausjarjestelmaUI();
@@ -52,9 +53,10 @@ public class VarausjarjestelmaUI {
         for (User u : varausjarjestelma.getKayttajaLista()) {
             if (u.getEmail().equals(kayttajanimi) && u.getSalasana().equals(salasana)) {
                 kirjautunut = u;
-                asiakasSposti = u.getEmail();
+                kirjautunutEmail = u.getEmail();
 
                 if (u instanceof Asiakas) {
+                    asiakasIka = ((Asiakas) u).getIka();
                     System.out.println("\nTervetuloa " + u.getNimi());
                     System.out.println("\n*** ASIAKASMENU ***");
                     asiakasMenu();
@@ -68,6 +70,7 @@ public class VarausjarjestelmaUI {
         }
         System.out.println();
         System.out.println("Väärä tunnus tai salasana");
+        System.out.println("Tai rekisteröidy valitsemalla 2.");
         System.out.println();
     }
 
@@ -93,6 +96,9 @@ public class VarausjarjestelmaUI {
         System.out.println();
         varausjarjestelma.lisaaAsiakas(new Asiakas(nimi, email, salasana, ika));
         varausjarjestelma.kirjoitaTiedot();
+        System.out.println("Rekisteröinti valmis!");
+        System.out.println("Voit nyt kirjautua sisään");
+        System.out.println();
     }
 
     public void asiakasMenu() {
@@ -106,8 +112,8 @@ public class VarausjarjestelmaUI {
             valinta = lueKokonaisluku(0, 3, "Anna valinta");
             System.out.println();
             if (valinta == 1) {
-                if (!varausjarjestelma.getKayttajanVaraukset(asiakasSposti).isEmpty()) {
-                    System.out.println(varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti));
+                if (!varausjarjestelma.getKayttajanVaraukset(kirjautunutEmail).isEmpty()) {
+                    System.out.println(varausjarjestelma.listaaKayttajanVaraukset(kirjautunutEmail));
                 } else {
                     System.out.println("Ei vielä varauksia");
                     System.out.println();
@@ -125,19 +131,19 @@ public class VarausjarjestelmaUI {
                 }
             }
             if (valinta == 3) {
-                if (varausjarjestelma.listaaKayttajanVaraukset(asiakasSposti).isEmpty()) {
+                if (varausjarjestelma.listaaKayttajanVaraukset(kirjautunutEmail).isEmpty()) {
                     System.out.println("Ei varauksia");
                     System.out.println();
                 } else {
                     System.out.println("Valitse varaus, jonka tahdot perua");
                     System.out.println();
-                    for (int i = 0; i < varausjarjestelma.getKayttajanVaraukset(asiakasSposti).size(); i++) {
-                        System.out.println((i + 1) + ". " + varausjarjestelma.getKayttajanVaraukset(asiakasSposti).get(i));
+                    for (int i = 0; i < varausjarjestelma.getKayttajanVaraukset(kirjautunutEmail).size(); i++) {
+                        System.out.println((i + 1) + ". " + varausjarjestelma.getKayttajanVaraukset(kirjautunutEmail).get(i));
                     }
                     System.out.println();
-                    valinta = lueKokonaisluku(1, varausjarjestelma.getKayttajanVaraukset(asiakasSposti).size(), "Anna varauksen numero, jonka tahdot perua");
+                    valinta = lueKokonaisluku(1, varausjarjestelma.getKayttajanVaraukset(kirjautunutEmail).size(), "Anna varauksen numero, jonka tahdot perua");
                     //Poistetaan istumapaikkojen varaus salikartasta
-                    Varaus varaus = varausjarjestelma.getKayttajanVaraukset(asiakasSposti).get(valinta-1);
+                    Varaus varaus = varausjarjestelma.getKayttajanVaraukset(kirjautunutEmail).get(valinta-1);
                     Naytos naytos = varaus.getNaytos();
                     boolean[][] salikartta = naytos.getVaraukset();
 
@@ -163,6 +169,13 @@ public class VarausjarjestelmaUI {
         int valinta = -1;
         int evalinta = lueKokonaisluku(1, varausjarjestelma.getElokuvat().size(), "Elokuvan numero");
         Elokuva elokuva = varausjarjestelma.getElokuvat().get(evalinta - 1);
+        if (asiakasIka < elokuva.getIkaraja()) {
+            System.out.println();
+            System.out.println("Tämän elokuvan ikäsuositus on " + elokuva.getIkaraja() + "-vuotta. Kokeile toista elokuvaa.");
+            System.out.println("Palataan päävalikkoon");
+            System.out.println();
+            return;
+        }
         System.out.println();
         if (varausjarjestelma.onkoNaytoksia(elokuva)) {
             System.out.println(varausjarjestelma.listaaNaytokset(elokuva));
@@ -205,7 +218,7 @@ public class VarausjarjestelmaUI {
                     System.out.println("0. Poistu ja tallenna varaus");
                     valinta = lueKokonaisluku(0, 1, "Valinta");
                     if (valinta == 0) {
-                        Varaus varaus = new Varaus(asiakasSposti, naytos, istumapaikat);
+                        Varaus varaus = new Varaus(kirjautunutEmail, naytos, istumapaikat);
                         varausjarjestelma.lisaaVaraus(varaus);
                         varausjarjestelma.kirjoitaTiedot();
                         System.out.println();
