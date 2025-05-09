@@ -113,6 +113,24 @@ public class Varausjarjestelma {
     }
 
     /**
+     * Tarkistaa riittääkö tietty ikä varaamaan paikan tietyn elokuvan näytökseen
+     * @param ika asiakkaan ikä
+     * @param elokuva elokuva, jonka ikäsuositukseen ikää verrataan
+     * @return true, jos ikää on riittävästi, muuten false
+     */
+    public boolean riittaakoIka(int ika, Elokuva elokuva) {
+        if (ika >= 18) {
+            return true;
+        } else if (ika >= 16 && elokuva.getIkasuositus() != Ikasuositus.K18) {
+            return true;
+        } else if (ika >= 12 && elokuva.getIkasuositus() != Ikasuositus.K16
+                && elokuva.getIkasuositus() != Ikasuositus.K18) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Palauttaa listan tietyn elokuvan näyöksistä
      * @param elokuva elokuva, jonka näytöksistä lista muodostuu
      * @return lista elokuvan näytöksistä
@@ -213,19 +231,19 @@ public class Varausjarjestelma {
      */
     public String listaaElokuvat() {
         if (elokuvat.isEmpty()) {
-            return ("Ei elokuvia listalla");
+            return ("Ei elokuvia listalla\n");
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%-3s %-20s %-15s %-25s %-15s %-15s\n", " ", "Nimi", "Kesto", "Genre", "Ikäsuositus", "kieli"));
+        sb.append(String.format("%-3s %-20s %-15s %-25s %-15s %-15s\n", " ",
+                "Nimi", "Kesto", "Genre", "Ikäsuositus", "kieli"));
         sb.append("--------------------------------------------------------------------------------------------\n");
         for (Elokuva e : elokuvat) {
             sb.append(String.format("%-3s %-20s %-15s %-25s %-15s %-15s\n", elokuvat.indexOf(e)+1+".", e.getNimi(),
                     e.getKestoTunnitMinuutit(), e.getGenre(),
-                    e.getIkaraja(), e.getKieli()));
+                    e.getIkasuositus(), e.getKieli()));
         }
         return sb.toString();
     }
-
 
     /**
      * Tarkistaa onko tietynnimistä elokuvaa listalla

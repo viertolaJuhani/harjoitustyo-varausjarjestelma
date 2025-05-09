@@ -56,7 +56,6 @@ public class VarausjarjestelmaUI {
         String salasana = lueMerkkijono("Salasana");
         for (User u : varausjarjestelma.getKayttajaLista()) {
             if (u.getEmail().equals(kayttajanimi) && u.getSalasana().equals(salasana)) {
-                kirjautunut = u;
                 kirjautunutEmail = u.getEmail();
 
                 if (u instanceof Asiakas) {
@@ -175,13 +174,12 @@ public class VarausjarjestelmaUI {
     }
 
     public void paikanVaraus() {
-        int valinta = -1;
+        int valinta;
         int evalinta = lueKokonaisluku(1, varausjarjestelma.getElokuvat().size(), "Elokuvan numero");
         System.out.println();
         Elokuva elokuva = varausjarjestelma.getElokuvat().get(evalinta - 1);
-        if (asiakasIka < elokuva.getIkaraja()) {
-            System.out.println();
-            System.out.println("Tämän elokuvan ikäsuositus on " + elokuva.getIkaraja() + "-vuotta. Kokeile toista elokuvaa.");
+        if (!varausjarjestelma.riittaakoIka(asiakasIka,elokuva)) {
+            System.out.println("Tämän elokuvan ikäsuositus on " + elokuva.getIkasuositus() + ", Kokeile toista elokuvaa.");
             System.out.println("Palataan päävalikkoon");
             System.out.println();
             return;
@@ -278,11 +276,22 @@ public class VarausjarjestelmaUI {
                 int kesto = lueKokonaisluku(0, 1000, "Kesto minuutteina");
                 String kieli = lueMerkkijono("Kieli");
                 String genre = lueMerkkijono("Genre");
-                int ikaraja = lueKokonaisluku(0, 18, "Ikäraja");
-                System.out.println();
-
-                varausjarjestelma.lisaaElokuva(new Elokuva(nimi, kesto, kieli, genre, ikaraja));
-                varausjarjestelma.kirjoitaTiedot();
+                while (true) {
+                    String ikaraja = lueMerkkijono("Ikäsuositus (S, K7, K12, K16, K18)");
+                    System.out.println();
+                    ikaraja.toUpperCase();
+                    try {
+                        Ikasuositus ikasuositus = Ikasuositus.valueOf(ikaraja);
+                        varausjarjestelma.lisaaElokuva(new Elokuva(nimi, kesto, kieli, genre, ikasuositus));
+                        varausjarjestelma.kirjoitaTiedot();
+                        System.out.println("Elokuva lisätty");
+                        System.out.println();
+                        break;
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Virheellinen syöte");
+                    }
+                    System.out.println();
+                }
 
             } else if (valinta == 2) {
                 int evalinta = lueKokonaisluku(0,varausjarjestelma.getElokuvat().size(), "Anna elokuvan numero tai poistu (0)");

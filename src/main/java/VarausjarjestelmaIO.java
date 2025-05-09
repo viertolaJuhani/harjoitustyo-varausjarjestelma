@@ -97,10 +97,10 @@ public class VarausjarjestelmaIO {
         String nimi = tiedot[0];
         int kesto = Integer.valueOf(tiedot[1]);
         String genre = tiedot[2];
-        int ikaraja = Integer.valueOf(tiedot[3]);
+        String ikaraja = String.valueOf(tiedot[3]);
         String kieli = tiedot[4];
-
-        return new Elokuva(nimi, kesto, kieli, genre, ikaraja);
+        Ikasuositus ikasuositus = Ikasuositus.valueOf(ikaraja);
+        return new Elokuva(nimi, kesto, kieli, genre, ikasuositus);
     }
 
     public static void kirjoitaNaytokset(ArrayList<Naytos> naytokset, String tiedostonNimi) {

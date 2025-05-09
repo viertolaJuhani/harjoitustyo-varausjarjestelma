@@ -46,8 +46,9 @@ public class Naytos implements Serializable {
      * @param paikkaRivilla paikka rivillä
      * @return
      */
-    public void setVaratuksi(int rivi, int paikkaRivilla) {
+    public boolean setVaratuksi(int rivi, int paikkaRivilla) {
         varaukset[rivi-1][paikkaRivilla-1] = true;
+        return true;
     }
 
     /**
@@ -55,8 +56,9 @@ public class Naytos implements Serializable {
      * @param rivi paikan rivinumero
      * @param paikkaRivilla paikka rivillä
      */
-    public void setVapaaksi(int rivi, int paikkaRivilla) {
+    public boolean setVapaaksi(int rivi, int paikkaRivilla) {
         varaukset[rivi-1][paikkaRivilla-1] = false;
+        return false;
     }
 
     /**

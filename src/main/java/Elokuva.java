@@ -13,15 +13,15 @@ public class Elokuva implements Serializable {
     private String nimi;
     private int kesto;
     private String genre;
-    private int ikaraja;
+    private Ikasuositus ikasuositus;
     private String kieli;
 
-    public Elokuva(String nimi, int kesto, String kieli, String genre, int ikaraja) {
+    public Elokuva(String nimi, int kesto, String kieli, String genre, Ikasuositus ikasuositus) {
         this.nimi = nimi;
         this.kesto = kesto;
         this.genre = genre;
         this.kieli = kieli;
-        this.ikaraja = ikaraja;
+        this.ikasuositus = ikasuositus;
     }
 
     public String getNimi() {
@@ -32,9 +32,8 @@ public class Elokuva implements Serializable {
         return genre;
     }
 
-
-    public int getIkaraja() {
-        return ikaraja;
+    public Ikasuositus getIkasuositus() {
+        return ikasuositus;
     }
 
     public String getKieli() {
@@ -60,7 +59,7 @@ public class Elokuva implements Serializable {
         String data = nimi + erotinmerkki;
         data += kesto + erotinmerkki;
         data += genre + erotinmerkki;
-        data += ikaraja + erotinmerkki;
+        data += ikasuositus + erotinmerkki;
         data += kieli;
 
         return data;
@@ -68,6 +67,6 @@ public class Elokuva implements Serializable {
 
     @Override
     public String toString() {
-        return nimi + " (" + getKestoTunnitMinuutit() + "), " + genre + ", ikäraja: " + ikaraja + ", kieli: " + kieli;
+        return nimi + " (" + getKestoTunnitMinuutit() + "), " + genre + ", ikäsuositus: " + ikasuositus + ", kieli: " + kieli;
     }
 }
