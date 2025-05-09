@@ -9,9 +9,6 @@ public class VarausjarjestelmaIO {
 
     public static void main(String[] args) {
         // Testikoodia
-        for (Naytos n : lueNaytokset("naytokset.csv")) {
-            System.out.println(n.getNaytosaika().getMonthValue());
-        }
     }
 
     private static final String EROTIN = ";";

@@ -167,9 +167,9 @@ public class Varausjarjestelma {
      * @param elokuva elokuva, jonka poistoa yritetään
      * @return true, jos elokuva löytyi ja poistettiin, muuten false
      */
-    public boolean poistaElokuva(String elokuva) {
+    public boolean poistaElokuva(Elokuva elokuva) {
         for (Elokuva e : elokuvat) {
-            if (e.getNimi().equals(elokuva)) {
+            if (elokuvat.contains(elokuva)) {
                 elokuvat.remove(e);
                 return true;
             }
@@ -226,25 +226,6 @@ public class Varausjarjestelma {
         return sb.toString();
     }
 
-    /**
-     * Palauttaa kaikki tietyn elokuvan näytökset merkkijonona
-     *
-     * @return näytökset merkkijonona
-     */
-    public String listaaNaytokset(Elokuva elokuva) {
-        StringBuilder n = new StringBuilder();
-        List<Naytos> eNaytokset = new ArrayList<>();
-        eNaytokset.addAll(getElokuvanNaytokset(elokuva));
-        n.append("Näytökset:\n\n");
-        n.append(String.format("%-3s %-20s %-15s %-15s\n", " ", "Nimi", "Näytösaika", "Sali"));
-        n.append("----------------------------------------------\n");
-        for (Naytos naytos : eNaytokset) {
-            n.append(String.format("%-3s %-20s %-15s %-15s\n", eNaytokset.indexOf(naytos)+1+".",
-                    naytos.getElokuvanNimi(), naytos.getNaytosaika().format(FORMATTER),
-                    naytos.getSali().getSalinumero()));
-        }
-        return n.toString();
-    }
 
     /**
      * Tarkistaa onko tietynnimistä elokuvaa listalla
@@ -311,16 +292,17 @@ public class Varausjarjestelma {
      */
     public String listaaKayttajanVaraukset(String email) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%-15s %-20s %-15s %-10s %s\n", "Varaaja", "Elokuva", "Aika", "Sali", "Istumapaikat"));
+        sb.append(String.format("%-20s %-20s %-10s %s\n", "Elokuva", "Aika", "Sali", "Istumapaikat"));
         sb.append("------------------------------------------------------------------------------------------------------------------------\n");
         for (Varaus v : getKayttajanVaraukset(email)) {
-            sb.append(String.format("%-15s %-20s %-15s %-10s %s\n", v.getAsiakasEmail(),
+            sb.append(String.format("%-20s %-20s %-10s %s\n",
                     v.getNaytos().getElokuvanNimi(), v.getNaytos().getNaytosaika(),
                     v.getNaytos().getSali().getSalinumero(),
                     v.istumapaikatStr(v.getIstumapaikat())));
         }
         return sb.toString();
     }
+
     /**
      * Palauttaa kaikkien elokuvien näytökset merkkijonona.
      *
@@ -331,22 +313,33 @@ public class Varausjarjestelma {
             return "Ei näytöksiä\n";
         }
         StringBuilder n = new StringBuilder();
-        n.append(String.format("%-20s %-20s %-15s\n", "Nimi", "Näytösaika", "Sali"));
+        n.append(String.format("%-3s %-20s %-20s %-15s\n", " ", "Nimi", "Näytösaika", "Sali"));
         n.append("----------------------------------------------------\n");
         for (Naytos naytos : naytokset) {
-            n.append(String.format("%-20s %-20s %-15s\n",
-                    naytos.getElokuvanNimi(),
+            n.append(String.format("%-3s %-20s %-20s %-15s\n",
+                    naytokset.indexOf(naytos)+1 + ".", naytos.getElokuvanNimi(),
                     naytos.getNaytosaika().format(FORMATTER),
                     naytos.getSali().getSalinumero()));
         }
         return n.toString();
     }
 
+    /**
+     * Palauttaa kaikki tietyn elokuvan näytökset merkkijonona
+     *
+     * @return näytökset merkkijonona
+     */
+    public String listaaElokuvanNaytokset(Elokuva elokuva) {
+        ArrayList<Naytos> eNaytokset = new ArrayList<>(getElokuvanNaytokset(elokuva));
+
+        return listaaNaytokset(eNaytokset);
+    }
+
     public String listaaPaivanNaytokset(LocalDateTime aika) {
         ArrayList<Naytos> paivanNaytokset = new ArrayList<>();
         for (Naytos naytos : naytokset) {
             if (naytos.getNaytosaika().getMonthValue() == (aika.getMonthValue())
-                    && naytos.getNaytosaika().getDayOfMonth() == aika.getMonthValue()) {
+                    && naytos.getNaytosaika().getDayOfMonth() == aika.getDayOfMonth()) {
                 paivanNaytokset.add(naytos);
 
             }
