@@ -1,3 +1,4 @@
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -6,6 +7,7 @@ import java.util.ArrayList;
  */
 public class Varaus implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private String asiakasEmail;
