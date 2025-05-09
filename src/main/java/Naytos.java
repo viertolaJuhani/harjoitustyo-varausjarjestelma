@@ -27,16 +27,8 @@ public class Naytos implements Serializable {
         return elokuvanNimi;
     }
 
-    public void setElokuva(String elokuvanNimi) {
-        this.elokuvanNimi = elokuvanNimi;
-    }
-
     public String getNaytosaika() {
         return naytosaika;
-    }
-
-    public void setNaytosaika(String naytosaika) {
-        this.naytosaika = naytosaika;
     }
 
     public Sali getSali() {

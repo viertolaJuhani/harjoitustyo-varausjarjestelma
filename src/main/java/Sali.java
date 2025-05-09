@@ -23,10 +23,6 @@ public class Sali implements Serializable {
         return salinumero;
     }
 
-    public void setSalinumero(int salinumero) {
-        this.salinumero = salinumero;
-    }
-
     public int getRivit() {
         return rivit;
     }

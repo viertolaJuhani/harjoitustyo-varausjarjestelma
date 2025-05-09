@@ -16,26 +16,19 @@ public class User {
         return nimi;
     }
 
-    public void setNimi(String nimi) {
-        this.nimi = nimi;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getSalasana() {
         return salasana;
     }
 
-    public void setSalasana(String salasana) {
-        this.salasana = salasana;
-    }
-
+    /**
+     * Muuttaa käyttäjän tiedot tiedostoon kirjoitettavaan muotoon
+     * @param erotinmerkki merkki, jolla käyttäjän tiedot erotellaan
+     * @return tiedostoon kirjoitettava muoto
+     */
     public String getData(String erotinmerkki) {
         String data = nimi + erotinmerkki + email + erotinmerkki + salasana;
         return data;

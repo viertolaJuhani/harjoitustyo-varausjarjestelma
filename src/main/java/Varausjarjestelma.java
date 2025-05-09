@@ -30,6 +30,27 @@ public class Varausjarjestelma {
         VarausjarjestelmaIO.kirjoitaVaraukset(varaukset, "varaukset.csv");
     }
 
+    public void lisaaNaytos(Naytos naytos) {
+        naytokset.add(naytos);
+    }
+
+    public void lisaaAsiakas(Asiakas asiakas) {
+        kayttajat.add(asiakas);
+    }
+
+    public void lisaaElokuva(Elokuva elokuva) {
+        elokuvat.add(elokuva);
+    }
+
+    public void lisaaVaraus(Varaus varaus) {
+        varaukset.add(varaus);
+    }
+
+    /**
+     * Palauttaa numeroa vastaavan sali-olion
+     * @param salinumero jokaiselle salille uniikki numero
+     * @return sali-olio jos löytyi, muuten null
+     */
     public Sali getSali(int salinumero) {
         for (Sali sali : salit) {
             if (salinumero == sali.getSalinumero()) {
@@ -39,6 +60,10 @@ public class Varausjarjestelma {
         return null;
     }
 
+    /**
+     * Palauttaa salit merkkijonona
+     * @return salit merkkijonona
+     */
     public String listaaSalit() {
         StringBuilder sb = new StringBuilder();
         for (Sali s : salit) {
@@ -47,14 +72,26 @@ public class Varausjarjestelma {
         return sb.toString();
     }
 
+    /**
+     * Palauttaa käyttäjälistan
+     * @return lista käyttäjistä
+     */
     public ArrayList<User> getKayttajaLista() {
         return kayttajat;
     }
 
+    /**
+     * Palauttaa elokuvalistan
+     * @return lista elokuvista
+     */
     public ArrayList<Elokuva> getElokuvat() {
         return elokuvat;
     }
 
+    /**
+     * Palauttaa listan käyttäjien sähköpostiosoitteista
+     * @return lista sähköpostiosoitteista
+     */
     public ArrayList<String> getKayttajienSpostit() {
         ArrayList<String > spostilista = new ArrayList<>();
         for (User u : kayttajat) {
@@ -63,10 +100,19 @@ public class Varausjarjestelma {
         return spostilista;
     }
 
+    /**
+     * Palauttaa listan näytöksistä
+     * @return lista näytöksistä
+     */
     public ArrayList<Naytos> getNaytokset() {
         return naytokset;
     }
 
+    /**
+     * Palauttaa listan tietyn elokuvan näyöksistä
+     * @param elokuva elokuva, jonka näytöksistä lista muodostuu
+     * @return lista elokuvan näytöksistä
+     */
     public ArrayList<Naytos> getElokuvanNaytokset(Elokuva elokuva) {
         ArrayList<Naytos> elokuvanNaytokset = new ArrayList<>();
         for (Naytos n : naytokset) {
@@ -94,6 +140,12 @@ public class Varausjarjestelma {
         return kartta;
     }
 
+    /**
+     * Palauttaa salikartan merkkijonona, jossa varattua paikkaa merkitään numerolla 1
+     * ja vapaata paikkaa numerolla 0.
+     * @param naytos näytös, jonka salikartta haetaan
+     * @return salikartta merkkijonona
+     */
     public String tulostaSalikartta(Naytos naytos) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < getSalikartta(naytos).length; i++) {
@@ -103,22 +155,6 @@ public class Varausjarjestelma {
             sb.append("\n");
         }
         return sb.toString();
-    }
-
-    public void lisaaNaytos(Naytos naytos) {
-        naytokset.add(naytos);
-    }
-
-    public void lisaaAsiakas(Asiakas asiakas) {
-        kayttajat.add(asiakas);
-    }
-
-    public void lisaaElokuva(Elokuva elokuva) {
-        elokuvat.add(elokuva);
-    }
-
-    public void lisaaVaraus(Varaus varaus) {
-        varaukset.add(varaus);
     }
 
     /**
@@ -153,9 +189,10 @@ public class Varausjarjestelma {
     }
 
     /**
+     * Yrittää poistaa annetun varauksen.
      *
-     * @param varaus
-     * @return
+     * @param varaus varas, jonka poistoa yritetään
+     * @return true, jos varaus löytyi ja poistettiin, muutten false
      */
     public boolean poistaVaraus(Varaus varaus) {
         if (varaukset.contains(varaus)) {
@@ -205,6 +242,11 @@ public class Varausjarjestelma {
         return n.toString();
     }
 
+    /**
+     * Tarkistaa onko tietynnimistä elokuvaa listalla
+     * @param nimi elokuvan nimi, joka tarkistetaan
+     * @return true, jos elokuva löytyy, muuten false
+     */
     public boolean onkoElokuvaa(String nimi) {
         for (Elokuva e : elokuvat) {
             if (nimi.equals(e.getNimi())) {
@@ -214,6 +256,11 @@ public class Varausjarjestelma {
         return false;
     }
 
+    /**
+     * Tarkistaa löytyykö tietyllä elokuvalla näytöksiä
+     * @param elokuva elokuva, jonka näytöksiä etsitään
+     * @return true, jos näytöksiä löytyy, muuten false
+     */
     public boolean onkoNaytoksia(Elokuva elokuva) {
         for (Naytos n : naytokset) {
             if (elokuva.getNimi().equals(n.getElokuvanNimi())) {

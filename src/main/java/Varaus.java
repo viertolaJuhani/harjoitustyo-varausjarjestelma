@@ -24,16 +24,8 @@ public class Varaus implements Serializable {
         return asiakasEmail;
     }
 
-    public void setAsiakasEmail(String asiakasEmail) {
-        this.asiakasEmail = asiakasEmail;
-    }
-
     public Naytos getNaytos() {
         return naytos;
-    }
-
-    public void setNaytos(Naytos naytos) {
-        this.naytos = naytos;
     }
 
     /**
@@ -44,16 +36,17 @@ public class Varaus implements Serializable {
         return istumapaikat;
     }
 
+    /**
+     * Palauttaa istumapaikat merkkijonona
+     * @param istumapaikat lista istumapaikoista
+     * @return istumapaikat merkkijonona
+     */
     public String istumapaikatStr(ArrayList<Istumapaikka> istumapaikat) {
         StringBuilder sb = new StringBuilder();
         for (Istumapaikka istumapaikka : istumapaikat) {
             sb.append("(Rivi: " + istumapaikka.getRivi() + ", Paikka: " + istumapaikka.getPaikkaRivilla() + ") ");
         }
         return sb.toString();
-    }
-
-    public void setIstumapaikat(ArrayList<Istumapaikka> istumapaikat) {
-        this.istumapaikat = istumapaikat;
     }
 
     @Override

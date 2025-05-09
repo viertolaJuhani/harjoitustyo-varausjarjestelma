@@ -13,17 +13,9 @@ public class Asiakas extends User {
         return ika;
     }
 
-    public void setIka(int ika) {
-        this.ika = ika;
-    }
-
-    public String getTyyppi() {
-        return "asiakas";
-    }
-
     /**
      * Muuttaa asiakkaan tiedot tiedostoon kirjoitettavaan muotoon
-     * @param erotinmerkki asiakkaat toisistaan erottava merkki
+     * @param erotinmerkki merkki, jolla asiakkaan tiedot erotellaan
      * @return tiedostoon kirjoitettava muoto
      */
     @Override

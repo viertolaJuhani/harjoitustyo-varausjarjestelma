@@ -368,6 +368,15 @@ public class VarausjarjestelmaUI {
         }
     }
 
+    /**
+     * Lukee käyttäjältä syötteen ja palauttaa sen kokonaislukuna.
+     * Kokonaisluvun on oltava annetun minimin ja maksimin väliltä.
+     *
+     * @param minimi pienin sallittu arvo
+     * @param maksimi suurin sallittu arvo
+     * @param kehote käyttäjälle näytettävä kehote
+     * @return käyttäjän syöte kokonaislukuna
+     */
     private int lueKokonaisluku(int minimi, int maksimi, String kehote) {
         while (true) {
             System.out.print(kehote + ": ");
@@ -383,6 +392,13 @@ public class VarausjarjestelmaUI {
             }
         }
     }
+
+    /** Apumetodi, joka näyttää käyttäjälle annetun kehotteen ja lukee
+     * sitten tältä merkkijonon. Annettu jono ei voi olla tyhjä.
+     *
+     * @param kehote käyttäjälle näytettävä kehote
+     * @return käyttäjän syöttämä ei-tyhjä merkkijono
+     */
     private String lueMerkkijono(String kehote) {
         while (true) {
             System.out.print(kehote + ": ");

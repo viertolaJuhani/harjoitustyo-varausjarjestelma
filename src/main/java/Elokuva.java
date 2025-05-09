@@ -28,46 +28,27 @@ public class Elokuva implements Serializable {
         return nimi;
     }
 
-    public int getKesto() {
-        return kesto;
-    }
-
     public String getGenre() {
         return genre;
-    }
-
-    public void setNimi(String nimi) {
-        this.nimi = nimi;
-    }
-
-    public void setKesto(int kesto) {
-        this.kesto = kesto;
     }
 
     public String getKestoTunnitMinuutit() {
         return kesto / 60 + "h " + (kesto - kesto / 60 * 60) + "min";
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
     public int getIkaraja() {
         return ikaraja;
-    }
-
-    public void setIkaraja(int ikaraja) {
-        this.ikaraja = ikaraja;
     }
 
     public String getKieli() {
         return kieli;
     }
 
-    public void setKieli(String kieli) {
-        this.kieli = kieli;
-    }
-
+    /**
+     * Muuttaa elokuvien tiedot tiedostoon kirjoitettavaan muotoon
+     * @param erotinmerkki merkki, jolla elokuvan tiedot erotellaan
+     * @return tiedostoon kirjoitettava muoto
+     */
     public String getData(String erotinmerkki) {
         String data = nimi + erotinmerkki;
         data += kesto + erotinmerkki;
