@@ -78,7 +78,7 @@ public class Varausjarjestelma {
     }
 
     /**
-     * Palauttaa tietyn näytöksen salikartan, jossa näkee kaikki varatut paikat
+     * Palauttaa näytöksen salikartan, jossa näkee kaikki varatut paikat
      * @param naytos näytös, jonka salikartta haetaan
      * @return salikartta matriisina, jos paikka varattu: arvo on true, muuten false
      */
@@ -92,6 +92,17 @@ public class Varausjarjestelma {
             }
         }
         return kartta;
+    }
+
+    public String tulostaSalikartta(Naytos naytos) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < getSalikartta(naytos).length; i++) {
+            for (int j = 0; j < getSalikartta(naytos)[i].length; j++) {
+                sb.append(getSalikartta(naytos)[i][j] ? "1 " : "0 ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     public void lisaaNaytos(Naytos naytos) {
@@ -141,6 +152,11 @@ public class Varausjarjestelma {
         return false;
     }
 
+    /**
+     *
+     * @param varaus
+     * @return
+     */
     public boolean poistaVaraus(Varaus varaus) {
         if (varaukset.contains(varaus)) {
             varaukset.remove(varaus);
@@ -162,7 +178,7 @@ public class Varausjarjestelma {
         sb.append(String.format("%-3s %-20s %-15s %-25s %-15s %-15s\n", " ", "Nimi", "Kesto", "Genre", "Ikäsuositus", "kieli"));
         sb.append("--------------------------------------------------------------------------------------------\n");
         for (Elokuva e : elokuvat) {
-            sb.append(String.format("%-3s %-20s %-15s %-25s %-15s %-15s\n", elokuvat.indexOf(e)+1, e.getNimi(),
+            sb.append(String.format("%-3s %-20s %-15s %-25s %-15s %-15s\n", elokuvat.indexOf(e)+1+".", e.getNimi(),
                     e.getKestoTunnitMinuutit(), e.getGenre(),
                     e.getIkaraja(), e.getKieli()));
         }
@@ -182,7 +198,7 @@ public class Varausjarjestelma {
         n.append(String.format("%-3s %-20s %-15s %-15s\n", " ", "Nimi", "Näytösaika", "Sali"));
         n.append("----------------------------------------------\n");
         for (Naytos naytos : eNaytokset) {
-            n.append(String.format("%-3s %-20s %-15s %-15s\n", eNaytokset.indexOf(naytos)+1,
+            n.append(String.format("%-3s %-20s %-15s %-15s\n", eNaytokset.indexOf(naytos)+1+".",
                     naytos.getElokuvanNimi(), naytos.getNaytosaika(),
                     naytos.getSali().getSalinumero()));
         }

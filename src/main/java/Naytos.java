@@ -47,8 +47,33 @@ public class Naytos implements Serializable {
         return varaukset;
     }
 
-    public void setVaraukset(int rivi, int paikkaRivilla) {
-        varaukset[rivi][paikkaRivilla] = true;
+    /**
+     * Asettaa näytöksen salikartassa paikan varatuksi
+     * @param rivi paikan rivinumero
+     * @param paikkaRivilla paikka rivillä
+     * @return
+     */
+    public void setVaratuksi(int rivi, int paikkaRivilla) {
+        varaukset[rivi-1][paikkaRivilla-1] = true;
+    }
+
+    /**
+     * Asettaa näytöksen salikartassa paikan vapaaksi
+     * @param rivi paikan rivinumero
+     * @param paikkaRivilla paikka rivillä
+     */
+    public void setVapaaksi(int rivi, int paikkaRivilla) {
+        varaukset[rivi-1][paikkaRivilla-1] = false;
+    }
+
+    /**
+     * Palauttaa tiedon siitä, onko tietty istumapaikka näytöksessä varattu
+     * @param rivi paikan rivinumero
+     * @param paikkaRivilla paikka rivillä
+     * @return true, jos varattu ja false, jos vapaa
+     */
+    public boolean onkoPaikkaVapaa(int rivi, int paikkaRivilla) {
+        return varaukset[rivi - 1][paikkaRivilla - 1];
     }
 
     @Override
