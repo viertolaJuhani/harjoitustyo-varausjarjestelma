@@ -80,8 +80,8 @@ public class VarausjarjestelmaUI {
         while (true) {
             email = lueMerkkijono("Sähköposti");
             if (varausjarjestelma.getKayttajienSpostit().contains(email)) {
-                System.out.println("Tämä sähköposti on jo käytössä");
-                System.out.println("Kokeile toista sähköpostia");
+                System.out.println("Kirjautuminen epäonnistui. Tämä sähköposti on jo käytössä.");
+                System.out.println("Yritä uudelleen! Kokeile toista sähköpostia tai kirjaudu sisään");
             } else {
                 break;
             }
@@ -89,7 +89,9 @@ public class VarausjarjestelmaUI {
         String nimi = lueMerkkijono("Nimi");
         int ika = lueKokonaisluku(0, 150, "ikä vuosina");
         if (ika < 15) {
+            System.out.println();
             System.out.println("Sinun on oltava vähintään 15 rekisteröityäksesi järjestelmään.");
+            System.out.println();
             return;
         }
         String salasana = lueMerkkijono("Anna salasana");
