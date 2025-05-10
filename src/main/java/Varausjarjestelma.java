@@ -22,11 +22,16 @@ public class Varausjarjestelma {
         elokuvat = VarausjarjestelmaIO.lueElokuvat("elokuvat.txt");
         naytokset = VarausjarjestelmaIO.lueNaytokset("naytokset.csv");
         varaukset = VarausjarjestelmaIO.lueVaraukset("varaukset.csv");
-        //Alustetaan salit.
+        // Alustetaan salit.
         Sali sali1 = new Sali(1, 10, 14);
-        Sali sali2 = new Sali(2, 10, 20);
+        Sali sali2 = new Sali(2, 8, 16);
         Sali sali3 = new Sali(3, 10, 20);
         salit = List.of(sali1, sali2, sali3);
+        // Alustetaan ylläpitäjä
+        Admin admin = new Admin("admin", "admin", "admin");
+        if (kayttajat.isEmpty()) {
+            kayttajat.add(admin);
+        }
     }
 
     public void kirjoitaTiedot() {

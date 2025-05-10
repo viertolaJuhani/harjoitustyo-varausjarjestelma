@@ -35,9 +35,7 @@ Kloonaa ja käännä projekti
 
 
 ## Ohjeet ohjelman käyttämiseen
-Ohjelma ohjeistaa käyttäjää. Ylläpitäjä voi kirjautua syöttämällä käyttäjätunnukseksi ja salasanaksi "admin". 
-Ohjelmassa on myös valmiiksi kaksi asiakasta, joiden kirjautumistiedot ovat antti@mail, 1111 ja seppo@mail,0000
-
+Ohjelma ohjeistaa käyttäjää. Ylläpitäjä voi kirjautua syöttämällä käyttäjätunnukseksi ja salasanaksi "admin".
 
 ## Työnjako
 Molemmat osallistuivat tasapuolisesti metodien kirjoittamiseen. Juhani viimeistellyt.

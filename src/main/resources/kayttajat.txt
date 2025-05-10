@@ -1,3 +1,1 @@
 admin;admin;admin
-Seppo;seppo@mail;0000;54
-Antti;antti@mail;1111;16

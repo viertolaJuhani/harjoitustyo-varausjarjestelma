@@ -19,6 +19,28 @@ public class VarausjarjestelmaIO {
         }
     }
 
+    public static ArrayList<User> lueKayttajat(String tiedostonNimi) {
+        ArrayList<User> kayttajat = new ArrayList<>();
+        try (BufferedReader lukija = new BufferedReader(new FileReader("kayttajat.txt"))) {
+            String rivi;
+            while ((rivi = lukija.readLine()) != null) {
+                String[] osat = rivi.split(";");
+                String nimi = osat[0];
+                String email = osat[1];
+                String salasana = osat[2];
+                if (osat.length == 4) {
+                    int ika = Integer.valueOf(osat[3]);
+                    kayttajat.add(new Asiakas(nimi, email, salasana, ika));
+                } else {
+                    kayttajat.add(new Admin(nimi, email, salasana));
+                }
+            }
+        } catch (IOException | NullPointerException e) {
+            System.out.println("Virhe käyttäjätietojen lukemisessa: " + e.getMessage());
+        }
+        return kayttajat;
+    }
+
     public static ArrayList<String> lueTiedosto(String tiedostonNimi) {
         ArrayList<String> data = new ArrayList<>();
         try (Scanner lukija = new Scanner(new File(tiedostonNimi))) {
@@ -32,42 +54,13 @@ public class VarausjarjestelmaIO {
     }
 
     public static void kirjoitaKayttajat(ArrayList<User> kayttajat, String tiedostonNimi) {
-        String data = "";
-        for (User u : kayttajat) {
-            data += u.getData(VarausjarjestelmaIO.EROTIN);
-            data += "\n";
-        }
-
-        if (data.length() > 0) {
-            data = data.substring(0, data.length() - 1);
-        }
-        kirjoitaTiedosto(tiedostonNimi, data);
-    }
-
-    public static ArrayList<User> lueKayttajat(String tiedostonNimi) {
-        ArrayList<User> kayttajat = new ArrayList<>();
-        try (InputStream input = VarausjarjestelmaIO.class.getClassLoader().getResourceAsStream(tiedostonNimi);
-             BufferedReader lukija = new BufferedReader(new InputStreamReader(input))) {
-            String data;
-            while ((data = lukija.readLine()) != null) {
-                kayttajat.add(parsiKayttaja(data));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tiedostonNimi))) {
+            for (User u : kayttajat) {
+                writer.write(u.getData(VarausjarjestelmaIO.EROTIN) + "\n");
             }
         } catch (IOException | NullPointerException e) {
-            System.out.println("Virhe käyttäjätietojen lukemisessa: " + e.getMessage());
-        }
-        return kayttajat;
-    }
-
-    public static User parsiKayttaja(String data) {
-        String[] tiedot = data.split(VarausjarjestelmaIO.EROTIN);
-        String nimi = tiedot[0];
-        String email = tiedot[1];
-        String salasana = tiedot[2];
-        if (tiedot.length == 4) {
-            int ika = Integer.valueOf(tiedot[3]);
-            return new Asiakas(nimi, email, salasana, ika);
-        } else
-            return new Admin(nimi, email, salasana);
+                System.out.println("Virhe käyttäjätietojen lukemisessa: " + e.getMessage());
+            }
     }
 
     public static void kirjoitaElokuvat(ArrayList<Elokuva> elokuvalista, String tiedostonNimi) {
