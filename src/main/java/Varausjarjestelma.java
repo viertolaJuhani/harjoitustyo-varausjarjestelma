@@ -104,6 +104,10 @@ public class Varausjarjestelma {
         return naytokset;
     }
 
+    public ArrayList<Varaus> getVaraukset() {
+        return varaukset;
+    }
+
     /**
      * Palauttaa listan käyttäjien sähköpostiosoitteista
      * @return lista sähköpostiosoitteista
