@@ -39,7 +39,7 @@ Ohjelma ohjeistaa käyttäjää. Ylläpitäjä voi kirjautua syöttämällä kä
 
 
 ## Työnjako
-Molemmat osallistuivat tasapuolisesti metodien kirjoittamiseen. Juhani viimeisteli.
+Molemmat osallistuivat tasapuolisesti metodien kirjoittamiseen. Juhani viimeistellyt.
 
 
 ## Kuvaus AI-työkalujen käytöstä
