@@ -400,13 +400,18 @@ public class VarausjarjestelmaUI {
                     System.out.println("Poisto epäonnistui!");
                 }
             } else if (valinta == 6) {
-                System.out.println(varausjarjestelma.listaaNaytokset(varausjarjestelma.getNaytokset()));
-                System.out.println();
-                valinta = lueKokonaisluku(1, varausjarjestelma.getNaytokset().size(), "Valitse näytös, jonka salikartan haluat nähdä");
-                Naytos naytos = varausjarjestelma.getNaytokset().get(valinta-1);
-                System.out.println();
-                System.out.println("1 = varattu ja 0 = vapaa");
-                System.out.println(varausjarjestelma.tulostaSalikartta(naytos));
+                if (!varausjarjestelma.getNaytokset().isEmpty()) {
+                    System.out.println(varausjarjestelma.listaaNaytokset(varausjarjestelma.getNaytokset()));
+                    System.out.println();
+                    valinta = lueKokonaisluku(1, varausjarjestelma.getNaytokset().size(), "Valitse näytös, jonka salikartan haluat nähdä");
+                    Naytos naytos = varausjarjestelma.getNaytokset().get(valinta - 1);
+                    System.out.println();
+                    System.out.println("1 = varattu ja 0 = vapaa");
+                    System.out.println(varausjarjestelma.tulostaSalikartta(naytos));
+                } else {
+                    System.out.println("Ei näytöksiä");
+                    System.out.println();
+                }
             }
         }
     }

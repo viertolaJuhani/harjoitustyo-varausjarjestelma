@@ -324,9 +324,6 @@ public class Varausjarjestelma {
      * @return näytökset merkkijonona
      */
     public String listaaNaytokset(ArrayList<Naytos> naytokset) {
-        if (naytokset.isEmpty()) {
-            return "\nEi näytöksiä\n";
-        }
         StringBuilder n = new StringBuilder();
         n.append(String.format("%-3s %-40s %-20s %-15s\n", " ", "Nimi ja kesto", "Näytösaika", "Sali"));
         n.append("-------------------------------------------------------------------------------\n");
