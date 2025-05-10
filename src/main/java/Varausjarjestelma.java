@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ public class Varausjarjestelma {
         elokuvat = VarausjarjestelmaIO.lueElokuvat("elokuvat.txt");
         naytokset = VarausjarjestelmaIO.lueNaytokset("naytokset.csv");
         varaukset = VarausjarjestelmaIO.lueVaraukset("varaukset.csv");
+        //Alustetaan salit.
         Sali sali1 = new Sali(1, 10, 14);
         Sali sali2 = new Sali(2, 10, 20);
         Sali sali3 = new Sali(3, 10, 20);
@@ -32,6 +34,8 @@ public class Varausjarjestelma {
         VarausjarjestelmaIO.kirjoitaKayttajat(kayttajat, "kayttajat.txt");
         VarausjarjestelmaIO.kirjoitaElokuvat(elokuvat, "elokuvat.txt");
         VarausjarjestelmaIO.kirjoitaVaraukset(varaukset, "varaukset.csv");
+        //Järjestetään näytökset näytösajan mukaan
+        naytokset.sort(Comparator.comparing(Naytos::getNaytosaika));
     }
 
     public void lisaaNaytos(Naytos naytos) {
@@ -138,7 +142,7 @@ public class Varausjarjestelma {
     public ArrayList<Naytos> getElokuvanNaytokset(Elokuva elokuva) {
         ArrayList<Naytos> elokuvanNaytokset = new ArrayList<>();
         for (Naytos n : naytokset) {
-            if (n.getElokuvanNimi().equals(elokuva.getNimi())) {
+            if (n.getElokuva().getNimi().equals(elokuva.getNimi())) {
                 elokuvanNaytokset.add(n);
             }
         }
@@ -234,11 +238,11 @@ public class Varausjarjestelma {
             return ("Ei elokuvia listalla\n");
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%-3s %-20s %-15s %-25s %-15s %-15s\n", " ",
+        sb.append(String.format("%-3s %-30s %-15s %-25s %-15s %-15s\n", " ",
                 "Nimi", "Kesto", "Genre", "Ikäsuositus", "kieli"));
-        sb.append("--------------------------------------------------------------------------------------------\n");
+        sb.append("-------------------------------------------------------------------------------------------------------------\n");
         for (Elokuva e : elokuvat) {
-            sb.append(String.format("%-3s %-20s %-15s %-25s %-15s %-15s\n", elokuvat.indexOf(e)+1+".", e.getNimi(),
+            sb.append(String.format("%-3s %-30s %-15s %-25s %-15s %-15s\n", elokuvat.indexOf(e)+1+".", e.getNimi(),
                     e.getKestoTunnitMinuutit(), e.getGenre(),
                     e.getIkasuositus(), e.getKieli()));
         }
@@ -246,27 +250,16 @@ public class Varausjarjestelma {
     }
 
     /**
-     * Tarkistaa onko tietynnimistä elokuvaa listalla
-     * @param nimi elokuvan nimi, joka tarkistetaan
-     * @return true, jos elokuva löytyy, muuten false
-     */
-    public boolean onkoElokuvaa(String nimi) {
-        for (Elokuva e : elokuvat) {
-            if (nimi.equals(e.getNimi())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Tarkistaa löytyykö tietyllä elokuvalla näytöksiä
+     * Verrataan elokuvan nimeen, sillä näytöksiä voi olla myös
+     * poistetuilla elokuvilla.
+     *
      * @param elokuva elokuva, jonka näytöksiä etsitään
      * @return true, jos näytöksiä löytyy, muuten false
      */
     public boolean onkoNaytoksia(Elokuva elokuva) {
         for (Naytos n : naytokset) {
-            if (elokuva.getNimi().equals(n.getElokuvanNimi())) {
+            if (elokuva.getNimi().equals(n.getElokuva().getNimi())) {
                 return true;
             }
         }
@@ -314,7 +307,7 @@ public class Varausjarjestelma {
         sb.append("------------------------------------------------------------------------------------------------------------------------\n");
         for (Varaus v : getKayttajanVaraukset(email)) {
             sb.append(String.format("%-20s %-20s %-10s %s\n",
-                    v.getNaytos().getElokuvanNimi(), v.getNaytos().getNaytosaika(),
+                    v.getNaytos().getElokuva().getNimi(), v.getNaytos().getNaytosaika(),
                     v.getNaytos().getSali().getSalinumero(),
                     v.istumapaikatStr(v.getIstumapaikat())));
         }
@@ -328,14 +321,14 @@ public class Varausjarjestelma {
      */
     public String listaaNaytokset(ArrayList<Naytos> naytokset) {
         if (naytokset.isEmpty()) {
-            return "Ei näytöksiä\n";
+            return "\nEi näytöksiä\n";
         }
         StringBuilder n = new StringBuilder();
-        n.append(String.format("%-3s %-20s %-20s %-15s\n", " ", "Nimi", "Näytösaika", "Sali"));
-        n.append("----------------------------------------------------\n");
+        n.append(String.format("%-3s %-40s %-20s %-15s\n", " ", "Nimi ja kesto", "Näytösaika", "Sali"));
+        n.append("-------------------------------------------------------------------------------\n");
         for (Naytos naytos : naytokset) {
-            n.append(String.format("%-3s %-20s %-20s %-15s\n",
-                    naytokset.indexOf(naytos)+1 + ".", naytos.getElokuvanNimi(),
+            n.append(String.format("%-3s %-40s %-20s %-15s\n",
+                    naytokset.indexOf(naytos)+1 + ".", naytos.getElokuva().getNimi() + " (" + naytos.getElokuva().getKestoTunnitMinuutit() + ")",
                     naytos.getNaytosaika().format(FORMATTER),
                     naytos.getSali().getSalinumero()));
         }
@@ -353,6 +346,12 @@ public class Varausjarjestelma {
         return listaaNaytokset(eNaytokset);
     }
 
+    /**
+     * Palauttaa tietyn päivän näytökset merkkijonona
+     *
+     * @param aika aika, jonka päivämäärään verrataan
+     * @return näytökset merkkijonona tai "Ei näytöksiä", jos päivällä ei ole näytöksiä
+     */
     public String listaaPaivanNaytokset(LocalDateTime aika) {
         ArrayList<Naytos> paivanNaytokset = new ArrayList<>();
         for (Naytos naytos : naytokset) {

@@ -6,7 +6,7 @@ class ElokuvaTest {
 
     @Test
     void getNimi() {
-        Elokuva elokua = new Elokuva("The Truman Show", 103, "englanti", "komedia/sci-fi", 8);
+        Elokuva elokua = new Elokuva("The Truman Show", 103, "englanti", "komedia/sci-fi", Ikasuositus.K12);
 
     }
 

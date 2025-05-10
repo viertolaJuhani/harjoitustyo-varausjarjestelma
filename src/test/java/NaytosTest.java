@@ -7,13 +7,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NaytosTest {
 
+    Elokuva elokuva = new Elokuva("Kummisetä", 175, "englanti", "rikos", Ikasuositus.K18);
     LocalDateTime aika = LocalDateTime.now();
     Sali sali = new Sali(1, 10,10);
-    Naytos naytos = new Naytos("Kummisetä", sali, aika);
+    Naytos naytos = new Naytos(elokuva, sali, aika);
 
     @Test
-    void getElokuvanNimi() {
-        assertEquals("Kummisetä", naytos.getElokuvanNimi());
+    void getElokuva() {
+        assertEquals(elokuva, naytos.getElokuva());
+        assertEquals(elokuva.getNimi(), naytos.getElokuva().getNimi());
     }
 
     @Test

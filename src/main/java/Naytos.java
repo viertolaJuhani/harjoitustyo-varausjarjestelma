@@ -13,19 +13,19 @@ public class Naytos implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Sali sali;
-    private String elokuvanNimi;
+    private Elokuva elokuva;
     LocalDateTime naytosaika;
     private boolean[][] varaukset;
 
-    public Naytos(String elokuvanNimi, Sali sali, LocalDateTime naytosaika) {
-        this.elokuvanNimi = elokuvanNimi;
+    public Naytos(Elokuva elokuva, Sali sali, LocalDateTime naytosaika) {
+        this.elokuva = elokuva;
         this.naytosaika = naytosaika;
         this.sali = sali;
         varaukset = new boolean[sali.getRivit()][sali.getPaikatRivilla()];
     }
 
-    public String getElokuvanNimi() {
-        return elokuvanNimi;
+    public Elokuva getElokuva() {
+        return elokuva;
     }
 
     public LocalDateTime getNaytosaika() {
@@ -73,6 +73,6 @@ public class Naytos implements Serializable {
 
     @Override
     public String toString() {
-        return "Elokuva: " + elokuvanNimi + ", Näytösaika: " + naytosaika + ", Sali: " + sali.getSalinumero();
+        return "Elokuva: " + elokuva.getNimi() + ", Näytösaika: " + naytosaika + ", Sali: " + sali.getSalinumero();
     }
 }

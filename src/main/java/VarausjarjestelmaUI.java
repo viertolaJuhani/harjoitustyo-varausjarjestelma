@@ -126,11 +126,13 @@ public class VarausjarjestelmaUI {
             }
             if (valinta == 2) {
                 System.out.println(varausjarjestelma.listaaElokuvat());
-                String valinta2 = lueMerkkijono("Tee uusi varaus? K/E");
-                if (valinta2.equalsIgnoreCase("K")) {
+                System.out.println("1. Tee varaus");
+                System.out.println("0. Poistu");
+                valinta = lueKokonaisluku(0,1,"Valinta");
+                if (valinta == 1) {
                 paikanVaraus();
                 }
-                else if (valinta2.equalsIgnoreCase("E")) {
+                else if (valinta == 0) {
                     System.out.println();
                     continue;
                 }
@@ -344,7 +346,7 @@ public class VarausjarjestelmaUI {
                     System.out.println(varausjarjestelma.listaaElokuvanNaytokset(elokuva));
                     System.out.println();
                 }
-            }else if (valinta == 3) {
+            } else if (valinta == 3) {
                 System.out.println("Anna päivä, jonka näytökset haluat nähdä tai poistu (0)");
                 System.out.println();
                 LocalDateTime aika = luePaiva("pp.kk");
@@ -361,37 +363,29 @@ public class VarausjarjestelmaUI {
                     break;
                 }
                 System.out.println(varausjarjestelma.listaaPaivanNaytokset(aika));
-                String kellonaika = lueMerkkijono("Valitse kellonaika (hh:mm) tai poistu (0)");
+                String kellonaika = lueMerkkijono("Valitse kellonaika (hh.mm) tai poistu (0)");
                 System.out.println();
                 if (kellonaika.equals("0")) {
                     break;
                 }
-                String osat[] = kellonaika.split(":");
+                String osat[] = kellonaika.split("\\.");
                 int tunti = Integer.parseInt(osat[0]);
                 int minuutit = Integer.parseInt(osat[1]);
                 LocalDateTime naytosaika = LocalDateTime.of(aika.toLocalDate(), LocalTime.of(tunti, minuutit));
                 System.out.println("Valitse elokuva, jolle haluat lisätä näytöksen:\n");
                 System.out.println(varausjarjestelma.listaaElokuvat());
-                while (true) {
-                    String nimi = lueMerkkijono("Kirjoita elokuvan nimi");
-                    if (varausjarjestelma.onkoElokuvaa(nimi)) {
-                        System.out.println("\nValitse sali:\n");
-                        System.out.println(varausjarjestelma.listaaSalit());
-                        int salinumero = lueKokonaisluku(1, 3, "Salin numero");
-                        Sali sali = varausjarjestelma.getSali(salinumero);
-                        Naytos naytos = new Naytos(nimi, sali, naytosaika);
-                        varausjarjestelma.lisaaNaytos(naytos);
-                        varausjarjestelma.kirjoitaTiedot();
-                        System.out.println("Näytös lisätty");
-                        System.out.println();
-                        break;
-                    } else if (nimi.equals("0")) {
-                        break;
-                    } else {
-                        System.out.println("Elokuvaa ei löytynyt");
-                        System.out.println("Tarkista nimen oikeinkirjoitus");
-                    }
-                }
+                valinta = lueKokonaisluku(1, varausjarjestelma.getElokuvat().size(), "Elokuvan numero");
+                Elokuva elokuva = varausjarjestelma.getElokuvat().get(valinta - 1);
+                System.out.println("\nValitse sali:\n");
+                System.out.println(varausjarjestelma.listaaSalit());
+                int salinumero = lueKokonaisluku(1, 3, "Salin numero");
+                Sali sali = varausjarjestelma.getSali(salinumero);
+                Naytos naytos = new Naytos(elokuva, sali, naytosaika);
+                varausjarjestelma.lisaaNaytos(naytos);
+                varausjarjestelma.kirjoitaTiedot();
+                System.out.println("Näytös lisätty!");
+                System.out.println();
+
             } else if (valinta == 5) {
                 System.out.println(varausjarjestelma.listaaNaytokset(varausjarjestelma.getNaytokset()));
                 valinta = lueKokonaisluku(0, varausjarjestelma.getNaytokset().size(), "Valitse poistettavan näytöksen numero tai poistu (0)");
