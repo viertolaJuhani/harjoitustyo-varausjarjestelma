@@ -30,8 +30,7 @@ public class User {
      * @return tiedostoon kirjoitettava muoto
      */
     public String getData(String erotinmerkki) {
-        String data = nimi + erotinmerkki + email + erotinmerkki + salasana;
-        return data;
+        return nimi + erotinmerkki + email + erotinmerkki + salasana;
     }
 
     @Override

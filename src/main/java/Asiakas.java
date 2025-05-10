@@ -20,12 +20,7 @@ public class Asiakas extends User {
      */
     @Override
     public String getData(String erotinmerkki) {
-        String data = getNimi() + erotinmerkki;
-        data += getEmail() + erotinmerkki;
-        data += getSalasana() + erotinmerkki;
-        data += getIka();
-
-        return data;
+        return super.getData(erotinmerkki) + erotinmerkki + ika;
     }
 
     @Override

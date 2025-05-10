@@ -84,7 +84,7 @@ public class Varausjarjestelma {
      * Palauttaa käyttäjälistan
      * @return lista käyttäjistä
      */
-    public ArrayList<User> getKayttajaLista() {
+    public ArrayList<User> getKayttajat() {
         return kayttajat;
     }
 
@@ -311,7 +311,7 @@ public class Varausjarjestelma {
         sb.append("------------------------------------------------------------------------------------------------------------------------\n");
         for (Varaus v : getKayttajanVaraukset(email)) {
             sb.append(String.format("%-20s %-20s %-10s %s\n",
-                    v.getNaytos().getElokuva().getNimi(), v.getNaytos().getNaytosaika(),
+                    v.getNaytos().getElokuva().getNimi(), v.getNaytos().getNaytosaika().format(FORMATTER),
                     v.getNaytos().getSali().getSalinumero(),
                     v.istumapaikatStr(v.getIstumapaikat())));
         }
@@ -325,15 +325,18 @@ public class Varausjarjestelma {
      */
     public String listaaNaytokset(ArrayList<Naytos> naytokset) {
         StringBuilder n = new StringBuilder();
-        n.append(String.format("%-3s %-40s %-20s %-15s\n", " ", "Nimi ja kesto", "Näytösaika", "Sali"));
-        n.append("-------------------------------------------------------------------------------\n");
-        for (Naytos naytos : naytokset) {
-            n.append(String.format("%-3s %-40s %-20s %-15s\n",
-                    naytokset.indexOf(naytos)+1 + ".", naytos.getElokuva().getNimi() + " (" + naytos.getElokuva().getKestoTunnitMinuutit() + ")",
-                    naytos.getNaytosaika().format(FORMATTER),
-                    naytos.getSali().getSalinumero()));
+        if (!naytokset.isEmpty()) {
+            n.append(String.format("%-3s %-40s %-20s %-15s\n", " ", "Nimi ja kesto", "Näytösaika", "Sali"));
+            n.append("-------------------------------------------------------------------------------\n");
+            for (Naytos naytos : naytokset) {
+                n.append(String.format("%-3s %-40s %-20s %-15s\n",
+                        naytokset.indexOf(naytos) + 1 + ".", naytos.getElokuva().getNimi() + " (" + naytos.getElokuva().getKestoTunnitMinuutit() + ")",
+                        naytos.getNaytosaika().format(FORMATTER),
+                        naytos.getSali().getSalinumero()));
+            }
+            return n.toString();
         }
-        return n.toString();
+        return "\nEi näytöksiä\n";
     }
 
     /**

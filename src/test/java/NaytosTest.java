@@ -56,6 +56,6 @@ class NaytosTest {
     @Test
     void testToString() {
         assertEquals(naytos.toString(), "Elokuva: Kummisetä, Näytösaika: " +
-                naytos.getNaytosaika() + ", Sali: 1");
+                naytos.getNaytosaika().format(Varausjarjestelma.FORMATTER) + ", Sali: 1");
     }
 }

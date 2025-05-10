@@ -31,9 +31,9 @@ public class VarausjarjestelmaIO {
         return data;
     }
 
-    public static void kirjoitaKayttajat(ArrayList<User> kayttajaLista, String tiedostonNimi) {
+    public static void kirjoitaKayttajat(ArrayList<User> kayttajat, String tiedostonNimi) {
         String data = "";
-        for (User u : kayttajaLista) {
+        for (User u : kayttajat) {
             data += u.getData(VarausjarjestelmaIO.EROTIN);
             data += "\n";
         }
@@ -46,7 +46,7 @@ public class VarausjarjestelmaIO {
 
     public static ArrayList<User> lueKayttajat(String tiedostonNimi) {
         ArrayList<User> kayttajat = new ArrayList<>();
-        try (InputStream input = VarausjarjestelmaIO.class.getClassLoader().getResourceAsStream("kayttajat.txt");
+        try (InputStream input = VarausjarjestelmaIO.class.getClassLoader().getResourceAsStream(tiedostonNimi);
              BufferedReader lukija = new BufferedReader(new InputStreamReader(input))) {
             String data;
             while ((data = lukija.readLine()) != null) {

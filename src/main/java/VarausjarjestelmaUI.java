@@ -32,7 +32,9 @@ public class VarausjarjestelmaUI {
         System.out.println();
         int valinta = -1;
         while (valinta != 0) {
-            aloitusmenu();
+            System.out.println("1. Kirjaudu sisään");
+            System.out.println("2. Uusi asiakas?");
+            System.out.println("0. Poistu");
             valinta = lueKokonaisluku(0, 2, "Anna valinta");
             if (valinta == 1) {
                 kirjaudu();
@@ -43,16 +45,10 @@ public class VarausjarjestelmaUI {
         varausjarjestelma.kirjoitaTiedot();
     }
 
-    public void aloitusmenu() {
-            System.out.println("1. Kirjaudu sisään");
-            System.out.println("2. Uusi asiakas?");
-            System.out.println("0. Poistu");
-    }
-
     public void kirjaudu() {
         String kayttajanimi = lueMerkkijono("Käyttäjätunnus (sähköposti)");
         String salasana = lueMerkkijono("Salasana");
-        for (User u : varausjarjestelma.getKayttajaLista()) {
+        for (User u : varausjarjestelma.getKayttajat()) {
             if (u.getEmail().equals(kayttajanimi) && u.getSalasana().equals(salasana)) {
                 kirjautunutEmail = u.getEmail();
 
@@ -326,7 +322,7 @@ public class VarausjarjestelmaUI {
                     System.out.println();
                     System.out.println(varausjarjestelma.listaaNaytokset(varausjarjestelma.getNaytokset()));
                 } else {
-                    System.out.println("\nEi näytöksiä");
+                    System.out.println("Ei näytöksiä");
                 }
             } else if (valinta == 2) {
                 System.out.println("Valitse elokuva, jonka näytökset haluat nähdä");
@@ -392,6 +388,12 @@ public class VarausjarjestelmaUI {
                     break;
                 }
                 if (varausjarjestelma.poistaNaytos(varausjarjestelma.getNaytokset().get(valinta-1))) {
+                    // Poistetaan varaukset, joiden näytös poistettiin
+                    for (Varaus varaus : varausjarjestelma.getVaraukset()) {
+                        if (!varausjarjestelma.getNaytokset().contains(varaus.getNaytos())) {
+                            varausjarjestelma.poistaVaraus(varaus);
+                        }
+                    }
                     varausjarjestelma.kirjoitaTiedot();
                     System.out.println("Näytös poistettu!");
                     System.out.println();

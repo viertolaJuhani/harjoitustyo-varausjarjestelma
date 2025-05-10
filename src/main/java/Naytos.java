@@ -73,6 +73,6 @@ public class Naytos implements Serializable {
 
     @Override
     public String toString() {
-        return "Elokuva: " + elokuva.getNimi() + ", Näytösaika: " + naytosaika + ", Sali: " + sali.getSalinumero();
+        return "Elokuva: " + elokuva.getNimi() + ", Näytösaika: " + naytosaika.format(Varausjarjestelma.FORMATTER) + ", Sali: " + sali.getSalinumero();
     }
 }
