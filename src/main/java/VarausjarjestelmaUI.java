@@ -49,8 +49,6 @@ public class VarausjarjestelmaUI {
             System.out.println("0. Poistu");
     }
 
-    static User kirjautunut = null;
-
     public void kirjaudu() {
         String kayttajanimi = lueMerkkijono("Käyttäjätunnus (sähköposti)");
         String salasana = lueMerkkijono("Salasana");

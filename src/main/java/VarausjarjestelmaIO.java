@@ -7,10 +7,6 @@ import java.util.Scanner;
  */
 public class VarausjarjestelmaIO {
 
-    public static void main(String[] args) {
-        // Testikoodia
-    }
-
     private static final String EROTIN = ";";
 
     public static void kirjoitaTiedosto(String tiedostonNimi, String sisalto) {
@@ -49,13 +45,17 @@ public class VarausjarjestelmaIO {
     }
 
     public static ArrayList<User> lueKayttajat(String tiedostonNimi) {
-        ArrayList<User> asiakkaat = new ArrayList<>();
-        ArrayList<String> data = lueTiedosto(tiedostonNimi);
-        for (String adata : data) {
-            User as = parsiKayttaja(adata);
-            asiakkaat.add(as);
+        ArrayList<User> kayttajat = new ArrayList<>();
+        try (InputStream input = VarausjarjestelmaIO.class.getClassLoader().getResourceAsStream("kayttajat.txt");
+             BufferedReader lukija = new BufferedReader(new InputStreamReader(input))) {
+            String data;
+            while ((data = lukija.readLine()) != null) {
+                kayttajat.add(parsiKayttaja(data));
+            }
+        } catch (IOException | NullPointerException e) {
+            System.out.println("Virhe käyttäjätietojen lukemisessa: " + e.getMessage());
         }
-        return asiakkaat;
+        return kayttajat;
     }
 
     public static User parsiKayttaja(String data) {
