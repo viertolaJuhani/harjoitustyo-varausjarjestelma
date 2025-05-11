@@ -31,7 +31,7 @@ Ohjelmassa ei Junitin lisäksi käytetä ulkoisia kirjastoja.
 
 
 ## Ohjeet ohjelman käynnistämiseen
-Kloonaa ja käännä projekti
+Kloonaa ja käännä projekti. Lisää target kansioon tiedostot "kayttajat.txt", "elokuvat.txt", "naytokset.csv" ja "varaukset.csv".
 
 
 ## Ohjeet ohjelman käyttämiseen

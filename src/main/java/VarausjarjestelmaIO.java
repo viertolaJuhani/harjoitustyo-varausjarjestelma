@@ -21,7 +21,7 @@ public class VarausjarjestelmaIO {
 
     public static ArrayList<User> lueKayttajat(String tiedostonNimi) {
         ArrayList<User> kayttajat = new ArrayList<>();
-        try (BufferedReader lukija = new BufferedReader(new FileReader("kayttajat.txt"))) {
+        try (BufferedReader lukija = new BufferedReader(new FileReader(tiedostonNimi))) {
             String rivi;
             while ((rivi = lukija.readLine()) != null) {
                 String[] osat = rivi.split(";");
@@ -36,7 +36,7 @@ public class VarausjarjestelmaIO {
                 }
             }
         } catch (IOException | NullPointerException e) {
-            System.out.println("Virhe käyttäjätietojen lukemisessa: " + e.getMessage());
+            System.out.println("Tapahtui virhe: " + e);
         }
         return kayttajat;
     }

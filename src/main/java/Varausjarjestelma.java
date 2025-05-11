@@ -27,7 +27,7 @@ public class Varausjarjestelma {
         Sali sali2 = new Sali(2, 8, 16);
         Sali sali3 = new Sali(3, 10, 20);
         salit = List.of(sali1, sali2, sali3);
-        // Alustetaan ylläpitäjä
+        // Lisätään ylläpitäjä, jos sellaista ei ole
         Admin admin = new Admin("admin", "admin", "admin");
         if (kayttajat.isEmpty()) {
             kayttajat.add(admin);
@@ -40,7 +40,11 @@ public class Varausjarjestelma {
         VarausjarjestelmaIO.kirjoitaElokuvat(elokuvat, "elokuvat.txt");
         VarausjarjestelmaIO.kirjoitaVaraukset(varaukset, "varaukset.csv");
         //Järjestetään näytökset näytösajan mukaan
-        naytokset.sort(Comparator.comparing(Naytos::getNaytosaika));
+        try {
+            naytokset.sort(Comparator.comparing(Naytos::getNaytosaika));
+        } catch (NullPointerException e) {
+            System.out.println();
+        }
     }
 
     public void lisaaNaytos(Naytos naytos) {
